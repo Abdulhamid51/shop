@@ -1,0 +1,831 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{{ product.name }} - Norda</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="{{ product.short_description }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/static/assets/images/favicon.png">
+
+    <!-- All CSS is here -->
+    <link rel="stylesheet" href="/static/assets/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/assets/css/vendor/signericafat.css">
+    <link rel="stylesheet" href="/static/assets/css/vendor/cerebrisans.css">
+    <link rel="stylesheet" href="/static/assets/css/vendor/simple-line-icons.css">
+    <link rel="stylesheet" href="/static/assets/css/vendor/elegant.css">
+    <link rel="stylesheet" href="/static/assets/css/vendor/linear-icon.css">
+    <link rel="stylesheet" href="/static/assets/css/plugins/nice-select.css">
+    <link rel="stylesheet" href="/static/assets/css/plugins/easyzoom.css">
+    <link rel="stylesheet" href="/static/assets/css/plugins/slick.css">
+    <link rel="stylesheet" href="/static/assets/css/plugins/animate.css">
+    <link rel="stylesheet" href="/static/assets/css/plugins/magnific-popup.css">
+    <link rel="stylesheet" href="/static/assets/css/plugins/jquery-ui.css">
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+
+    <style>
+        .color-item {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        .color-item.active {
+            border: 2px solid #333;
+            transform: scale(1.1);
+        }
+        .color-item.default-color {
+            background-color: #ccc;
+        }
+        .size-item {
+            display: inline-block;
+            padding: 5px 15px;
+            border: 1px solid #ddd;
+            margin: 0 5px 5px 0;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        .size-item.active {
+            background-color: #333;
+            color: white;
+            border-color: #333;
+        }
+        .size-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+        <header class="header-area">
+            <div class="container">
+                <div class="header-large-device">
+                    <div class="header-bottom">
+                        <div class="row align-items-center">
+                            <div class="col-xl-2 col-lg-2">
+                                <div class="logo">
+                                    <a href="index.html"><img src="/static/assets/images/logo/logo.png" alt="logo"></a>
+                                </div>
+                            </div>
+                            <div class="col-xl-8 col-lg-7">
+                                <div class="main-menu main-menu-padding-1 main-menu-lh-1">
+                                    <nav>
+                                        <ul>
+                                            <li><a href="index.html">HOME</a></li>
+                                            <li><a href="shop.html">SHOP</a></li>
+                                            <li><a href="contact.html">CONTACT</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-3">
+                                <div class="header-action header-action-flex header-action-mrg-right">
+                                    <div class="same-style-2 header-search-1">
+                                        <a class="search-toggle" href="#">
+                                            <i class="icon-magnifier s-open"></i>
+                                            <i class="icon_close s-close"></i>
+                                        </a>
+                                        <div class="search-wrap-1">
+                                            <form action="" method="get">
+                                                <input name="q" placeholder="Search products…" type="text" value="{{ request.GET.q }}">
+                                                <button class="button-search"><i class="icon-magnifier"></i></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="same-style-2">
+                                        <a href="login-register.html"><i class="icon-user"></i></a>
+                                    </div>
+                                    <div class="same-style-2">
+                                        <a href="wishlist.html"><i class="icon-heart"></i><span class="pro-count red">03</span></a>
+                                    </div>
+                                    <div class="same-style-2 header-cart">
+                                        <a class="cart-active" href="#">
+                                            <i class="icon-basket-loaded"></i><span class="pro-count red">02</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="breadcrumb-area bg-gray">
+            <div class="container">
+                <div class="breadcrumb-content text-center">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/">Shop</a></li>
+                        {% for category in product.categories.all %}
+                        <li><a href="/?category={{ category.slug }}">{{ category.name }}</a></li>
+                        {% endfor %}
+                        <li class="active">{{ product.name|truncatechars:30 }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-details-area pt-120 pb-115">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="product-details-tab">
+                            <!-- Asosiy rasmlar slideri -->
+                            <div class="pro-dec-big-img-slider" id="main-image-slider">
+                                {% if colors %}
+                                    {% with first_color=colors.0 %}
+                                        {% for image in first_color.images %}
+                                        <div class="easyzoom-style">
+                                            <div class="easyzoom easyzoom--overlay">
+                                                <a href="{{ image }}">
+                                                    <img src="{{ image }}" alt="{{ product.name }}">
+                                                </a>
+                                            </div>
+                                            <a class="easyzoom-pop-up img-popup" href="{{ image }}">
+                                                <i class="icon-size-fullscreen"></i>
+                                            </a>
+                                        </div>
+                                        {% empty %}
+                                        <div class="easyzoom-style">
+                                            <div class="easyzoom easyzoom--overlay">
+                                                <a href="/static/assets/images/product/default.jpg">
+                                                    <img src="/static/assets/images/product/default.jpg" alt="{{ product.name }}">
+                                                </a>
+                                            </div>
+                                            <a class="easyzoom-pop-up img-popup" href="/static/assets/images/product/default.jpg">
+                                                <i class="icon-size-fullscreen"></i>
+                                            </a>
+                                        </div>
+                                        {% endfor %}
+                                    {% endwith %}
+                                {% else %}
+                                    {% for image in product.images.all %}
+                                    <div class="easyzoom-style">
+                                        <div class="easyzoom easyzoom--overlay">
+                                            <a href="{{ image.image.url }}">
+                                                <img src="{{ image.image.url }}" alt="{{ product.name }}">
+                                            </a>
+                                        </div>
+                                        <a class="easyzoom-pop-up img-popup" href="{{ image.image.url }}">
+                                            <i class="icon-size-fullscreen"></i>
+                                        </a>
+                                    </div>
+                                    {% empty %}
+                                    <div class="easyzoom-style">
+                                        <div class="easyzoom easyzoom--overlay">
+                                            <a href="/static/assets/images/product/default.jpg">
+                                                <img src="/static/assets/images/product/default.jpg" alt="{{ product.name }}">
+                                            </a>
+                                        </div>
+                                        <a class="easyzoom-pop-up img-popup" href="/static/assets/images/product/default.jpg">
+                                            <i class="icon-size-fullscreen"></i>
+                                        </a>
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Kichik rasmlar slideri -->
+                            <div class="product-dec-slider-small product-dec-small-style1" id="thumbnail-slider">
+                                {% if colors %}
+                                    {% with first_color=colors.0 %}
+                                        {% for image in first_color.images %}
+                                        <div class="product-dec-small {% if forloop.first %}active{% endif %}">
+                                            <img src="{{ image }}" alt="{{ product.name }}">
+                                        </div>
+                                        {% empty %}
+                                        <div class="product-dec-small active">
+                                            <img src="/static/assets/images/product/default.jpg" alt="{{ product.name }}">
+                                        </div>
+                                        {% endfor %}
+                                    {% endwith %}
+                                {% else %}
+                                    {% for image in product.images.all %}
+                                    <div class="product-dec-small {% if forloop.first %}active{% endif %}">
+                                        <img src="{{ image.image.url }}" alt="{{ product.name }}">
+                                    </div>
+                                    {% empty %}
+                                    <div class="product-dec-small active">
+                                        <img src="/static/assets/images/product/default.jpg" alt="{{ product.name }}">
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6 col-md-6">
+                        <div class="product-details-content pro-details-content-mrg">
+                            <h2>{{ product.name }}</h2>
+                            {% if product.brand %}
+                            <h3>Brand: <span>{{ product.brand.name }}</span></h3>
+                            {% endif %}
+                            
+                            <div class="product-ratting-review-wrap">
+                                <div class="product-ratting-digit-wrap">
+                                    <div class="product-ratting">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= avg_rating %}
+                                            <i class="icon_star"></i>
+                                            {% elif forloop.counter|add:"-0.5" <= avg_rating %}
+                                            <i class="icon_star-half_alt"></i>
+                                            {% else %}
+                                            <i class="icon_star_alt"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <div class="product-digit">
+                                        <span>{{ avg_rating|floatformat:1 }}</span>
+                                    </div>
+                                </div>
+                                <div class="product-review-order">
+                                    <span>{{ product.reviews.count }} Reviews</span>
+                                    <span>{{ product.times_ordered }} orders</span>
+                                </div>
+                            </div>
+                            
+                            <p>{{ product.short_description }}</p>
+                            
+                            <div class="pro-details-price">
+                                <span class="new-price" id="product-price">
+                                    {% if product.old_price and product.old_price > product.price %}
+                                    ${{ product.price }}
+                                    <span class="old-price">${{ product.old_price }}</span>
+                                    {% if discount_percentage %}
+                                    <span class="discount-percentage">-{{ discount_percentage }}%</span>
+                                    {% endif %}
+                                    {% else %}
+                                    ${{ product.price }}
+                                    {% endif %}
+                                </span>
+                            </div>
+                            
+                            {% if colors %}
+                            <div class="pro-details-color-wrap">
+                                <span>Color:</span>
+                                <div class="pro-details-color-content">
+                                    <ul id="color-list">
+                                        {% for color in colors %}
+                                        <li style="display: inline-block;">
+                                            <div class="color-item {% if forloop.first %}active{% endif %}" 
+                                               data-color-index="{{ forloop.counter0 }}"
+                                               style="{% if color.hex_code %}background-color: {{ color.hex_code }}{% else %}background-color: #ccc{% endif %};"
+                                               title="{{ color.name }}">
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            <div class="pro-details-size">
+                                <span>Size:</span>
+                                <div class="pro-details-size-content">
+                                    <div id="size-list">
+                                        {% if colors %}
+                                            {% with first_color=colors.0 %}
+                                                {% for size in first_color.sizes %}
+                                                <span class="size-item {% if forloop.first %}active{% endif %}" 
+                                                      data-size-id="{{ size.id }}">
+                                                    {{ size.value }}
+                                                </span>
+                                                {% empty %}
+                                                <span>No sizes available</span>
+                                                {% endfor %}
+                                            {% endwith %}
+                                        {% else %}
+                                            {% for size in sizes %}
+                                            <span class="size-item {% if forloop.first %}active{% endif %}" 
+                                                  data-size-id="{{ size.id }}">
+                                                {{ size.value }}
+                                            </span>
+                                            {% empty %}
+                                            <span>No sizes available</span>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="pro-details-quality">
+                                <span>Quantity:</span>
+                                <div class="cart-plus-minus">
+                                    <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1" min="1">
+                                </div>
+                            </div>
+                            
+                            <div class="product-details-meta">
+                                <ul>
+                                    <li><span>SKU:</span> <a href="#">{{ product.sku|default:"N/A" }}</a></li>
+                                    <li><span>Categories:</span> 
+                                        {% for category in product.categories.all %}
+                                        <a href="/?category={{ category.slug }}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
+                                        {% empty %}
+                                        <a href="#">No categories</a>
+                                        {% endfor %}
+                                    </li>
+                                    <li><span>Tag:</span> 
+                                        {% for tag in product.tags.all %}
+                                        <a href="/?tag={{ tag.slug }}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+                                        {% empty %}
+                                        <a href="#">No tags</a>
+                                        {% endfor %}
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pro-details-action-wrap">
+                                <div class="pro-details-add-to-cart">
+                                    <a title="Add to Cart" href="#" class="add-to-cart-btn">Add To Cart</a>
+                                </div>
+                                <div class="pro-details-action">
+                                    <a title="Add to Wishlist" href="#"><i class="icon-heart"></i></a>
+                                    <a title="Add to Compare" href="#"><i class="icon-refresh"></i></a>
+                                    <a class="social" title="Social" href="#"><i class="icon-share"></i></a>
+                                    <div class="product-dec-social">
+                                        <a class="facebook" title="Facebook" href="#"><i class="icon-social-facebook"></i></a>
+                                        <a class="twitter" title="Twitter" href="#"><i class="icon-social-twitter"></i></a>
+                                        <a class="instagram" title="Instagram" href="#"><i class="icon-social-instagram"></i></a>
+                                        <a class="pinterest" title="Pinterest" href="#"><i class="icon-social-pinterest"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="description-review-wrapper pb-110">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="dec-review-topbar nav mb-45">
+                            <a class="active" data-toggle="tab" href="#des-details1">Description</a>
+                            <a data-toggle="tab" href="#des-details2">Reviews and Rating ({{ product.reviews.count }})</a>
+                        </div>
+                        <div class="tab-content dec-review-bottom">
+                            <div id="des-details1" class="tab-pane active">
+                                <div class="description-wrap">
+                                    {{ product.description|linebreaks }}
+                                </div>
+                            </div>
+                            
+                            <div id="des-details2" class="tab-pane">
+                                <div class="review-wrapper">
+                                    {% if reviews %}
+                                    <h2>{{ reviews.count }} review{{ reviews.count|pluralize }} for {{ product.name }}</h2>
+                                    {% for review in reviews %}
+                                    <div class="single-review">
+                                        <div class="review-img">
+                                            <img src="/static/assets/images/product-details/client-1.png" alt="User">
+                                        </div>
+                                        <div class="review-content">
+                                            <div class="review-top-wrap">
+                                                <div class="review-name">
+                                                    <h5><span>{{ review.user.username|default:"Anonymous" }}</span> - {{ review.created_at|date:"F d, Y" }}</h5>
+                                                </div>
+                                                <div class="review-rating">
+                                                    {% for i in "12345" %}
+                                                    {% if forloop.counter <= review.rating %}
+                                                    <i class="yellow icon_star"></i>
+                                                    {% else %}
+                                                    <i class="icon_star_alt"></i>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                            {% if review.title %}
+                                            <h4>{{ review.title }}</h4>
+                                            {% endif %}
+                                            <p>{{ review.body|linebreaks }}</p>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% else %}
+                                    <h2>No reviews yet for {{ product.name }}</h2>
+                                    <p>Be the first to review this product!</p>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="ratting-form-wrapper">
+                                    <span>Add a Review</span>
+                                    <p>Your email address will not be published. Required fields are marked <span>*</span></p>
+                                    <div class="ratting-form">
+                                        <form action="#" method="post">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="rating-form-style mb-20">
+                                                        <label>Name <span>*</span></label>
+                                                        <input type="text" name="name" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="rating-form-style mb-20">
+                                                        <label>Email <span>*</span></label>
+                                                        <input type="email" name="email" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="star-box-wrap">
+                                                        <div class="single-ratting-star">
+                                                            <label>Your Rating <span>*</span></label>
+                                                            <div class="rating-stars">
+                                                                <input type="radio" id="star5" name="rating" value="5" checked>
+                                                                <label for="star5"><i class="icon_star"></i></label>
+                                                                <input type="radio" id="star4" name="rating" value="4">
+                                                                <label for="star4"><i class="icon_star"></i></label>
+                                                                <input type="radio" id="star3" name="rating" value="3">
+                                                                <label for="star3"><i class="icon_star"></i></label>
+                                                                <input type="radio" id="star2" name="rating" value="2">
+                                                                <label for="star2"><i class="icon_star"></i></label>
+                                                                <input type="radio" id="star1" name="rating" value="1">
+                                                                <label for="star1"><i class="icon_star"></i></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="rating-form-style mb-20">
+                                                        <label>Your Review <span>*</span></label>
+                                                        <textarea name="review" rows="5" required></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-submit">
+                                                        <input type="submit" value="Submit">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if related_products %}
+        <div class="related-product pb-115">
+            <div class="container">
+                <div class="section-title mb-45 text-center">
+                    <h2>Related Products</h2>
+                </div>
+                <div class="related-product-active">
+                    {% for related in related_products %}
+                    <div class="product-plr-1">
+                        <div class="single-product-wrap">
+                            <div class="product-img product-img-zoom mb-15">
+                                <a href="{% url 'product_detail' related.slug %}">
+                                    {% if related.image %}
+                                    <img src="{{ related.image }}" alt="{{ related.name }}">
+                                    {% else %}
+                                    <img src="/static/assets/images/product/default.jpg" alt="{{ related.name }}">
+                                    {% endif %}
+                                </a>
+                                <div class="product-action-2 tooltip-style-2">
+                                    <button title="Wishlist"><i class="icon-heart"></i></button>
+                                    <button title="Quick View" data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i></button>
+                                    <button title="Compare"><i class="icon-refresh"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-content-wrap-2 text-center">
+                                <div class="product-rating-wrap">
+                                    <div class="product-rating">
+                                        {% for i in "12345" %}
+                                        {% if forloop.counter <= related.average_rating %}
+                                        <i class="icon_star"></i>
+                                        {% else %}
+                                        <i class="icon_star gray"></i>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <span>({{ related.reviews_count }})</span>
+                                </div>
+                                <h3><a href="{% url 'product_detail' related.slug %}">{{ related.name|truncatechars:30 }}</a></h3>
+                                <div class="product-price-2">
+                                    {% if related.old_price %}
+                                    <span class="new-price">${{ related.price }}</span>
+                                    <span class="old-price">${{ related.old_price }}</span>
+                                    {% else %}
+                                    <span>${{ related.price }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="product-content-wrap-2 product-content-position text-center">
+                                <div class="product-rating-wrap">
+                                    <div class="product-rating">
+                                        {% for i in "12345" %}
+                                        {% if forloop.counter <= related.average_rating %}
+                                        <i class="icon_star"></i>
+                                        {% else %}
+                                        <i class="icon_star gray"></i>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <span>({{ related.reviews_count }})</span>
+                                </div>
+                                <h3><a href="{% url 'product_detail' related.slug %}">{{ related.name|truncatechars:30 }}</a></h3>
+                                <div class="product-price-2">
+                                    {% if related.old_price %}
+                                    <span class="new-price">${{ related.price }}</span>
+                                    <span class="old-price">${{ related.old_price }}</span>
+                                    {% else %}
+                                    <span>${{ related.price }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="pro-add-to-cart">
+                                    <button title="Add to Cart">Add To Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <footer class="footer-area bg-gray pb-30">
+            <!-- Footer kodlari -->
+        </footer>
+    </div>
+
+    <!-- JavaScript fayllari -->
+    <script src="/static/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="/static/assets/js/vendor/jquery-3.5.1.min.js"></script>
+    <script src="/static/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script src="/static/assets/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="/static/assets/js/plugins/slick.js"></script>
+    <script src="/static/assets/js/plugins/jquery.syotimer.min.js"></script>
+    <script src="/static/assets/js/plugins/jquery.nice-select.min.js"></script>
+    <script src="/static/assets/js/plugins/wow.js"></script>
+    <script src="/static/assets/js/plugins/jquery-ui-touch-punch.js"></script>
+    <script src="/static/assets/js/plugins/jquery-ui.js"></script>
+    <script src="/static/assets/js/plugins/magnific-popup.js"></script>
+    <script src="/static/assets/js/plugins/sticky-sidebar.js"></script>
+    <script src="/static/assets/js/plugins/easyzoom.js"></script>
+    <script src="/static/assets/js/plugins/scrollup.js"></script>
+    <script src="/static/assets/js/plugins/ajax-mail.js"></script>
+    <script src="/static/assets/js/main.js"></script>
+
+    <!-- Colors ma'lumotlarini JavaScript uchun -->
+    <script>
+        // Colors ma'lumotlarini global o'zgaruvchiga saqlaymiz
+        var productColors = {{ colors_json|safe }};
+        
+        $(document).ready(function() {
+            // Joriy tanlangan rang indeksi (0 dan boshlanadi)
+            var currentColorIndex = 0;
+            
+            // Rang tanlash
+            $('.color-item').on('click', function(e) {
+                e.preventDefault();
+                
+                // Yangi rang indeksini olish
+                var newColorIndex = $(this).data('color-index');
+                
+                // Agar bir xil rang tanlansa, hech narsa qilmaymiz
+                if (newColorIndex === currentColorIndex) return;
+                
+                // Eski rangdan active classini olib tashlash
+                $('.color-item').removeClass('active');
+                // Yangi rangga active classini qo'shish
+                $(this).addClass('active');
+                
+                // Joriy rang indeksini yangilash
+                currentColorIndex = newColorIndex;
+                
+                // Yangi rang ma'lumotlarini olish
+                var selectedColor = productColors[currentColorIndex];
+                
+                // Rasmlarni yangilash
+                updateProductImages(selectedColor.images);
+                
+                // O'lchamlarni yangilash
+                updateAvailableSizes(selectedColor.sizes);
+                
+                // Narxni yangilash (agar rang narxga ta'sir qilsa)
+                updateProductPrice(selectedColor.price);
+            });
+            
+            // O'lcham tanlash
+            $(document).on('click', '.size-item:not(.disabled)', function(e) {
+                e.preventDefault();
+                $('.size-item').removeClass('active');
+                $(this).addClass('active');
+            });
+            
+            // Rasmlarni yangilash funksiyasi
+            function updateProductImages(images) {
+                var mainSlider = $('#main-image-slider');
+                var thumbSlider = $('#thumbnail-slider');
+                
+                // Sliderlarni tozalash
+                mainSlider.slick('unslick');
+                thumbSlider.slick('unslick');
+                mainSlider.empty();
+                thumbSlider.empty();
+                
+                // Yangi rasmlarni qo'shish
+                if (images && images.length > 0) {
+                    images.forEach(function(image, index) {
+                        // Asosiy slider uchun
+                        mainSlider.append(`
+                            <div class="easyzoom-style">
+                                <div class="easyzoom easyzoom--overlay">
+                                    <a href="${image}">
+                                        <img src="${image}" alt="Product Image">
+                                    </a>
+                                </div>
+                                <a class="easyzoom-pop-up img-popup" href="${image}">
+                                    <i class="icon-size-fullscreen"></i>
+                                </a>
+                            </div>
+                        `);
+                        
+                        // Thumbnail slider uchun
+                        thumbSlider.append(`
+                            <div class="product-dec-small ${index === 0 ? 'active' : ''}">
+                                <img src="${image}" alt="Product Image">
+                            </div>
+                        `);
+                    });
+                } else {
+                    // Agar rasm bo'lmasa, default rasm
+                    var defaultImage = '/static/assets/images/product/default.jpg';
+                    mainSlider.append(`
+                        <div class="easyzoom-style">
+                            <div class="easyzoom easyzoom--overlay">
+                                <a href="${defaultImage}">
+                                    <img src="${defaultImage}" alt="Product Image">
+                                </a>
+                            </div>
+                            <a class="easyzoom-pop-up img-popup" href="${defaultImage}">
+                                <i class="icon-size-fullscreen"></i>
+                            </a>
+                        </div>
+                    `);
+                    
+                    thumbSlider.append(`
+                        <div class="product-dec-small active">
+                            <img src="${defaultImage}" alt="Product Image">
+                        </div>
+                    `);
+                }
+                
+                // Sliderlarni qayta ishga tushirish
+                initProductSliders();
+                
+                // EasyZoom ni qayta ishga tushirish
+                initEasyZoom();
+            }
+            
+            // O'lchamlarni yangilash funksiyasi
+            function updateAvailableSizes(sizes) {
+                var sizeList = $('#size-list');
+                sizeList.empty();
+                
+                if (sizes && sizes.length > 0) {
+                    sizes.forEach(function(size, index) {
+                        sizeList.append(`
+                            <span class="size-item ${index === 0 ? 'active' : ''}" 
+                                  data-size-id="${size.id}">
+                                ${size.value}
+                            </span>
+                        `);
+                    });
+                } else {
+                    sizeList.append('<span class="disabled">No sizes available</span>');
+                }
+            }
+            
+            // Narxni yangilash funksiyasi
+            function updateProductPrice(price) {
+                $('#product-price').html('$' + price);
+            }
+            
+            // Sliderlarni ishga tushirish funksiyasi
+            function initProductSliders() {
+                // Asosiy slider
+                $('#main-image-slider').slick({
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    fade: true,
+                    asNavFor: '#thumbnail-slider',
+                    adaptiveHeight: true
+                });
+                
+                // Thumbnail slider
+                $('#thumbnail-slider').slick({
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    asNavFor: '#main-image-slider',
+                    dots: false,
+                    focusOnSelect: true,
+                    arrows: false,
+                    infinite: true,
+                    responsive: [
+                        {
+                            breakpoint: 768,
+                            settings: {
+                                slidesToShow: 3
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                slidesToShow: 2
+                            }
+                        }
+                    ]
+                });
+            }
+            
+            // EasyZoom ni ishga tushirish
+            function initEasyZoom() {
+                $('.easyzoom').easyZoom();
+            }
+            
+            // Sahifa yuklanganda sliderlarni ishga tushirish
+            initProductSliders();
+            initEasyZoom();
+            
+            // Miqdor o'zgartirish
+            $('.cart-plus-minus').each(function() {
+                var $this = $(this),
+                    $input = $this.find('input'),
+                    $minus = $('<button type="button" class="dec qtybutton">-</button>'),
+                    $plus = $('<button type="button" class="inc qtybutton">+</button>');
+                
+                $input.wrap('<div class="cart-plus-minus-box"></div>');
+                $this.prepend($minus);
+                $this.append($plus);
+                
+                $minus.on('click', function() {
+                    var value = parseInt($input.val());
+                    if (value > 1) {
+                        $input.val(value - 1);
+                    }
+                });
+                
+                $plus.on('click', function() {
+                    var value = parseInt($input.val());
+                    $input.val(value + 1);
+                });
+            });
+            
+            // Savatga qo'shish
+            $('.add-to-cart-btn').on('click', function(e) {
+                e.preventDefault();
+                
+                var selectedColor = $('.color-item.active');
+                var selectedSize = $('.size-item.active');
+                var quantity = $('.cart-plus-minus-box').val();
+                
+                if (!selectedColor.length) {
+                    alert('Please select a color');
+                    return;
+                }
+                
+                if (!selectedSize.length || selectedSize.hasClass('disabled')) {
+                    alert('Please select a size');
+                    return;
+                }
+                
+                var colorId = productColors[currentColorIndex].id;
+                var sizeId = selectedSize.data('size-id');
+                
+                // Bu yerda AJAX so'rovi yuborishingiz mumkin
+                console.log('Adding to cart:', {
+                    colorId: colorId,
+                    sizeId: sizeId,
+                    quantity: quantity
+                });
+                
+                alert('Product added to cart!');
+            });
+        });
+    </script>
+
+</body>
+
+</html>
