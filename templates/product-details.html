@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{{ product.name }} - Norda</title>
+    <title>Mr. Martens - {{ product.name }}</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="{{ product.short_description }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -493,7 +493,7 @@
                     <div class="product-plr-1">
                         <div class="single-product-wrap">
                             <div class="product-img product-img-zoom mb-15">
-                                <a href="{% url 'product_detail' related.slug %}">
+                                <a href="/">
                                     {% if related.image %}
                                     <img src="{{ related.image }}" alt="{{ related.name }}">
                                     {% else %}
@@ -519,7 +519,7 @@
                                     </div>
                                     <span>({{ related.reviews_count }})</span>
                                 </div>
-                                <h3><a href="{% url 'product_detail' related.slug %}">{{ related.name|truncatechars:30 }}</a></h3>
+                                <h3><a href="/">{{ related.name|truncatechars:30 }}</a></h3>
                                 <div class="product-price-2">
                                     {% if related.old_price %}
                                     <span class="new-price">${{ related.price }}</span>
@@ -542,7 +542,7 @@
                                     </div>
                                     <span>({{ related.reviews_count }})</span>
                                 </div>
-                                <h3><a href="{% url 'product_detail' related.slug %}">{{ related.name|truncatechars:30 }}</a></h3>
+                                <h3><a href="/">{{ related.name|truncatechars:30 }}</a></h3>
                                 <div class="product-price-2">
                                     {% if related.old_price %}
                                     <span class="new-price">${{ related.price }}</span>

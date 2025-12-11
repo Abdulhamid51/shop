@@ -52,9 +52,14 @@ class Brand(models.Model):
 
 class Shoe(models.Model):
 	"""Main product model representing a shoe product."""
+	GENDER_SELECT = (
+		(1, "Male"),
+		(2, "Female"),
+	)
 	name = models.CharField(max_length=250)
 	slug = models.SlugField(max_length=300, unique=True, blank=True)
 	sku = models.CharField(max_length=60, blank=True, help_text=_('Optional product SKU'))
+	gender = models.PositiveIntegerField(choices=GENDER_SELECT, blank=True, null=True)
 	brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, blank=True)
 	categories = models.ManyToManyField(Category, blank=True, related_name='products')
 	tags = models.ManyToManyField('Tag', blank=True, related_name='products')
