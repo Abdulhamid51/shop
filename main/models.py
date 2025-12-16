@@ -20,17 +20,11 @@ def validate_max_5_images(instance):
 
 class Category(models.Model):
 	name = models.CharField(max_length=120, unique=True)
-	slug = models.SlugField(max_length=140, unique=True, blank=True)
 	description = models.TextField(blank=True)
 
 	class Meta:
 		verbose_name = _('Category')
 		verbose_name_plural = _('Categories')
-
-	def save(self, *args, **kwargs):
-		if not self.slug:
-			self.slug = slugify(self.name)
-		super().save(*args, **kwargs)
 
 	def __str__(self):
 		return self.name
@@ -38,13 +32,7 @@ class Category(models.Model):
 
 class Brand(models.Model):
 	name = models.CharField(max_length=120, unique=True)
-	slug = models.SlugField(max_length=140, unique=True, blank=True)
 	description = models.TextField(blank=True)
-
-	def save(self, *args, **kwargs):
-		if not self.slug:
-			self.slug = slugify(self.name)
-		super().save(*args, **kwargs)
 
 	def __str__(self):
 		return self.name
@@ -52,9 +40,13 @@ class Brand(models.Model):
 
 class Shoe(models.Model):
 	"""Main product model representing a shoe product."""
+	GENDER_SELECT = (
+		(1, "Male"),
+		(2, "Female"),
+	)
 	name = models.CharField(max_length=250)
-	slug = models.SlugField(max_length=300, unique=True, blank=True)
 	sku = models.CharField(max_length=60, blank=True, help_text=_('Optional product SKU'))
+	gender = models.PositiveIntegerField(choices=GENDER_SELECT, blank=True, null=True)
 	brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, blank=True)
 	categories = models.ManyToManyField(Category, blank=True, related_name='products')
 	tags = models.ManyToManyField('Tag', blank=True, related_name='products')
@@ -71,11 +63,6 @@ class Shoe(models.Model):
 
 	class Meta:
 		ordering = ['-created_at']
-
-	def save(self, *args, **kwargs):
-		if not self.slug:
-			self.slug = slugify(self.name)
-		super().save(*args, **kwargs)
 
 	def __str__(self):
 		return self.name
@@ -148,8 +135,8 @@ class Stock(models.Model):
 	size = models.ForeignKey(Size, related_name='stock', on_delete=models.CASCADE)
 	quantity = models.PositiveIntegerField(default=0)
 
-	class Meta:
-		unique_together = ('color', 'size')
+	# class Meta:
+	# 	unique_together = ('color', 'size')
 
 	def __str__(self):
 		return f"{self.color} — {self.size}: {self.quantity}"
@@ -164,9 +151,6 @@ class ShoeColorImage(models.Model):
 
 	class Meta:
 		ordering = ['position']
-
-	def clean(self):
-		validate_max_5_images(self)
 
 	def save(self, *args, **kwargs):
 		self.full_clean()
@@ -191,13 +175,6 @@ class ProductImage(models.Model):
 
 class Tag(models.Model):
 	name = models.CharField(max_length=80, unique=True)
-	slug = models.SlugField(max_length=100, unique=True, blank=True)
-
-	def save(self, *args, **kwargs):
-		if not self.slug:
-			self.slug = slugify(self.name)
-		super().save(*args, **kwargs)
-
 	def __str__(self):
 		return self.name
 

@@ -1,10 +1,10 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
-
+{% load humanize %}
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Norda - Minimal eCommerce HTML Template</title>
+    <title>Mr. Martens</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -129,7 +129,7 @@
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="single-product-wrap mb-35">
                                                 <div class="product-img product-img-zoom mb-15">
-                                                    <a href="/product/{{product.slug}}/">
+                                                    <a href="/product/{{product.id}}/">
                                                         {% if product.image %}
                                                         <img src="{{ product.image }}" alt="{{ product.name }}">
                                                         {% else %}
@@ -143,24 +143,24 @@
                                                     </div> -->
                                                 </div>
                                                 <div class="product-content-wrap-2 text-center">
-                                                    <h3><a href="/product/{{product.slug}}/">{{ product.name }}</a></h3>
+                                                    <h3><a href="/product/{{product.id}}/">{{ product.name }}</a></h3>
                                                     <div class="product-price-2">
                                                         {% if product.old_price %}
-                                                        <span class="new-price">${{ product.price }}</span>
-                                                        <span class="old-price">${{ product.old_price }}</span>
+                                                        <span class="new-price">₽ {{ product.price|intcomma }}</span>
+                                                        <span class="old-price">₽ {{ product.old_price|intcomma }}</span>
                                                         {% else %}
-                                                        <span>${{ product.price }}</span>
+                                                        <span>₽ {{ product.price|intcomma }}</span>
                                                         {% endif %}
                                                     </div>
                                                 </div>
                                                 <div class="product-content-wrap-2 product-content-position text-center">
-                                                    <h3><a href="/product/{{product.slug}}/">{{ product.name }}</a></h3>
+                                                    <h3><a href="/product/{{product.id}}/">{{ product.name }}</a></h3>
                                                     <div class="product-price-2">
                                                         {% if product.old_price %}
-                                                        <span class="new-price">${{ product.price }}</span>
-                                                        <span class="old-price">${{ product.old_price }}</span>
+                                                        <span class="new-price">₽ {{ product.price|intcomma }}</span>
+                                                        <span class="old-price">₽ {{ product.old_price|intcomma }}</span>
                                                         {% else %}
-                                                        <span>${{ product.price }}</span>
+                                                        <span>₽ {{ product.price|intcomma }}</span>
                                                         {% endif %}
                                                     </div>
                                                     <div class="pro-add-to-cart">
@@ -225,7 +225,7 @@
                                 <div class="shop-catigory">
                                     <ul>
                                         {% for category in categories %}
-                                        <li><a href="?category={{ category.slug }}">{{ category.name }}</a></li>
+                                        <li><a href="?category={{ category.id }}">{{ category.name }}</a></li>
                                         {% empty %}
                                         <li>No categories</li>
                                         {% endfor %}
@@ -286,9 +286,9 @@
                                 <h4 class="sidebar-widget-title">Popular Tags</h4>
                                 <div class="tag-wrap sidebar-widget-tag">
                                     {% for tag in tags %}
-                                    <a href="?tag={{ tag.slug }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ tag.name }}</a>
+                                    <a href="?tag={{ tag.id }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ tag.name }}</a>
                                     {% empty %}
-                                    <a href="/product/{{product.slug}}/">No tags</a>
+                                    <a href="/product/{{product.id}}/">No tags</a>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -358,10 +358,10 @@
                                     <p>{{ product.short_description }}</p>
                                     <div class="pro-details-price">
                                         {% if product.old_price %}
-                                        <span class="new-price">${{ product.price }}</span>
-                                        <span class="old-price">${{ product.old_price }}</span>
+                                        <span class="new-price">₽ {{ product.price|intcomma }}</span>
+                                        <span class="old-price">₽ {{ product.old_price|intcomma }}</span>
                                         {% else %}
-                                        <span class="new-price">${{ product.price }}</span>
+                                        <span class="new-price">₽ {{ product.price|intcomma }}</span>
                                         {% endif %}
                                     </div>
                                     <div class="pro-details-color-wrap">
@@ -381,7 +381,7 @@
                                         <div class="pro-details-size-content">
                                             <ul>
                                                 {% for size in product.sizes %}
-                                                <li><a href="/product/{{product.slug}}/">{{ size.value }}</a></li>
+                                                <li><a href="/product/{{product.id}}/">{{ size.value }}</a></li>
                                                 {% empty %}
                                                 <li>No sizes available</li>
                                                 {% endfor %}
@@ -398,16 +398,16 @@
                                         <ul>
                                             <li><span>Categories:</span>
                                                 {% for category in product.categories %}
-                                                <a href="/product/{{product.slug}}/">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
+                                                <a href="/product/{{product.id}}/">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
                                                 {% empty %}
-                                                <a href="/product/{{product.slug}}/">No categories</a>
+                                                <a href="/product/{{product.id}}/">No categories</a>
                                                 {% endfor %}
                                             </li>
                                             <li><span>Tag: </span>
                                                 {% for tag in product.tags %}
-                                                <a href="/product/{{product.slug}}/">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+                                                <a href="/product/{{product.id}}/">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
                                                 {% empty %}
-                                                <a href="/product/{{product.slug}}/">No tags</a>
+                                                <a href="/product/{{product.id}}/">No tags</a>
                                                 {% endfor %}
                                             </li>
                                         </ul>
@@ -432,7 +432,7 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="contact-info-wrap">
                             <div class="footer-logo">
-                                <a href="/product/{{product.slug}}/"><img src="/static/assets/images/logo/logo.png" alt="logo"></a>
+                                <a href="/product/{{product.id}}/"><img src="/static/assets/images/logo/logo.png" alt="logo"></a>
                             </div>
                             <div class="single-contact-info">
                                 <span>Our Location</span>

@@ -13,11 +13,11 @@ def shop(request):
 	# Filters
 	category = request.GET.get('category')
 	if category:
-		qs = qs.filter(categories__slug=category)
+		qs = qs.filter(categories=category)
 
 	tag = request.GET.get('tag')
 	if tag:
-		qs = qs.filter(tags__slug=tag)
+		qs = qs.filter(tags=tag)
 
 	size = request.GET.get('size')
 	if size:
@@ -49,7 +49,6 @@ def shop(request):
 		return {
 			'id': product.id,
 			'name': product.name,
-			'slug': product.slug,
 			'price': product.price,
 			'old_price': product.old_price,
 			'short_description': product.short_description,
@@ -78,12 +77,12 @@ def shop(request):
 	return render(request, 'shop.html', context)
 
 
-def product_detail(request, slug):
+def product_detail(request, id):
     product = get_object_or_404(
         Shoe.objects.select_related('brand')
                     .prefetch_related('images', 'colors__images', 'colors__stock__size', 
                                      'categories', 'tags', 'reviews__user'),
-        slug=slug,
+        id=id,
         is_active=True
     )
     
@@ -134,7 +133,6 @@ def product_detail(request, slug):
         return {
             'id': product.id,
             'name': product.name,
-            'slug': product.slug,
             'price': product.price,
             'old_price': product.old_price,
             'image': product.main_image(),
