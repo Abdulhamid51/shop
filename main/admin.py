@@ -49,7 +49,6 @@ class ShoeAdmin(admin.ModelAdmin):
 	search_fields = ('name', 'sku', 'description', 'short_description')
 	inlines = [ProductImageInline]
 	filter_horizontal = ('categories', 'tags')
-	prepopulated_fields = {'slug': ('name',)}
 
 
 admin.site.register(Category)

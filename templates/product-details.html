@@ -1,6 +1,6 @@
 <!doctype html>
 <html class="no-js" lang="en">
-
+{% load humanize %}
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -130,7 +130,7 @@
                         <li><a href="/">Home</a></li>
                         <li><a href="/">Shop</a></li>
                         {% for category in product.categories.all %}
-                        <li><a href="/?category={{ category.slug }}">{{ category.name }}</a></li>
+                        <li><a href="/?category={{ category.id }}">{{ category.name }}</a></li>
                         {% endfor %}
                         <li class="active">{{ product.name|truncatechars:30 }}</li>
                     </ul>
@@ -262,13 +262,13 @@
                             <div class="pro-details-price">
                                 <span class="new-price" id="product-price">
                                     {% if product.old_price and product.old_price > product.price %}
-                                    ${{ product.price }}
-                                    <span class="old-price">${{ product.old_price }}</span>
+                                    ₽ {{ product.price|intcomma }}
+                                    <span class="old-price">₽ {{ product.old_price|intcomma }}</span>
                                     {% if discount_percentage %}
                                     <span class="discount-percentage">-{{ discount_percentage }}%</span>
                                     {% endif %}
                                     {% else %}
-                                    ${{ product.price }}
+                                    ₽ {{ product.price|intcomma }}
                                     {% endif %}
                                 </span>
                             </div>
@@ -296,18 +296,6 @@
                                 <span>Size:</span>
                                 <div class="pro-details-size-content">
                                     <div id="size-list">
-                                        {% if colors %}
-                                            {% with first_color=colors.0 %}
-                                                {% for size in first_color.sizes %}
-                                                <span class="size-item {% if forloop.first %}active{% endif %}" 
-                                                      data-size-id="{{ size.id }}">
-                                                    {{ size.value }}
-                                                </span>
-                                                {% empty %}
-                                                <span>No sizes available</span>
-                                                {% endfor %}
-                                            {% endwith %}
-                                        {% else %}
                                             {% for size in sizes %}
                                             <span class="size-item {% if forloop.first %}active{% endif %}" 
                                                   data-size-id="{{ size.id }}">
@@ -316,7 +304,6 @@
                                             {% empty %}
                                             <span>No sizes available</span>
                                             {% endfor %}
-                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -333,14 +320,14 @@
                                     <li><span>SKU:</span> <a href="#">{{ product.sku|default:"N/A" }}</a></li>
                                     <li><span>Categories:</span> 
                                         {% for category in product.categories.all %}
-                                        <a href="/?category={{ category.slug }}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
+                                        <a href="/?category={{ category.id }}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
                                         {% empty %}
                                         <a href="#">No categories</a>
                                         {% endfor %}
                                     </li>
                                     <li><span>Tag:</span> 
                                         {% for tag in product.tags.all %}
-                                        <a href="/?tag={{ tag.slug }}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+                                        <a href="/?tag={{ tag.id }}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
                                         {% empty %}
                                         <a href="#">No tags</a>
                                         {% endfor %}
@@ -522,10 +509,10 @@
                                 <h3><a href="/">{{ related.name|truncatechars:30 }}</a></h3>
                                 <div class="product-price-2">
                                     {% if related.old_price %}
-                                    <span class="new-price">${{ related.price }}</span>
-                                    <span class="old-price">${{ related.old_price }}</span>
+                                    <span class="new-price">₽ {{ related.price|intcomma }}</span>
+                                    <span class="old-price">₽ {{ related.old_price|intcomma }}</span>
                                     {% else %}
-                                    <span>${{ related.price }}</span>
+                                    <span>₽ {{ related.price|intcomma }}</span>
                                     {% endif %}
                                 </div>
                             </div>
@@ -545,10 +532,10 @@
                                 <h3><a href="/">{{ related.name|truncatechars:30 }}</a></h3>
                                 <div class="product-price-2">
                                     {% if related.old_price %}
-                                    <span class="new-price">${{ related.price }}</span>
-                                    <span class="old-price">${{ related.old_price }}</span>
+                                    <span class="new-price">₽ {{ related.price|intcomma }}</span>
+                                    <span class="old-price">₽ {{ related.old_price|intcomma }}</span>
                                     {% else %}
-                                    <span>${{ related.price }}</span>
+                                    <span>₽ {{ related.price|intcomma }}</span>
                                     {% endif %}
                                 </div>
                                 <div class="pro-add-to-cart">
