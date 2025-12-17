@@ -193,3 +193,23 @@ class Review(models.Model):
 	def __str__(self):
 		return f"{self.shoe.name} — {self.rating}"
 
+
+class Cart(models.Model):
+	added_date = models.DateTimeField(auto_now_add=True)
+	product = models.ForeignKey(Shoe, on_delete=models.CASCADE)
+	color = models.ForeignKey(ShoeColor, on_delete=models.CASCADE)
+	size = models.ForeignKey(Size, on_delete=models.CASCADE)
+	count = models.PositiveBigIntegerField(default=1)
+
+
+class CartTree(models.Model):
+	carts = models.ManyToManyField(Cart, blank=True, related_name='tree')
+
+
+class Order(models.Model):
+	created_date = models.DateTimeField(auto_now_add=True)
+	fio = models.CharField(max_length=200)
+	phone = models.CharField(max_length=20)
+	phone2 = models.CharField(max_length=20, default='')
+	address = models.TextField()
+	carts = models.ManyToManyField(Cart)

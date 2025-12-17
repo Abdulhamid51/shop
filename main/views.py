@@ -3,9 +3,13 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Avg
 from django.core.serializers.json import DjangoJSONEncoder
+from django.http.response import JsonResponse
 import json
 from .models import *
 
+
+def index(request):
+	return render(request, 'index.html')
 
 def shop(request):
 	qs = Shoe.objects.filter(is_active=True).prefetch_related('images', 'colors', 'categories', 'tags')
@@ -160,3 +164,58 @@ def product_detail(request, id):
         context['discount_percentage'] = round(((product.old_price - product.price) / product.old_price) * 100)
     
     return render(request, 'product-details.html', context)
+
+
+def add_to_cart(request):
+	if 'cart_tree' in request.session:
+		cart_tree = CartTree.objects.get(id=request.session.get('cart_tree'))
+	else:
+		cart_tree = CartTree.objects.create()
+		request.session['cart_tree'] = cart_tree.id
+	product_id = request.GET.get('product_id')
+	color_id = request.GET.get('color_id')
+	size_id = request.GET.get('size_id')
+	count = request.GET.get('count', 1)
+	cart, created = Cart.objects.get_or_create(
+		product_id=product_id,
+		color_id=color_id,
+		size_id=size_id,
+		id__in=cart_tree.carts.values_list('id')
+	)
+	cart.count = int(count)
+	cart.save()
+	if created:
+		cart_tree.carts.add(cart)
+		cart_tree.save()
+	
+	return JsonResponse({
+		'success': True,
+		'cart': cart.id,
+		'tree': request.session['cart_tree']
+	})
+
+def change_cart_view(request):
+	if 'cart_tree' in request.session:
+		cart_tree = CartTree.objects.get(id=request.session.get('cart_tree'))
+	else:
+		cart_tree = CartTree.objects.create()
+		request.session['cart_tree'] = cart_tree.id
+	product_id = request.GET.get('product_id')
+	color_id = request.GET.get('color_id')
+	size_id = request.GET.get('size_id')
+	cart = Cart.objects.filter(
+		product_id=product_id,
+		color_id=color_id,
+		size_id=size_id,
+		id__in=cart_tree.carts.values_list('id')
+	)
+	if cart:
+		return JsonResponse({
+			'view': 'remove',
+			'count': cart.last().count
+		})
+	else:
+		return JsonResponse({
+			'view': 'add',
+			'count': 1
+		})

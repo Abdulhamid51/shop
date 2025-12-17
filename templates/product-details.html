@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en">
+    <html class="no-js" lang="en">
 {% load humanize %}
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Mr. Martens - {{ product.name }}</title>
+    <title>Мистер Мартенс - {{ product.name }}</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="{{ product.short_description }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -76,40 +76,23 @@
                         <div class="row align-items-center">
                             <div class="col-xl-2 col-lg-2">
                                 <div class="logo">
-                                    <a href="index.html"><img src="/static/assets/images/logo/logo.png" alt="logo"></a>
+                                    <a href="/"><img src="/static/assets/images/logo/logo.svg" style="margin: 15px; width: 100px;" alt="logo"></a>
                                 </div>
                             </div>
                             <div class="col-xl-8 col-lg-7">
                                 <div class="main-menu main-menu-padding-1 main-menu-lh-1">
                                     <nav>
                                         <ul>
-                                            <li><a href="index.html">HOME</a></li>
-                                            <li><a href="shop.html">SHOP</a></li>
-                                            <li><a href="contact.html">CONTACT</a></li>
+                                            <li><a href="/">ГЛАВНАЯ</a></li>
+                                            <li><a href="/shop/">МАГАЗИН</a></li>
+                                            <li><a href="/contact/">КОНТАКТЫ</a></li>
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
                             <div class="col-xl-2 col-lg-3">
                                 <div class="header-action header-action-flex header-action-mrg-right">
-                                    <div class="same-style-2 header-search-1">
-                                        <a class="search-toggle" href="#">
-                                            <i class="icon-magnifier s-open"></i>
-                                            <i class="icon_close s-close"></i>
-                                        </a>
-                                        <div class="search-wrap-1">
-                                            <form action="" method="get">
-                                                <input name="q" placeholder="Search products…" type="text" value="{{ request.GET.q }}">
-                                                <button class="button-search"><i class="icon-magnifier"></i></button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div class="same-style-2">
-                                        <a href="login-register.html"><i class="icon-user"></i></a>
-                                    </div>
-                                    <div class="same-style-2">
-                                        <a href="wishlist.html"><i class="icon-heart"></i><span class="pro-count red">03</span></a>
-                                    </div>
+                                    
                                     <div class="same-style-2 header-cart">
                                         <a class="cart-active" href="#">
                                             <i class="icon-basket-loaded"></i><span class="pro-count red">02</span>
@@ -120,17 +103,173 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="header-small-device small-device-ptb-1">
+                    <div class="row align-items-center">
+                        <div class="col-5">
+                            <div class="mobile-logo">
+                                <a href="index.html">
+                                    <img alt="" src="assets/images/logo/logo.png">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div class="header-action header-action-flex">
+                                <div class="same-style-2">
+                                    <a href="login-register.html"><i class="icon-user"></i></a>
+                                </div>
+                                <div class="same-style-2">
+                                    <a href="wishlist.html"><i class="icon-heart"></i><span class="pro-count red">03</span></a>
+                                </div>
+                                <div class="same-style-2 header-cart">
+                                    <a class="cart-active" href="#">
+                                        <i class="icon-basket-loaded"></i><span class="pro-count red">02</span>
+                                    </a>
+                                </div>
+                                <div class="same-style-2 main-menu-icon">
+                                    <a class="mobile-header-button-active" href="#"><i class="icon-menu"></i> </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </header>
+        <div class="mobile-header-active mobile-header-wrapper-style">
+            <div class="clickalbe-sidebar-wrap">
+                <a class="sidebar-close"><i class="icon_close"></i></a>
+                <div class="mobile-header-content-area">
+                    <div class="header-offer-wrap mobile-header-padding-border-4">
+                        <p><i class="icon-paper-plane"></i> БЕСПЛАТНАЯ ДОСТАВКА по всему миру для всех заказов свыше <span>$199</span></p>
+                    </div>
+                    <div class="mobile-search mobile-header-padding-border-1">
+                        <form class="search-form" action="#">
+                            <input type="text" placeholder="Search here…">
+                            <button class="button-search"><i class="icon-magnifier"></i></button>
+                        </form>
+                    </div>
+                    <div class="mobile-menu-wrap mobile-header-padding-border-2">
+                        <!-- mobile menu start -->
+                        <nav>
+                            <ul class="mobile-menu">
+                                <li class="menu-item-has-children"><a href="index.html">Главная</a>
+                                    <ul class="dropdown">
+                                        <li><a href="index.html">Главная версия 1</a></li>
+                                        <li><a href="index-2.html">Главная версия 2</a></li>
+                                        <li><a href="index-3.html">Главная версия 3</a></li>
+                                        <li><a href="index-4.html">Главная версия 4</a></li>
+                                        <li><a href="index-5.html">Главная версия 5</a></li>
+                                        <li><a href="index-6.html">Главная версия 6</a></li>
+                                        <li><a href="index-7.html">Главная версия 7</a></li>
+                                        <li><a href="index-8.html">Главная версия 8</a></li>
+                                        <li><a href="index-9.html">Главная версия 9</a></li>
+                                        <li><a href="index-10.html">Главная версия 10</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children "><a href="#">Магазин</a>
+                                    <ul class="dropdown">
+                                        <li class="menu-item-has-children"><a href="#">Макет магазина</a>
+                                            <ul class="dropdown">
+                                                <li><a href="shop.html">Стандартный стиль</a></li>
+                                                <li><a href="shop-list.html">Стиль списка</a></li>
+                                                <li><a href="shop-fullwide.html">Полноширинный</a></li>
+                                                <li><a href="shop-no-sidebar.html">Сетка без сайдбара</a></li>
+                                                <li><a href="shop-list-no-sidebar.html">Список без сайдбара</a></li>
+                                                <li><a href="shop-right-sidebar.html">Правый сайдбар</a></li>
+                                                <li><a href="store-location.html">Расположение магазина</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children"><a href="#">Макет товаров</a>
+                                            <ul class="dropdown">
+                                                <li><a href="product-details.html">Вкладка стиль 1</a></li>
+                                                <li><a href="product-details-2.html">Вкладка стиль 2</a></li>
+                                                <li><a href="product-details-sticky.html">Липкий стиль</a></li>
+                                                <li><a href="product-details-gallery.html">Галерея</a></li>
+                                                <li><a href="product-details-affiliate.html">Партнёрский стиль</a></li>
+                                                <li><a href="product-details-group.html">Групповой стиль</a></li>
+                                                <li><a href="product-details-fixed-img.html">Фиксированное изображение</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children"><a href="#">Страницы</a>
+                                    <ul class="dropdown">
+                                        <li><a href="about-us.html">О нас</a></li>
+                                        <li><a href="cart.html">Корзина</a></li>
+                                        <li><a href="checkout.html">Оформление заказа</a></li>
+                                        <li><a href="my-account.html">Мой аккаунт</a></li>
+                                        <li><a href="wishlist.html">Список желаний</a></li>
+                                        <li><a href="compare.html">Сравнить</a></li>
+                                        <li><a href="contact.html">Связаться с нами</a></li>
+                                        <li><a href="order-tracking.html">Отслеживание заказа</a></li>
+                                        <li><a href="login-register.html">Вход / Регистрация</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children "><a href="#">Блог</a>
+                                    <ul class="dropdown">
+                                        <li><a href="blog.html">Блог стандарт</a></li>
+                                        <li><a href="blog-no-sidebar.html">Блог без сайдбара</a></li>
+                                        <li><a href="blog-right-sidebar.html">Блог с правым сайдбаром</a></li>
+                                        <li><a href="blog-details.html">Детали блога</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="contact.html">Связаться с нами</a></li>
+                            </ul>
+                        </nav>
+                        <!-- mobile menu end -->
+                    </div>
+                    <div class="mobile-header-info-wrap mobile-header-padding-border-3">
+                        <div class="single-mobile-header-info">
+                            <a href="order-tracking.html"><i class="lastudioicon-pin-3-2"></i> Отследить заказ </a>
+                        </div>
+                        <div class="single-mobile-header-info">
+                            <a class="mobile-language-active" href="#">Язык <span><i class="icon-arrow-down"></i></span></a>
+                            <div class="lang-curr-dropdown lang-dropdown-active">
+                                <ul>
+                                    <li><a href="#">Английский</a></li>
+                                    <li><a href="#">Французский</a></li>
+                                    <li><a href="#">Немецкий</a></li>
+                                    <li><a href="#">Испанский</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="single-mobile-header-info">
+                            <a class="mobile-currency-active" href="#">Валюта <span><i class="icon-arrow-down"></i></span></a>
+                            <div class="lang-curr-dropdown curr-dropdown-active">
+                                <ul>
+                                    <li><a href="#">USD</a></li>
+                                    <li><a href="#">EUR</a></li>
+                                    <li><a href="#">Real</a></li>
+                                    <li><a href="#">BDT</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mobile-contact-info mobile-header-padding-border-4">
+                        <ul>
+                            <li><i class="icon-phone "></i> (+612) 2531 5600</li>
+                            <li><i class="icon-envelope-open "></i> norda@domain.com</li>
+                            <li><i class="icon-home"></i> PO Box 1622 Colins Street West Australia</li>
+                        </ul>
+                    </div>
+                    <div class="mobile-social-icon">
+                        <a class="facebook" href="#"><i class="icon-social-facebook"></i></a>
+                        <a class="twitter" href="#"><i class="icon-social-twitter"></i></a>
+                        <a class="pinterest" href="#"><i class="icon-social-pinterest"></i></a>
+                        <a class="instagram" href="#"><i class="icon-social-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="breadcrumb-area bg-gray">
             <div class="container">
-                <div class="breadcrumb-content text-center">
+                    <div class="breadcrumb-content text-center">
                     <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/">Shop</a></li>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/shop/">Магазин</a></li>
                         {% for category in product.categories.all %}
-                        <li><a href="/?category={{ category.id }}">{{ category.name }}</a></li>
+                        <li><a href="/shop/?category={{ category.id }}">{{ category.name }}</a></li>
                         {% endfor %}
                         <li class="active">{{ product.name|truncatechars:30 }}</li>
                     </ul>
@@ -231,11 +370,11 @@
                         <div class="product-details-content pro-details-content-mrg">
                             <h2>{{ product.name }}</h2>
                             {% if product.brand %}
-                            <h3>Brand: <span>{{ product.brand.name }}</span></h3>
+                            <h3>Бренд: <span>{{ product.brand.name }}</span></h3>
                             {% endif %}
                             
                             <div class="product-ratting-review-wrap">
-                                <div class="product-ratting-digit-wrap">
+                                <!-- <div class="product-ratting-digit-wrap">
                                     <div class="product-ratting">
                                         {% for i in "12345" %}
                                             {% if forloop.counter <= avg_rating %}
@@ -250,11 +389,11 @@
                                     <div class="product-digit">
                                         <span>{{ avg_rating|floatformat:1 }}</span>
                                     </div>
-                                </div>
-                                <div class="product-review-order">
+                                </div> -->
+                                <!-- <div class="product-review-order">
                                     <span>{{ product.reviews.count }} Reviews</span>
                                     <span>{{ product.times_ordered }} orders</span>
-                                </div>
+                                </div> -->
                             </div>
                             
                             <p>{{ product.short_description }}</p>
@@ -274,14 +413,14 @@
                             </div>
                             
                             {% if colors %}
-                            <div class="pro-details-color-wrap">
-                                <span>Color:</span>
+                                    <div class="pro-details-color-wrap">
+                                <span>Цвет:</span>
                                 <div class="pro-details-color-content">
                                     <ul id="color-list">
                                         {% for color in colors %}
                                         <li style="display: inline-block;">
                                             <div class="color-item {% if forloop.first %}active{% endif %}" 
-                                               data-color-index="{{ forloop.counter0 }}"
+                                               data-color-index="{{ forloop.counter0 }}" data-color-id="{{ color.id }}"
                                                style="{% if color.hex_code %}background-color: {{ color.hex_code }}{% else %}background-color: #ccc{% endif %};"
                                                title="{{ color.name }}">
                                             </div>
@@ -293,7 +432,7 @@
                             {% endif %}
                             
                             <div class="pro-details-size">
-                                <span>Size:</span>
+                                <span>Размер:</span>
                                 <div class="pro-details-size-content">
                                     <div id="size-list">
                                             {% for size in sizes %}
@@ -309,7 +448,7 @@
                             </div>
                             
                             <div class="pro-details-quality">
-                                <span>Quantity:</span>
+                                <span>Количество:</span>
                                 <div class="cart-plus-minus">
                                     <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1" min="1">
                                 </div>
@@ -317,19 +456,19 @@
                             
                             <div class="product-details-meta">
                                 <ul>
-                                    <li><span>SKU:</span> <a href="#">{{ product.sku|default:"N/A" }}</a></li>
-                                    <li><span>Categories:</span> 
+                                    <li><span>Артикул (SKU):</span> <a href="#">{{ product.sku|default:"N/A" }}</a></li>
+                                    <li><span>Категории:</span> 
                                         {% for category in product.categories.all %}
                                         <a href="/?category={{ category.id }}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
                                         {% empty %}
-                                        <a href="#">No categories</a>
+                                        <a href="#">Нет категорий</a>
                                         {% endfor %}
                                     </li>
-                                    <li><span>Tag:</span> 
+                                    <li><span>Теги:</span> 
                                         {% for tag in product.tags.all %}
                                         <a href="/?tag={{ tag.id }}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
                                         {% empty %}
-                                        <a href="#">No tags</a>
+                                        <a href="#">Нет тегов</a>
                                         {% endfor %}
                                     </li>
                                 </ul>
@@ -337,10 +476,11 @@
                             
                             <div class="pro-details-action-wrap">
                                 <div class="pro-details-add-to-cart">
-                                    <a title="Add to Cart" href="#" class="add-to-cart-btn">Add To Cart</a>
+                                    <button onclick="add_to_cart()" class="add-to-cart-btn  btn btn-dark" style="display: none;">Добавить в корзину</button>
+                                    <button onclick="remove_from_cart()" class="remove-from-cart-btn btn btn-danger" style="display: none;">Удалить из корзины</button>
                                 </div>
                                 <div class="pro-details-action">
-                                    <a title="Add to Wishlist" href="#"><i class="icon-heart"></i></a>
+                                    <!-- <a title="Add to Wishlist" href="#"><i class="icon-heart"></i></a>
                                     <a title="Add to Compare" href="#"><i class="icon-refresh"></i></a>
                                     <a class="social" title="Social" href="#"><i class="icon-share"></i></a>
                                     <div class="product-dec-social">
@@ -348,7 +488,7 @@
                                         <a class="twitter" title="Twitter" href="#"><i class="icon-social-twitter"></i></a>
                                         <a class="instagram" title="Instagram" href="#"><i class="icon-social-instagram"></i></a>
                                         <a class="pinterest" title="Pinterest" href="#"><i class="icon-social-pinterest"></i></a>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -362,8 +502,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="dec-review-topbar nav mb-45">
-                            <a class="active" data-toggle="tab" href="#des-details1">Description</a>
-                            <a data-toggle="tab" href="#des-details2">Reviews and Rating ({{ product.reviews.count }})</a>
+                            <a class="active" data-toggle="tab" href="#des-details1">Описание</a>
+                            <!-- <a data-toggle="tab" href="#des-details2">Отзывы и рейтинг ({{ product.reviews.count }})</a> -->
                         </div>
                         <div class="tab-content dec-review-bottom">
                             <div id="des-details1" class="tab-pane active">
@@ -373,10 +513,10 @@
                             </div>
                             
                             <div id="des-details2" class="tab-pane">
-                                <div class="review-wrapper">
-                                    {% if reviews %}
-                                    <h2>{{ reviews.count }} review{{ reviews.count|pluralize }} for {{ product.name }}</h2>
-                                    {% for review in reviews %}
+                                    <div class="review-wrapper">
+                                        {% if reviews %}
+                                        <h2>{{ reviews.count }} отзыв{{ reviews.count|pluralize }} для {{ product.name }}</h2>
+                                        {% for review in reviews %}
                                     <div class="single-review">
                                         <div class="review-img">
                                             <img src="/static/assets/images/product-details/client-1.png" alt="User">
@@ -404,34 +544,34 @@
                                     </div>
                                     {% endfor %}
                                     {% else %}
-                                    <h2>No reviews yet for {{ product.name }}</h2>
-                                    <p>Be the first to review this product!</p>
+                                    <h2>Ещё нет отзывов о {{ product.name }}</h2>
+                                    <p>Будьте первым, кто оставит отзыв об этом товаре!</p>
                                     {% endif %}
                                 </div>
                                 
                                 <div class="ratting-form-wrapper">
-                                    <span>Add a Review</span>
-                                    <p>Your email address will not be published. Required fields are marked <span>*</span></p>
+                                    <span>Добавить отзыв</span>
+                                    <p>Ваш адрес электронной почты не будет опубликован. Обязательные поля отмечены <span>*</span></p>
                                     <div class="ratting-form">
                                         <form action="#" method="post">
                                             {% csrf_token %}
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6">
                                                     <div class="rating-form-style mb-20">
-                                                        <label>Name <span>*</span></label>
+                                                        <label>Имя <span>*</span></label>
                                                         <input type="text" name="name" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6">
                                                     <div class="rating-form-style mb-20">
-                                                        <label>Email <span>*</span></label>
+                                                        <label>Электронная почта <span>*</span></label>
                                                         <input type="email" name="email" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <div class="star-box-wrap">
                                                         <div class="single-ratting-star">
-                                                            <label>Your Rating <span>*</span></label>
+                                                            <label>Ваша оценка <span>*</span></label>
                                                             <div class="rating-stars">
                                                                 <input type="radio" id="star5" name="rating" value="5" checked>
                                                                 <label for="star5"><i class="icon_star"></i></label>
@@ -449,13 +589,13 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="rating-form-style mb-20">
-                                                        <label>Your Review <span>*</span></label>
+                                                        <label>Ваш отзыв <span>*</span></label>
                                                         <textarea name="review" rows="5" required></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <div class="form-submit">
-                                                        <input type="submit" value="Submit">
+                                                        <input type="submit" value="Отправить">
                                                     </div>
                                                 </div>
                                             </div>
@@ -473,25 +613,25 @@
         <div class="related-product pb-115">
             <div class="container">
                 <div class="section-title mb-45 text-center">
-                    <h2>Related Products</h2>
+                    <h2>Похожие товары</h2>
                 </div>
                 <div class="related-product-active">
                     {% for related in related_products %}
                     <div class="product-plr-1">
                         <div class="single-product-wrap">
                             <div class="product-img product-img-zoom mb-15">
-                                <a href="/">
+                                <a href="/product/{{related.id}}">
                                     {% if related.image %}
                                     <img src="{{ related.image }}" alt="{{ related.name }}">
                                     {% else %}
                                     <img src="/static/assets/images/product/default.jpg" alt="{{ related.name }}">
                                     {% endif %}
                                 </a>
-                                <div class="product-action-2 tooltip-style-2">
+                                <!-- <div class="product-action-2 tooltip-style-2">
                                     <button title="Wishlist"><i class="icon-heart"></i></button>
                                     <button title="Quick View" data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i></button>
                                     <button title="Compare"><i class="icon-refresh"></i></button>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="product-content-wrap-2 text-center">
                                 <div class="product-rating-wrap">
@@ -539,7 +679,7 @@
                                     {% endif %}
                                 </div>
                                 <div class="pro-add-to-cart">
-                                    <button title="Add to Cart">Add To Cart</button>
+                                    <button title="Add to Cart" id="add_to_cart">Добавить в корзину</button>
                                 </div>
                             </div>
                         </div>
@@ -549,9 +689,51 @@
             </div>
         </div>
         {% endif %}
-
-        <footer class="footer-area bg-gray pb-30">
-            <!-- Footer kodlari -->
+        <footer class="footer-area bg-gray pb-30 pt-40">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="contact-info-wrap">
+                            <div class="footer-logo">
+                                <a href="#"><img src="/static/assets/images/logo/logo.svg" style="margin: 15px; width: 100px;" alt="logo"></a>
+                            </div>
+                            <div class="single-contact-info">
+                                <span>Наш адрес</span>
+                                <p>869 General Village Apt. 645, Moorebury, USA</p>
+                            </div>
+                            <div class="single-contact-info">
+                                <span>Горячая линия 24/7:</span>
+                                <p>(+99) 052 128 2399</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="footer-right-wrap">
+                            <div class="footer-menu">
+                                <nav>
+                                    <ul>
+                                        <li><a href="/">Главная</a></li>
+                                        <li><a href="/shop/">Магазин</a></li>
+                                        <li><a href="/shop/">Товар</a></li>
+                                        <li><a href="/contact/">Контакт</a></li>
+                                        <li><a href="blog.html">Блог</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div class="social-style-2 social-style-2-mrg">
+                                <a href="#"><i class="social_twitter"></i></a>
+                                <a href="#"><i class="social_facebook"></i></a>
+                                <a href="#"><i class="social_googleplus"></i></a>
+                                <a href="#"><i class="social_instagram"></i></a>
+                                <a href="#"><i class="social_youtube"></i></a>
+                            </div>
+                            <div class="copyright">
+                                <p>Авторские права © 2020 HasThemes | <a href="https://hasthemes.com/">Создано с помощью <span>Norda</span> от HasThemes</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </footer>
     </div>
 
@@ -574,245 +756,311 @@
     <script src="/static/assets/js/main.js"></script>
 
     <!-- Colors ma'lumotlarini JavaScript uchun -->
+
     <script>
-        // Colors ma'lumotlarini global o'zgaruvchiga saqlaymiz
-        var productColors = {{ colors_json|safe }};
         
-        $(document).ready(function() {
-            // Joriy tanlangan rang indeksi (0 dan boshlanadi)
-            var currentColorIndex = 0;
+        function change_cart_button(){
+            let size = $('.size-item.active').data('size-id')
+            let color = $('.color-item.active').data('color-id')
+            let product = '{{product.id}}'
+            $.ajax({
+                url: '/change_cart_view/',
+                method: 'get',
+                data: {
+                    'product_id': product,
+                    'color_id': color,
+                    'size_id': size
+                },
+                success: function(res){
+                    if(res.view === 'add'){
+                        $('.remove-from-cart-btn').hide()
+                        $('.add-to-cart-btn').show()
+                    }else{
+                        $('.add-to-cart-btn').hide()
+                        $('.remove-from-cart-btn').show()
+                        $('.cart-plus-minus-box').val(res.count)
+                    }
+                },
+                error: function(res, err){
+                    console.log(res, err)
+                }
+            })
+        }
+
+        change_cart_button()
+        
+        function add_to_cart() {
+            let size = $('.size-item.active').data('size-id')
+            let color = $('.color-item.active').data('color-id')
+            let product = '{{product.id}}'
+            let count = $('.cart-plus-minus-box').val()
+            console.log(size, color, product, count);
+            $.ajax({
+                url: '/add_to_cart/',
+                method: 'get',
+                data: {
+                    'product_id': product,
+                    'color_id': color,
+                    'size_id': size,
+                    'count': count
+                },
+                success: function(res){
+                    console.log(res)
+                    change_cart_button()
+                },
+                error: function(res, err){
+                    console.log(res, err)
+                }
+            })
+        }
+        
+        $('.qtybutton').click(function(){
+            add_to_cart()
+        })
+        </script>
+
+        <script>
+            // Colors ma'lumotlarini global o'zgaruvchiga saqlaymiz
+            var productColors = {{ colors_json|safe }};
             
-            // Rang tanlash
-            $('.color-item').on('click', function(e) {
-                e.preventDefault();
+            $(document).ready(function() {
+                // Joriy tanlangan rang indeksi (0 dan boshlanadi)
+                var currentColorIndex = 0;
+                $('.size-item').on('click', function(e) {
+                    change_cart_button()
+                })
+                // Rang tanlash
+                $('.color-item').on('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Yangi rang indeksini olish
+                    var newColorIndex = $(this).data('color-index');
+                    
+                    // Agar bir xil rang tanlansa, hech narsa qilmaymiz
+                    if (newColorIndex === currentColorIndex) return;
+                    
+                    // Eski rangdan active classini olib tashlash
+                    $('.color-item').removeClass('active');
+                    // Yangi rangga active classini qo'shish
+                    $(this).addClass('active');
+                    
+                    // Joriy rang indeksini yangilash
+                    currentColorIndex = newColorIndex;
+                    
+                    // Yangi rang ma'lumotlarini olish
+                    var selectedColor = productColors[currentColorIndex];
+                    
+                    // Rasmlarni yangilash
+                    updateProductImages(selectedColor.images);
+                    
+                    // O'lchamlarni yangilash
+                    updateAvailableSizes(selectedColor.sizes);
+                    
+                    // Narxni yangilash (agar rang narxga ta'sir qilsa)
+                    updateProductPrice(selectedColor.price);
+
+                    change_cart_button()
+                });
                 
-                // Yangi rang indeksini olish
-                var newColorIndex = $(this).data('color-index');
+                // O'lcham tanlash
+                $(document).on('click', '.size-item:not(.disabled)', function(e) {
+                    e.preventDefault();
+                    $('.size-item').removeClass('active');
+                    $(this).addClass('active');
+                });
                 
-                // Agar bir xil rang tanlansa, hech narsa qilmaymiz
-                if (newColorIndex === currentColorIndex) return;
-                
-                // Eski rangdan active classini olib tashlash
-                $('.color-item').removeClass('active');
-                // Yangi rangga active classini qo'shish
-                $(this).addClass('active');
-                
-                // Joriy rang indeksini yangilash
-                currentColorIndex = newColorIndex;
-                
-                // Yangi rang ma'lumotlarini olish
-                var selectedColor = productColors[currentColorIndex];
-                
-                // Rasmlarni yangilash
-                updateProductImages(selectedColor.images);
-                
-                // O'lchamlarni yangilash
-                updateAvailableSizes(selectedColor.sizes);
-                
-                // Narxni yangilash (agar rang narxga ta'sir qilsa)
-                updateProductPrice(selectedColor.price);
-            });
-            
-            // O'lcham tanlash
-            $(document).on('click', '.size-item:not(.disabled)', function(e) {
-                e.preventDefault();
-                $('.size-item').removeClass('active');
-                $(this).addClass('active');
-            });
-            
-            // Rasmlarni yangilash funksiyasi
-            function updateProductImages(images) {
-                var mainSlider = $('#main-image-slider');
-                var thumbSlider = $('#thumbnail-slider');
-                
-                // Sliderlarni tozalash
-                mainSlider.slick('unslick');
-                thumbSlider.slick('unslick');
-                mainSlider.empty();
-                thumbSlider.empty();
-                
-                // Yangi rasmlarni qo'shish
-                if (images && images.length > 0) {
-                    images.forEach(function(image, index) {
-                        // Asosiy slider uchun
+                // Rasmlarni yangilash funksiyasi
+                function updateProductImages(images) {
+                    var mainSlider = $('#main-image-slider');
+                    var thumbSlider = $('#thumbnail-slider');
+                    
+                    // Sliderlarni tozalash
+                    mainSlider.slick('unslick');
+                    thumbSlider.slick('unslick');
+                    mainSlider.empty();
+                    thumbSlider.empty();
+                    
+                    // Yangi rasmlarni qo'shish
+                    if (images && images.length > 0) {
+                        images.forEach(function(image, index) {
+                            // Asosiy slider uchun
+                            mainSlider.append(`
+                                <div class="easyzoom-style">
+                                    <div class="easyzoom easyzoom--overlay">
+                                        <a href="${image}">
+                                            <img src="${image}" alt="Product Image">
+                                        </a>
+                                    </div>
+                                    <a class="easyzoom-pop-up img-popup" href="${image}">
+                                        <i class="icon-size-fullscreen"></i>
+                                    </a>
+                                </div>
+                            `);
+                            
+                            // Thumbnail slider uchun
+                            thumbSlider.append(`
+                                <div class="product-dec-small ${index === 0 ? 'active' : ''}">
+                                    <img src="${image}" alt="Product Image">
+                                </div>
+                            `);
+                        });
+                    } else {
+                        // Agar rasm bo'lmasa, default rasm
+                        var defaultImage = '/static/assets/images/product/default.jpg';
                         mainSlider.append(`
                             <div class="easyzoom-style">
                                 <div class="easyzoom easyzoom--overlay">
-                                    <a href="${image}">
-                                        <img src="${image}" alt="Product Image">
+                                    <a href="${defaultImage}">
+                                        <img src="${defaultImage}" alt="Product Image">
                                     </a>
                                 </div>
-                                <a class="easyzoom-pop-up img-popup" href="${image}">
+                                <a class="easyzoom-pop-up img-popup" href="${defaultImage}">
                                     <i class="icon-size-fullscreen"></i>
                                 </a>
                             </div>
                         `);
                         
-                        // Thumbnail slider uchun
                         thumbSlider.append(`
-                            <div class="product-dec-small ${index === 0 ? 'active' : ''}">
-                                <img src="${image}" alt="Product Image">
+                            <div class="product-dec-small active">
+                                <img src="${defaultImage}" alt="Product Image">
                             </div>
                         `);
-                    });
-                } else {
-                    // Agar rasm bo'lmasa, default rasm
-                    var defaultImage = '/static/assets/images/product/default.jpg';
-                    mainSlider.append(`
-                        <div class="easyzoom-style">
-                            <div class="easyzoom easyzoom--overlay">
-                                <a href="${defaultImage}">
-                                    <img src="${defaultImage}" alt="Product Image">
-                                </a>
-                            </div>
-                            <a class="easyzoom-pop-up img-popup" href="${defaultImage}">
-                                <i class="icon-size-fullscreen"></i>
-                            </a>
-                        </div>
-                    `);
-                    
-                    thumbSlider.append(`
-                        <div class="product-dec-small active">
-                            <img src="${defaultImage}" alt="Product Image">
-                        </div>
-                    `);
-                }
-                
-                // Sliderlarni qayta ishga tushirish
-                initProductSliders();
-                
-                // EasyZoom ni qayta ishga tushirish
-                initEasyZoom();
-            }
-            
-            // O'lchamlarni yangilash funksiyasi
-            function updateAvailableSizes(sizes) {
-                var sizeList = $('#size-list');
-                sizeList.empty();
-                
-                if (sizes && sizes.length > 0) {
-                    sizes.forEach(function(size, index) {
-                        sizeList.append(`
-                            <span class="size-item ${index === 0 ? 'active' : ''}" 
-                                  data-size-id="${size.id}">
-                                ${size.value}
-                            </span>
-                        `);
-                    });
-                } else {
-                    sizeList.append('<span class="disabled">No sizes available</span>');
-                }
-            }
-            
-            // Narxni yangilash funksiyasi
-            function updateProductPrice(price) {
-                $('#product-price').html('$' + price);
-            }
-            
-            // Sliderlarni ishga tushirish funksiyasi
-            function initProductSliders() {
-                // Asosiy slider
-                $('#main-image-slider').slick({
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    arrows: false,
-                    fade: true,
-                    asNavFor: '#thumbnail-slider',
-                    adaptiveHeight: true
-                });
-                
-                // Thumbnail slider
-                $('#thumbnail-slider').slick({
-                    slidesToShow: 4,
-                    slidesToScroll: 1,
-                    asNavFor: '#main-image-slider',
-                    dots: false,
-                    focusOnSelect: true,
-                    arrows: false,
-                    infinite: true,
-                    responsive: [
-                        {
-                            breakpoint: 768,
-                            settings: {
-                                slidesToShow: 3
-                            }
-                        },
-                        {
-                            breakpoint: 480,
-                            settings: {
-                                slidesToShow: 2
-                            }
-                        }
-                    ]
-                });
-            }
-            
-            // EasyZoom ni ishga tushirish
-            function initEasyZoom() {
-                $('.easyzoom').easyZoom();
-            }
-            
-            // Sahifa yuklanganda sliderlarni ishga tushirish
-            initProductSliders();
-            initEasyZoom();
-            
-            // Miqdor o'zgartirish
-            $('.cart-plus-minus').each(function() {
-                var $this = $(this),
-                    $input = $this.find('input'),
-                    $minus = $('<button type="button" class="dec qtybutton">-</button>'),
-                    $plus = $('<button type="button" class="inc qtybutton">+</button>');
-                
-                $input.wrap('<div class="cart-plus-minus-box"></div>');
-                $this.prepend($minus);
-                $this.append($plus);
-                
-                $minus.on('click', function() {
-                    var value = parseInt($input.val());
-                    if (value > 1) {
-                        $input.val(value - 1);
                     }
-                });
-                
-                $plus.on('click', function() {
-                    var value = parseInt($input.val());
-                    $input.val(value + 1);
-                });
-            });
-            
-            // Savatga qo'shish
-            $('.add-to-cart-btn').on('click', function(e) {
-                e.preventDefault();
-                
-                var selectedColor = $('.color-item.active');
-                var selectedSize = $('.size-item.active');
-                var quantity = $('.cart-plus-minus-box').val();
-                
-                if (!selectedColor.length) {
-                    alert('Please select a color');
-                    return;
+                    
+                    // Sliderlarni qayta ishga tushirish
+                    initProductSliders();
+                    
+                    // EasyZoom ni qayta ishga tushirish
+                    initEasyZoom();
                 }
                 
-                if (!selectedSize.length || selectedSize.hasClass('disabled')) {
-                    alert('Please select a size');
-                    return;
+                // O'lchamlarni yangilash funksiyasi
+                function updateAvailableSizes(sizes) {
+                    var sizeList = $('#size-list');
+                    sizeList.empty();
+                    
+                    if (sizes && sizes.length > 0) {
+                        sizes.forEach(function(size, index) {
+                            sizeList.append(`
+                                <span class="size-item ${index === 0 ? 'active' : ''}" 
+                                      data-size-id="${size.id}">
+                                    ${size.value}
+                                </span>
+                            `);
+                        });
+                    } else {
+                        sizeList.append('<span class="disabled">No sizes available</span>');
+                    }
                 }
                 
-                var colorId = productColors[currentColorIndex].id;
-                var sizeId = selectedSize.data('size-id');
+                // Narxni yangilash funksiyasi
+                function updateProductPrice(price) {
+                    $('#product-price').html('$' + price);
+                }
                 
-                // Bu yerda AJAX so'rovi yuborishingiz mumkin
-                console.log('Adding to cart:', {
-                    colorId: colorId,
-                    sizeId: sizeId,
-                    quantity: quantity
+                // Sliderlarni ishga tushirish funksiyasi
+                function initProductSliders() {
+                    // Asosiy slider
+                    $('#main-image-slider').slick({
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        arrows: false,
+                        fade: true,
+                        asNavFor: '#thumbnail-slider',
+                        adaptiveHeight: true
+                    });
+                    
+                    // Thumbnail slider
+                    $('#thumbnail-slider').slick({
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        asNavFor: '#main-image-slider',
+                        dots: false,
+                        focusOnSelect: true,
+                        arrows: false,
+                        infinite: true,
+                        responsive: [
+                            {
+                                breakpoint: 768,
+                                settings: {
+                                    slidesToShow: 3
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 2
+                                }
+                            }
+                        ]
+                    });
+                }
+                
+                // EasyZoom ni ishga tushirish
+                function initEasyZoom() {
+                    $('.easyzoom').easyZoom();
+                }
+                
+                // Sahifa yuklanganda sliderlarni ishga tushirish
+                initProductSliders();
+                initEasyZoom();
+                
+                // Miqdor o'zgartirish
+                $('.cart-plus-minus').each(function() {
+                    var $this = $(this),
+                        $input = $this.find('input'),
+                        $minus = $('<button type="button" class="dec qtybutton">-</button>'),
+                        $plus = $('<button type="button" class="inc qtybutton">+</button>');
+                    
+                    $input.wrap('<div class="cart-plus-minus-box"></div>');
+                    $this.prepend($minus);
+                    $this.append($plus);
+                    
+                    $minus.on('click', function() {
+                        var value = parseInt($input.val());
+                        if (value > 1) {
+                            $input.val(value - 1);
+                        }
+                    });
+                    
+                    $plus.on('click', function() {
+                        var value = parseInt($input.val());
+                        $input.val(value + 1);
+                    });
                 });
                 
-                alert('Product added to cart!');
+                // Savatga qo'shish
+                $('.add-to-cart-btn').on('click', function(e) {
+                    e.preventDefault();
+                    
+                    var selectedColor = $('.color-item.active');
+                    var selectedSize = $('.size-item.active');
+                    var quantity = $('.cart-plus-minus-box').val();
+                    
+                    if (!selectedColor.length) {
+                        alert('Please select a color');
+                        return;
+                    }
+                    
+                    if (!selectedSize.length || selectedSize.hasClass('disabled')) {
+                        alert('Please select a size');
+                        return;
+                    }
+                    
+                    var colorId = productColors[currentColorIndex].id;
+                    var sizeId = selectedSize.data('size-id');
+                    
+                    // Bu yerda AJAX so'rovi yuborishingiz mumkin
+                    console.log('Adding to cart:', {
+                        colorId: colorId,
+                        sizeId: sizeId,
+                        quantity: quantity
+                    });
+                    
+                    alert('Product added to cart!');
+                });
             });
-        });
-    </script>
-
+        </script>
 </body>
 
 </html>
