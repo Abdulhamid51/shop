@@ -1,32 +1,8 @@
-<!doctype html>
-    <html class="no-js" lang="en">
+{% extends 'wrapper.html' %}
 {% load humanize %}
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Мистер Мартенс - {{ product.name }}</title>
-    <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="{{ product.short_description }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="/static/assets/images/favicon.png">
 
-    <!-- All CSS is here -->
-    <link rel="stylesheet" href="/static/assets/css/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/assets/css/vendor/signericafat.css">
-    <link rel="stylesheet" href="/static/assets/css/vendor/cerebrisans.css">
-    <link rel="stylesheet" href="/static/assets/css/vendor/simple-line-icons.css">
-    <link rel="stylesheet" href="/static/assets/css/vendor/elegant.css">
-    <link rel="stylesheet" href="/static/assets/css/vendor/linear-icon.css">
-    <link rel="stylesheet" href="/static/assets/css/plugins/nice-select.css">
-    <link rel="stylesheet" href="/static/assets/css/plugins/easyzoom.css">
-    <link rel="stylesheet" href="/static/assets/css/plugins/slick.css">
-    <link rel="stylesheet" href="/static/assets/css/plugins/animate.css">
-    <link rel="stylesheet" href="/static/assets/css/plugins/magnific-popup.css">
-    <link rel="stylesheet" href="/static/assets/css/plugins/jquery-ui.css">
-    <link rel="stylesheet" href="/static/assets/css/style.css">
-
-    <style>
+{% block content %}
+ <style>
         .color-item {
             display: inline-block;
             width: 30px;
@@ -63,205 +39,24 @@
             cursor: not-allowed;
             text-decoration: line-through;
         }
+        /* Ensure size items appear in one horizontal row without changing classes */
+        #size-list {
+            display: flex;
+            flex-wrap: nowrap; /* keep items on one line */
+            gap: 8px;
+            align-items: center;
+            overflow-x: auto; /* allow horizontal scroll on small screens */
+            -webkit-overflow-scrolling: touch;
+        }
+        .pro-details-size .pro-details-size-content {
+            width: 100%;
+        }
+        .size-item {
+            display: inline-flex; /* keep existing appearance but ensure inline layout */
+            white-space: nowrap;
+        }
     </style>
-</head>
-
-<body>
-
-    <div class="main-wrapper">
-        <header class="header-area">
-            <div class="container">
-                <div class="header-large-device">
-                    <div class="header-bottom">
-                        <div class="row align-items-center">
-                            <div class="col-xl-2 col-lg-2">
-                                <div class="logo">
-                                    <a href="/"><img src="/static/assets/images/logo/logo.svg" style="margin: 15px; width: 100px;" alt="logo"></a>
-                                </div>
-                            </div>
-                            <div class="col-xl-8 col-lg-7">
-                                <div class="main-menu main-menu-padding-1 main-menu-lh-1">
-                                    <nav>
-                                        <ul>
-                                            <li><a href="/">ГЛАВНАЯ</a></li>
-                                            <li><a href="/shop/">МАГАЗИН</a></li>
-                                            <li><a href="/contact/">КОНТАКТЫ</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                            <div class="col-xl-2 col-lg-3">
-                                <div class="header-action header-action-flex header-action-mrg-right">
-                                    
-                                    <div class="same-style-2 header-cart">
-                                        <a class="cart-active" href="#">
-                                            <i class="icon-basket-loaded"></i><span class="pro-count red">02</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="header-small-device small-device-ptb-1">
-                    <div class="row align-items-center">
-                        <div class="col-5">
-                            <div class="mobile-logo">
-                                <a href="index.html">
-                                    <img alt="" src="assets/images/logo/logo.png">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-7">
-                            <div class="header-action header-action-flex">
-                                <div class="same-style-2">
-                                    <a href="login-register.html"><i class="icon-user"></i></a>
-                                </div>
-                                <div class="same-style-2">
-                                    <a href="wishlist.html"><i class="icon-heart"></i><span class="pro-count red">03</span></a>
-                                </div>
-                                <div class="same-style-2 header-cart">
-                                    <a class="cart-active" href="#">
-                                        <i class="icon-basket-loaded"></i><span class="pro-count red">02</span>
-                                    </a>
-                                </div>
-                                <div class="same-style-2 main-menu-icon">
-                                    <a class="mobile-header-button-active" href="#"><i class="icon-menu"></i> </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <div class="mobile-header-active mobile-header-wrapper-style">
-            <div class="clickalbe-sidebar-wrap">
-                <a class="sidebar-close"><i class="icon_close"></i></a>
-                <div class="mobile-header-content-area">
-                    <div class="header-offer-wrap mobile-header-padding-border-4">
-                        <p><i class="icon-paper-plane"></i> БЕСПЛАТНАЯ ДОСТАВКА по всему миру для всех заказов свыше <span>$199</span></p>
-                    </div>
-                    <div class="mobile-search mobile-header-padding-border-1">
-                        <form class="search-form" action="#">
-                            <input type="text" placeholder="Search here…">
-                            <button class="button-search"><i class="icon-magnifier"></i></button>
-                        </form>
-                    </div>
-                    <div class="mobile-menu-wrap mobile-header-padding-border-2">
-                        <!-- mobile menu start -->
-                        <nav>
-                            <ul class="mobile-menu">
-                                <li class="menu-item-has-children"><a href="index.html">Главная</a>
-                                    <ul class="dropdown">
-                                        <li><a href="index.html">Главная версия 1</a></li>
-                                        <li><a href="index-2.html">Главная версия 2</a></li>
-                                        <li><a href="index-3.html">Главная версия 3</a></li>
-                                        <li><a href="index-4.html">Главная версия 4</a></li>
-                                        <li><a href="index-5.html">Главная версия 5</a></li>
-                                        <li><a href="index-6.html">Главная версия 6</a></li>
-                                        <li><a href="index-7.html">Главная версия 7</a></li>
-                                        <li><a href="index-8.html">Главная версия 8</a></li>
-                                        <li><a href="index-9.html">Главная версия 9</a></li>
-                                        <li><a href="index-10.html">Главная версия 10</a></li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item-has-children "><a href="#">Магазин</a>
-                                    <ul class="dropdown">
-                                        <li class="menu-item-has-children"><a href="#">Макет магазина</a>
-                                            <ul class="dropdown">
-                                                <li><a href="shop.html">Стандартный стиль</a></li>
-                                                <li><a href="shop-list.html">Стиль списка</a></li>
-                                                <li><a href="shop-fullwide.html">Полноширинный</a></li>
-                                                <li><a href="shop-no-sidebar.html">Сетка без сайдбара</a></li>
-                                                <li><a href="shop-list-no-sidebar.html">Список без сайдбара</a></li>
-                                                <li><a href="shop-right-sidebar.html">Правый сайдбар</a></li>
-                                                <li><a href="store-location.html">Расположение магазина</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item-has-children"><a href="#">Макет товаров</a>
-                                            <ul class="dropdown">
-                                                <li><a href="product-details.html">Вкладка стиль 1</a></li>
-                                                <li><a href="product-details-2.html">Вкладка стиль 2</a></li>
-                                                <li><a href="product-details-sticky.html">Липкий стиль</a></li>
-                                                <li><a href="product-details-gallery.html">Галерея</a></li>
-                                                <li><a href="product-details-affiliate.html">Партнёрский стиль</a></li>
-                                                <li><a href="product-details-group.html">Групповой стиль</a></li>
-                                                <li><a href="product-details-fixed-img.html">Фиксированное изображение</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item-has-children"><a href="#">Страницы</a>
-                                    <ul class="dropdown">
-                                        <li><a href="about-us.html">О нас</a></li>
-                                        <li><a href="cart.html">Корзина</a></li>
-                                        <li><a href="checkout.html">Оформление заказа</a></li>
-                                        <li><a href="my-account.html">Мой аккаунт</a></li>
-                                        <li><a href="wishlist.html">Список желаний</a></li>
-                                        <li><a href="compare.html">Сравнить</a></li>
-                                        <li><a href="contact.html">Связаться с нами</a></li>
-                                        <li><a href="order-tracking.html">Отслеживание заказа</a></li>
-                                        <li><a href="login-register.html">Вход / Регистрация</a></li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item-has-children "><a href="#">Блог</a>
-                                    <ul class="dropdown">
-                                        <li><a href="blog.html">Блог стандарт</a></li>
-                                        <li><a href="blog-no-sidebar.html">Блог без сайдбара</a></li>
-                                        <li><a href="blog-right-sidebar.html">Блог с правым сайдбаром</a></li>
-                                        <li><a href="blog-details.html">Детали блога</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="contact.html">Связаться с нами</a></li>
-                            </ul>
-                        </nav>
-                        <!-- mobile menu end -->
-                    </div>
-                    <div class="mobile-header-info-wrap mobile-header-padding-border-3">
-                        <div class="single-mobile-header-info">
-                            <a href="order-tracking.html"><i class="lastudioicon-pin-3-2"></i> Отследить заказ </a>
-                        </div>
-                        <div class="single-mobile-header-info">
-                            <a class="mobile-language-active" href="#">Язык <span><i class="icon-arrow-down"></i></span></a>
-                            <div class="lang-curr-dropdown lang-dropdown-active">
-                                <ul>
-                                    <li><a href="#">Английский</a></li>
-                                    <li><a href="#">Французский</a></li>
-                                    <li><a href="#">Немецкий</a></li>
-                                    <li><a href="#">Испанский</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="single-mobile-header-info">
-                            <a class="mobile-currency-active" href="#">Валюта <span><i class="icon-arrow-down"></i></span></a>
-                            <div class="lang-curr-dropdown curr-dropdown-active">
-                                <ul>
-                                    <li><a href="#">USD</a></li>
-                                    <li><a href="#">EUR</a></li>
-                                    <li><a href="#">Real</a></li>
-                                    <li><a href="#">BDT</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mobile-contact-info mobile-header-padding-border-4">
-                        <ul>
-                            <li><i class="icon-phone "></i> (+612) 2531 5600</li>
-                            <li><i class="icon-envelope-open "></i> norda@domain.com</li>
-                            <li><i class="icon-home"></i> PO Box 1622 Colins Street West Australia</li>
-                        </ul>
-                    </div>
-                    <div class="mobile-social-icon">
-                        <a class="facebook" href="#"><i class="icon-social-facebook"></i></a>
-                        <a class="twitter" href="#"><i class="icon-social-twitter"></i></a>
-                        <a class="pinterest" href="#"><i class="icon-social-pinterest"></i></a>
-                        <a class="instagram" href="#"><i class="icon-social-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+    
         <div class="breadcrumb-area bg-gray">
             <div class="container">
                     <div class="breadcrumb-content text-center">
@@ -456,7 +251,7 @@
                             
                             <div class="product-details-meta">
                                 <ul>
-                                    <li><span>Артикул (SKU):</span> <a href="#">{{ product.sku|default:"N/A" }}</a></li>
+                                    <!-- <li><span>Артикул (SKU):</span> <a href="#">{{ product.sku|default:"N/A" }}</a></li> -->
                                     <li><span>Категории:</span> 
                                         {% for category in product.categories.all %}
                                         <a href="/?category={{ category.id }}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
@@ -689,71 +484,8 @@
             </div>
         </div>
         {% endif %}
-        <footer class="footer-area bg-gray pb-30 pt-40">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="contact-info-wrap">
-                            <div class="footer-logo">
-                                <a href="#"><img src="/static/assets/images/logo/logo.svg" style="margin: 15px; width: 100px;" alt="logo"></a>
-                            </div>
-                            <div class="single-contact-info">
-                                <span>Наш адрес</span>
-                                <p>869 General Village Apt. 645, Moorebury, USA</p>
-                            </div>
-                            <div class="single-contact-info">
-                                <span>Горячая линия 24/7:</span>
-                                <p>(+99) 052 128 2399</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="footer-right-wrap">
-                            <div class="footer-menu">
-                                <nav>
-                                    <ul>
-                                        <li><a href="/">Главная</a></li>
-                                        <li><a href="/shop/">Магазин</a></li>
-                                        <li><a href="/shop/">Товар</a></li>
-                                        <li><a href="/contact/">Контакт</a></li>
-                                        <li><a href="blog.html">Блог</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                            <div class="social-style-2 social-style-2-mrg">
-                                <a href="#"><i class="social_twitter"></i></a>
-                                <a href="#"><i class="social_facebook"></i></a>
-                                <a href="#"><i class="social_googleplus"></i></a>
-                                <a href="#"><i class="social_instagram"></i></a>
-                                <a href="#"><i class="social_youtube"></i></a>
-                            </div>
-                            <div class="copyright">
-                                <p>Авторские права © 2020 HasThemes | <a href="https://hasthemes.com/">Создано с помощью <span>Norda</span> от HasThemes</a>.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </div>
 
     <!-- JavaScript fayllari -->
-    <script src="/static/assets/js/vendor/modernizr-3.6.0.min.js"></script>
-    <script src="/static/assets/js/vendor/jquery-3.5.1.min.js"></script>
-    <script src="/static/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
-    <script src="/static/assets/js/vendor/bootstrap.bundle.min.js"></script>
-    <script src="/static/assets/js/plugins/slick.js"></script>
-    <script src="/static/assets/js/plugins/jquery.syotimer.min.js"></script>
-    <script src="/static/assets/js/plugins/jquery.nice-select.min.js"></script>
-    <script src="/static/assets/js/plugins/wow.js"></script>
-    <script src="/static/assets/js/plugins/jquery-ui-touch-punch.js"></script>
-    <script src="/static/assets/js/plugins/jquery-ui.js"></script>
-    <script src="/static/assets/js/plugins/magnific-popup.js"></script>
-    <script src="/static/assets/js/plugins/sticky-sidebar.js"></script>
-    <script src="/static/assets/js/plugins/easyzoom.js"></script>
-    <script src="/static/assets/js/plugins/scrollup.js"></script>
-    <script src="/static/assets/js/plugins/ajax-mail.js"></script>
-    <script src="/static/assets/js/main.js"></script>
 
     <!-- Colors ma'lumotlarini JavaScript uchun -->
 
@@ -817,250 +549,252 @@
         $('.qtybutton').click(function(){
             add_to_cart()
         })
-        </script>
+    </script>
 
-        <script>
-            // Colors ma'lumotlarini global o'zgaruvchiga saqlaymiz
-            var productColors = {{ colors_json|safe }};
+    <script>
+        // Colors ma'lumotlarini global o'zgaruvchiga saqlaymiz
+        var productColors = {{ colors_json|safe }};
+        
+        $(document).ready(function() {
+            // Joriy tanlangan rang indeksi (0 dan boshlanadi)
+            var currentColorIndex = 0;
+            $('.size-item').on('click', function(e) {
+                change_cart_button()
+            })
+            // Rang tanlash
+            $('.color-item').on('click', function(e) {
+                e.preventDefault();
+                
+                // Yangi rang indeksini olish
+                var newColorIndex = $(this).data('color-index');
+                
+                // Agar bir xil rang tanlansa, hech narsa qilmaymiz
+                if (newColorIndex === currentColorIndex) return;
+                
+                // Eski rangdan active classini olib tashlash
+                $('.color-item').removeClass('active');
+                // Yangi rangga active classini qo'shish
+                $(this).addClass('active');
+                
+                // Joriy rang indeksini yangilash
+                currentColorIndex = newColorIndex;
+                
+                // Yangi rang ma'lumotlarini olish
+                var selectedColor = productColors[currentColorIndex];
+                
+                // Rasmlarni yangilash
+                updateProductImages(selectedColor.images);
+                
+                // O'lchamlarni yangilash
+                updateAvailableSizes(selectedColor.sizes);
+                
+                    // Narxni yangilash отключен при смене цвета (не менять цену при смене цвета)
+                    // (updateProductPrice вызван не будет)
+
+                change_cart_button()
+            });
             
-            $(document).ready(function() {
-                // Joriy tanlangan rang indeksi (0 dan boshlanadi)
-                var currentColorIndex = 0;
-                $('.size-item').on('click', function(e) {
-                    change_cart_button()
-                })
-                // Rang tanlash
-                $('.color-item').on('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Yangi rang indeksini olish
-                    var newColorIndex = $(this).data('color-index');
-                    
-                    // Agar bir xil rang tanlansa, hech narsa qilmaymiz
-                    if (newColorIndex === currentColorIndex) return;
-                    
-                    // Eski rangdan active classini olib tashlash
-                    $('.color-item').removeClass('active');
-                    // Yangi rangga active classini qo'shish
-                    $(this).addClass('active');
-                    
-                    // Joriy rang indeksini yangilash
-                    currentColorIndex = newColorIndex;
-                    
-                    // Yangi rang ma'lumotlarini olish
-                    var selectedColor = productColors[currentColorIndex];
-                    
-                    // Rasmlarni yangilash
-                    updateProductImages(selectedColor.images);
-                    
-                    // O'lchamlarni yangilash
-                    updateAvailableSizes(selectedColor.sizes);
-                    
-                    // Narxni yangilash (agar rang narxga ta'sir qilsa)
-                    updateProductPrice(selectedColor.price);
-
-                    change_cart_button()
-                });
+            // O'lcham tanlash
+            $(document).on('click', '.size-item:not(.disabled)', function(e) {
+                e.preventDefault();
+                $('.size-item').removeClass('active');
+                $(this).addClass('active');
+            });
+            
+            // Rasmlarni yangilash funksiyasi
+            function updateProductImages(images) {
+                var mainSlider = $('#main-image-slider');
+                var thumbSlider = $('#thumbnail-slider');
                 
-                // O'lcham tanlash
-                $(document).on('click', '.size-item:not(.disabled)', function(e) {
-                    e.preventDefault();
-                    $('.size-item').removeClass('active');
-                    $(this).addClass('active');
-                });
+                // Sliderlarni tozalash
+                mainSlider.slick('unslick');
+                thumbSlider.slick('unslick');
+                mainSlider.empty();
+                thumbSlider.empty();
                 
-                // Rasmlarni yangilash funksiyasi
-                function updateProductImages(images) {
-                    var mainSlider = $('#main-image-slider');
-                    var thumbSlider = $('#thumbnail-slider');
-                    
-                    // Sliderlarni tozalash
-                    mainSlider.slick('unslick');
-                    thumbSlider.slick('unslick');
-                    mainSlider.empty();
-                    thumbSlider.empty();
-                    
-                    // Yangi rasmlarni qo'shish
-                    if (images && images.length > 0) {
-                        images.forEach(function(image, index) {
-                            // Asosiy slider uchun
-                            mainSlider.append(`
-                                <div class="easyzoom-style">
-                                    <div class="easyzoom easyzoom--overlay">
-                                        <a href="${image}">
-                                            <img src="${image}" alt="Product Image">
-                                        </a>
-                                    </div>
-                                    <a class="easyzoom-pop-up img-popup" href="${image}">
-                                        <i class="icon-size-fullscreen"></i>
-                                    </a>
-                                </div>
-                            `);
-                            
-                            // Thumbnail slider uchun
-                            thumbSlider.append(`
-                                <div class="product-dec-small ${index === 0 ? 'active' : ''}">
-                                    <img src="${image}" alt="Product Image">
-                                </div>
-                            `);
-                        });
-                    } else {
-                        // Agar rasm bo'lmasa, default rasm
-                        var defaultImage = '/static/assets/images/product/default.jpg';
+                // Yangi rasmlarni qo'shish
+                if (images && images.length > 0) {
+                    images.forEach(function(image, index) {
+                        // Asosiy slider uchun
                         mainSlider.append(`
                             <div class="easyzoom-style">
                                 <div class="easyzoom easyzoom--overlay">
-                                    <a href="${defaultImage}">
-                                        <img src="${defaultImage}" alt="Product Image">
+                                    <a href="${image}">
+                                        <img src="${image}" alt="Product Image">
                                     </a>
                                 </div>
-                                <a class="easyzoom-pop-up img-popup" href="${defaultImage}">
+                                <a class="easyzoom-pop-up img-popup" href="${image}">
                                     <i class="icon-size-fullscreen"></i>
                                 </a>
                             </div>
                         `);
                         
+                        // Thumbnail slider uchun
                         thumbSlider.append(`
-                            <div class="product-dec-small active">
-                                <img src="${defaultImage}" alt="Product Image">
+                            <div class="product-dec-small ${index === 0 ? 'active' : ''}">
+                                <img src="${image}" alt="Product Image">
                             </div>
                         `);
-                    }
-                    
-                    // Sliderlarni qayta ishga tushirish
-                    initProductSliders();
-                    
-                    // EasyZoom ni qayta ishga tushirish
-                    initEasyZoom();
-                }
-                
-                // O'lchamlarni yangilash funksiyasi
-                function updateAvailableSizes(sizes) {
-                    var sizeList = $('#size-list');
-                    sizeList.empty();
-                    
-                    if (sizes && sizes.length > 0) {
-                        sizes.forEach(function(size, index) {
-                            sizeList.append(`
-                                <span class="size-item ${index === 0 ? 'active' : ''}" 
-                                      data-size-id="${size.id}">
-                                    ${size.value}
-                                </span>
-                            `);
-                        });
-                    } else {
-                        sizeList.append('<span class="disabled">No sizes available</span>');
-                    }
-                }
-                
-                // Narxni yangilash funksiyasi
-                function updateProductPrice(price) {
-                    $('#product-price').html('$' + price);
-                }
-                
-                // Sliderlarni ishga tushirish funksiyasi
-                function initProductSliders() {
-                    // Asosiy slider
-                    $('#main-image-slider').slick({
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                        arrows: false,
-                        fade: true,
-                        asNavFor: '#thumbnail-slider',
-                        adaptiveHeight: true
                     });
+                } else {
+                    // Agar rasm bo'lmasa, default rasm
+                    var defaultImage = '/static/assets/images/product/default.jpg';
+                    mainSlider.append(`
+                        <div class="easyzoom-style">
+                            <div class="easyzoom easyzoom--overlay">
+                                <a href="${defaultImage}">
+                                    <img src="${defaultImage}" alt="Product Image">
+                                </a>
+                            </div>
+                            <a class="easyzoom-pop-up img-popup" href="${defaultImage}">
+                                <i class="icon-size-fullscreen"></i>
+                            </a>
+                        </div>
+                    `);
                     
-                    // Thumbnail slider
-                    $('#thumbnail-slider').slick({
-                        slidesToShow: 4,
-                        slidesToScroll: 1,
-                        asNavFor: '#main-image-slider',
-                        dots: false,
-                        focusOnSelect: true,
-                        arrows: false,
-                        infinite: true,
-                        responsive: [
-                            {
-                                breakpoint: 768,
-                                settings: {
-                                    slidesToShow: 3
-                                }
-                            },
-                            {
-                                breakpoint: 480,
-                                settings: {
-                                    slidesToShow: 2
-                                }
-                            }
-                        ]
-                    });
+                    thumbSlider.append(`
+                        <div class="product-dec-small active">
+                            <img src="${defaultImage}" alt="Product Image">
+                        </div>
+                    `);
                 }
                 
-                // EasyZoom ni ishga tushirish
-                function initEasyZoom() {
-                    $('.easyzoom').easyZoom();
-                }
-                
-                // Sahifa yuklanganda sliderlarni ishga tushirish
+                // Sliderlarni qayta ishga tushirish
                 initProductSliders();
-                initEasyZoom();
                 
-                // Miqdor o'zgartirish
-                $('.cart-plus-minus').each(function() {
-                    var $this = $(this),
-                        $input = $this.find('input'),
-                        $minus = $('<button type="button" class="dec qtybutton">-</button>'),
-                        $plus = $('<button type="button" class="inc qtybutton">+</button>');
-                    
-                    $input.wrap('<div class="cart-plus-minus-box"></div>');
-                    $this.prepend($minus);
-                    $this.append($plus);
-                    
-                    $minus.on('click', function() {
-                        var value = parseInt($input.val());
-                        if (value > 1) {
-                            $input.val(value - 1);
-                        }
+                // EasyZoom ni qayta ishga tushirish
+                initEasyZoom();
+            }
+            
+            // O'lchamlarni yangilash funksiyasi
+            function updateAvailableSizes(sizes) {
+                var sizeList = $('#size-list');
+                sizeList.empty();
+                
+                if (sizes && sizes.length > 0) {
+                    sizes.forEach(function(size, index) {
+                        sizeList.append(`
+                            <span class="size-item ${index === 0 ? 'active' : ''}" 
+                                    data-size-id="${size.id}">
+                                ${size.value}
+                            </span>
+                        `);
                     });
-                    
-                    $plus.on('click', function() {
-                        var value = parseInt($input.val());
-                        $input.val(value + 1);
-                    });
+                } else {
+                    sizeList.append('<span class="disabled">No sizes available</span>');
+                }
+            }
+            
+            // Narxni yangilash функций guard: обновляем только если цена передана
+            function updateProductPrice(price) {
+                if (typeof price === 'undefined' || price === null || price === '') return;
+                // Используем ₽ как в шаблоне
+                $('#product-price').html('₽ ' + price);
+            }
+            
+            // Sliderlarni ishga tushirish funksiyasi
+            function initProductSliders() {
+                // Asosiy slider
+                $('#main-image-slider').slick({
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    fade: true,
+                    asNavFor: '#thumbnail-slider',
+                    adaptiveHeight: true
                 });
                 
-                // Savatga qo'shish
-                $('.add-to-cart-btn').on('click', function(e) {
-                    e.preventDefault();
-                    
-                    var selectedColor = $('.color-item.active');
-                    var selectedSize = $('.size-item.active');
-                    var quantity = $('.cart-plus-minus-box').val();
-                    
-                    if (!selectedColor.length) {
-                        alert('Please select a color');
-                        return;
+                // Thumbnail slider
+                $('#thumbnail-slider').slick({
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    asNavFor: '#main-image-slider',
+                    dots: false,
+                    focusOnSelect: true,
+                    arrows: false,
+                    infinite: true,
+                    responsive: [
+                        {
+                            breakpoint: 768,
+                            settings: {
+                                slidesToShow: 3
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                slidesToShow: 2
+                            }
+                        }
+                    ]
+                });
+            }
+            
+            // EasyZoom ni ishga tushirish
+            function initEasyZoom() {
+                $('.easyzoom').easyZoom();
+            }
+            
+            // Sahifa yuklanganda sliderlarni ishga tushirish
+            initProductSliders();
+            initEasyZoom();
+            
+            // Miqdor o'zgartirish
+            $('.cart-plus-minus').each(function() {
+                var $this = $(this),
+                    $input = $this.find('input'),
+                    $minus = $('<button type="button" class="dec qtybutton">-</button>'),
+                    $plus = $('<button type="button" class="inc qtybutton">+</button>');
+                
+                $input.wrap('<div class="cart-plus-minus-box"></div>');
+                $this.prepend($minus);
+                $this.append($plus);
+                
+                $minus.on('click', function() {
+                    var value = parseInt($input.val());
+                    if (value > 1) {
+                        $input.val(value - 1);
                     }
-                    
-                    if (!selectedSize.length || selectedSize.hasClass('disabled')) {
-                        alert('Please select a size');
-                        return;
-                    }
-                    
-                    var colorId = productColors[currentColorIndex].id;
-                    var sizeId = selectedSize.data('size-id');
-                    
-                    // Bu yerda AJAX so'rovi yuborishingiz mumkin
-                    console.log('Adding to cart:', {
-                        colorId: colorId,
-                        sizeId: sizeId,
-                        quantity: quantity
-                    });
-                    
-                    alert('Product added to cart!');
+                });
+                
+                $plus.on('click', function() {
+                    var value = parseInt($input.val());
+                    $input.val(value + 1);
                 });
             });
-        </script>
-</body>
+            
+            // Savatga qo'shish
+            $('.add-to-cart-btn').on('click', function(e) {
+                e.preventDefault();
+                
+                var selectedColor = $('.color-item.active');
+                var selectedSize = $('.size-item.active');
+                var quantity = $('.cart-plus-minus-box').val();
+                
+                if (!selectedColor.length) {
+                    alert('Please select a color');
+                    return;
+                }
+                
+                if (!selectedSize.length || selectedSize.hasClass('disabled')) {
+                    alert('Please select a size');
+                    return;
+                }
+                
+                var colorId = productColors[currentColorIndex].id;
+                var sizeId = selectedSize.data('size-id');
+                
+                // Bu yerda AJAX so'rovi yuborishingiz mumkin
+                console.log('Adding to cart:', {
+                    colorId: colorId,
+                    sizeId: sizeId,
+                    quantity: quantity
+                });
+                
+                alert('Product added to cart!');
+            });
+        });
+    </script>
 
-</html>
+{% endblock content %}
+    
