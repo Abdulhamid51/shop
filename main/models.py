@@ -213,3 +213,82 @@ class Order(models.Model):
 	phone2 = models.CharField(max_length=20, default='')
 	address = models.TextField()
 	carts = models.ManyToManyField(Cart)
+
+
+# Homepage editable content models
+class HeroSlide(models.Model):
+	title = models.CharField(max_length=250, blank=True)
+	subtitle = models.CharField(max_length=250, blank=True)
+	description = models.TextField(blank=True)
+	image = models.ImageField(upload_to='homepage/%Y/%m/%d/')
+	button_text = models.CharField(max_length=80, blank=True)
+	button_url = models.CharField(max_length=250, blank=True)
+	order = models.PositiveSmallIntegerField(default=0)
+	is_active = models.BooleanField(default=True)
+
+	class Meta:
+		ordering = ['order']
+
+	def __str__(self):
+		return self.title or f"Slide {self.pk}"
+
+
+class ServiceItem(models.Model):
+	icon_class = models.CharField(max_length=120, blank=True, help_text='CSS icon class (optional)')
+	image = models.ImageField(upload_to='homepage/%Y/%m/%d/', blank=True, null=True)
+	title = models.CharField(max_length=120)
+	subtitle = models.CharField(max_length=250, blank=True)
+	order = models.PositiveSmallIntegerField(default=0)
+	is_active = models.BooleanField(default=True)
+
+	class Meta:
+		ordering = ['order']
+
+	def __str__(self):
+		return self.title
+
+
+class AboutBlock(models.Model):
+	title = models.CharField(max_length=250, blank=True)
+	content = models.TextField(blank=True)
+	signature = models.CharField(max_length=120, blank=True)
+	logo = models.ImageField(upload_to='homepage/%Y/%m/%d/', blank=True, null=True)
+
+	def __str__(self):
+		return self.title or 'About block'
+
+
+class Banner(models.Model):
+	image = models.ImageField(upload_to='homepage/%Y/%m/%d/')
+	title = models.CharField(max_length=250, blank=True)
+	subtitle = models.CharField(max_length=250, blank=True)
+	button_text = models.CharField(max_length=80, blank=True)
+	button_url = models.CharField(max_length=250, blank=True)
+	order = models.PositiveSmallIntegerField(default=0)
+	is_active = models.BooleanField(default=True)
+
+	class Meta:
+		ordering = ['order']
+
+	def __str__(self):
+		return self.title or f'Banner {self.pk}'
+
+
+class BrandLogo(models.Model):
+	image = models.ImageField(upload_to='homepage/%Y/%m/%d/')
+	link = models.CharField(max_length=250, blank=True)
+	order = models.PositiveSmallIntegerField(default=0)
+	is_active = models.BooleanField(default=True)
+
+	class Meta:
+		ordering = ['order']
+
+	def __str__(self):
+		return f'Brand {self.pk}'
+
+
+class InstagramSetting(models.Model):
+	tag_text = models.CharField(max_length=120, blank=True, default='#yourtag')
+
+	def __str__(self):
+		return self.tag_text

@@ -230,6 +230,18 @@
                                 <span>Размер:</span>
                                 <div class="pro-details-size-content">
                                     <div id="size-list">
+                                        {% if colors %}
+                                            {% with first_color=colors.0 %}
+                                                {% for size in first_color.sizes %}
+                                                <span class="size-item {% if forloop.first %}active{% endif %}" 
+                                                      data-size-id="{{ size.id }}">
+                                                    {{ size.value }}
+                                                </span>
+                                                {% empty %}
+                                                <span>No sizes available</span>
+                                                {% endfor %}
+                                            {% endwith %}
+                                        {% else %}
                                             {% for size in sizes %}
                                             <span class="size-item {% if forloop.first %}active{% endif %}" 
                                                   data-size-id="{{ size.id }}">
@@ -238,6 +250,7 @@
                                             {% empty %}
                                             <span>No sizes available</span>
                                             {% endfor %}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -507,10 +520,23 @@
                     if(res.view === 'add'){
                         $('.remove-from-cart-btn').hide()
                         $('.add-to-cart-btn').show()
+                        var $qtyInput = $('.cart-plus-minus-box').find('input');
+                        if ($qtyInput.length) {
+                            $qtyInput.val(res.count);
+                        } else {
+                            // fallback in case markup isn't wrapped yet
+                            $('.cart-plus-minus-box').val(res.count);
+                        }
                     }else{
                         $('.add-to-cart-btn').hide()
                         $('.remove-from-cart-btn').show()
-                        $('.cart-plus-minus-box').val(res.count)
+                        var $qtyInput = $('.cart-plus-minus-box').find('input');
+                        if ($qtyInput.length) {
+                            $qtyInput.val(res.count);
+                        } else {
+                            // fallback in case markup isn't wrapped yet
+                            $('.cart-plus-minus-box').val(res.count);
+                        }
                     }
                 },
                 error: function(res, err){
@@ -525,7 +551,7 @@
             let size = $('.size-item.active').data('size-id')
             let color = $('.color-item.active').data('color-id')
             let product = '{{product.id}}'
-            let count = $('.cart-plus-minus-box').val()
+            let count = parseInt($('.cart-plus-minus-box input').val(), 10) || 1;
             console.log(size, color, product, count);
             $.ajax({
                 url: '/add_to_cart/',
@@ -545,10 +571,38 @@
                 }
             })
         }
+
+        function remove_from_cart() {
+            let size = $('.size-item.active').data('size-id')
+            let color = $('.color-item.active').data('color-id')
+            let product = '{{product.id}}'
+            $.ajax({
+                url: '/remove_from_cart/',
+                method: 'get',
+                data: {
+                    'product_id': product,
+                    'color_id': color,
+                    'size_id': size
+                },
+                success: function(res){
+                    // reset UI to 'add' state
+                    $('.remove-from-cart-btn').hide()
+                    $('.add-to-cart-btn').show()
+                    var $qtyInput = $('.cart-plus-minus-box').find('input');
+                    if ($qtyInput.length) { $qtyInput.val(1); } else { $('.cart-plus-minus-box').val(1); }
+                    change_cart_button();
+                },
+                error: function(res, err){
+                    console.log(res, err)
+                }
+            })
+        }
         
-        $('.qtybutton').click(function(){
-            add_to_cart()
-        })
+        // Делегированный обработчик для динамически создаваемых кнопок
+        $(document).on('click', '.qtybutton', function(){
+            // console.log('some')
+            add_to_cart();
+        });
     </script>
 
     <script>
@@ -558,9 +612,6 @@
         $(document).ready(function() {
             // Joriy tanlangan rang indeksi (0 dan boshlanadi)
             var currentColorIndex = 0;
-            $('.size-item').on('click', function(e) {
-                change_cart_button()
-            })
             // Rang tanlash
             $('.color-item').on('click', function(e) {
                 e.preventDefault();
@@ -594,11 +645,13 @@
                 change_cart_button()
             });
             
-            // O'lcham tanlash
+            // O'lcham tanlash (delegated) — set active and refresh cart button/quantity
             $(document).on('click', '.size-item:not(.disabled)', function(e) {
                 e.preventDefault();
                 $('.size-item').removeClass('active');
                 $(this).addClass('active');
+                // After selecting size, query cart to get correct quantity/view
+                change_cart_button();
             });
             
             // Rasmlarni yangilash funksiyasi
@@ -791,7 +844,7 @@
                     quantity: quantity
                 });
                 
-                alert('Product added to cart!');
+                // alert('Product added to cart!');
             });
         });
     </script>

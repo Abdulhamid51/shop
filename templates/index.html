@@ -5,98 +5,54 @@
     
         <div class="slider-area bg-gray">
             <div class="hero-slider-active-1 hero-slider-pt-1 nav-style-1 dot-style-1">
+                {% for slide in hero_slides %}
                 <div class="single-hero-slider single-animation-wrap">
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="hero-slider-content-1 hero-slider-content-1-pt-1 slider-animated-1">
-                                    <h4 class="animated">Новые поступления</h4>
-                                    <h1 class="animated">Кожаные простые <br>Рюкзаки</h1>
-                                    <p class="animated">Откройте для себя нашу коллекцию кожаных простых рюкзаков. Меньше - значит больше, никогда не выходит из моды.</p>
+                                    <h4 class="animated">{{ slide.subtitle }}</h4>
+                                    <h1 class="animated">{{ slide.title|safe }}</h1>
+                                    <p class="animated">{{ slide.description }}</p>
+                                    {% if slide.button_text %}
                                     <div class="btn-style-1">
-                                        <a class="animated btn-1-padding-1" href="product-details.html">Исследовать сейчас</a>
+                                        <a class="animated btn-1-padding-1" href="{{ slide.button_url }}">{{ slide.button_text }}</a>
                                     </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="hero-slider-img-1 slider-animated-1">
-                                    <img class="animated" src="/static/assets/images/slider/hm-1-slider-1.png" alt="">
+                                    <img class="animated" src="{{ slide.image.url }}" alt="{{ slide.title }}">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="single-hero-slider single-animation-wrap">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="hero-slider-content-1 hero-slider-content-1-pt-1 slider-animated-1">
-                                    <h4 class="animated">Новые поступления</h4>
-                                    <h1 class="animated">Кожаные простые <br>Рюкзаки</h1>
-                                    <p class="animated">Откройте для себя нашу коллекцию кожаных простых рюкзаков. Меньше - значит больше, никогда не выходит из моды.</p>
-                                    <div class="btn-style-1">
-                                        <a class="animated btn-1-padding-1" href="product-details.html">Исследовать сейчас</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="hero-slider-img-1 slider-animated-1">
-                                    <img class="animated" src="/static/assets/images/slider/hm-1-slider-1.png" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
         <div class="service-area">
             <div class="container">
                 <div class="service-wrap">
                     <div class="row">
+                        {% for s in services %}
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                             <div class="single-service-wrap mb-30">
                                 <div class="service-icon">
-                                    <i class="icon-cursor"></i>
+                                    {% if s.image %}
+                                        <img src="{{ s.image.url }}" style="height:36px" alt="{{ s.title }}">
+                                    {% else %}
+                                        <i class="{{ s.icon_class }}"></i>
+                                    {% endif %}
                                 </div>
                                 <div class="service-content">
-                                    <h3>Бесплатная доставка</h3>
-                                    <span>Заказы свыше $100</span>
+                                    <h3>{{ s.title }}</h3>
+                                    <span>{{ s.subtitle }}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="single-service-wrap mb-30">
-                                <div class="service-icon">
-                                    <i class="icon-reload"></i>
-                                </div>
-                                <div class="service-content">
-                                    <h3>Бесплатный возврат</h3>
-                                    <span>В течение 30 дней</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="single-service-wrap mb-30">
-                                <div class="service-icon">
-                                    <i class="icon-lock"></i>
-                                </div>
-                                <div class="service-content">
-                                    <h3>100% безопасно</h3>
-                                    <span>Оплата онлайн</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="single-service-wrap mb-30">
-                                <div class="service-icon">
-                                    <i class="icon-tag"></i>
-                                </div>
-                                <div class="service-content">
-                                    <h3>Лучшая цена</h3>
-                                    <span>Гарантировано</span>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -107,15 +63,19 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-3">
                             <div class="about-us-logo">
-                                <img src="/static/assets/images/about/logo.svg" style="margin: 15px; width: 100px;" alt="логотип">
+                                {% if about_block and about_block.logo %}
+                                    <img src="{{ about_block.logo.url }}" style="margin: 15px; width: 100px;" alt="{{ about_block.title }}">
+                                {% else %}
+                                    <img src="/static/assets/images/logo/logo.svg" style="margin: 15px; width: 100px;" alt="логотип">
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-lg-9 col-md-9">
                             <div class="about-us-content">
-                                <h3>Представляем</h3>
-                                <p>Магазин Norda - это бизнес-концепция, предлагающая моду и качество по лучшей цене. С момента основания в 2018 году он вырос в одну из лучших тем моды для WooCommerce. Содержание этого сайта защищено авторским правом и является собственностью David Moye Creative.</p>
+                                <h3>{{ about_block.title|default:'Представляем' }}</h3>
+                                <p>{{ about_block.content|default:"Магазин Norda - это бизнес-концепция, предлагающая моду и качество по лучшей цене." }}</p>
                                 <div class="signature">
-                                    <h2>Дэвид Мойе</h2>
+                                    <h2>{{ about_block.signature }}</h2>
                                 </div>
                             </div>
                         </div>
@@ -129,980 +89,47 @@
                     <div class="section-title">
                         <h2>Рекомендуемые товары</h2>
                     </div>
-                    <div class="tab-style-1 nav">
-                        <a class="active" href="#product-1" data-toggle="tab">Бестселлеры</a>
-                        <a href="#product-2" data-toggle="tab"> В тренде</a>
-                        <a href="#product-3" data-toggle="tab">Новые поступления </a>
-                        <a href="#product-4" data-toggle="tab">Все товары</a>
+                    <div style="margin-left:auto">
+                        <a href="/shop/" class="btn btn-sm" style="border:1px solid #e2e8f0;padding:6px 10px;border-radius:6px;text-decoration:none;color:#0f172a">Посмотреть все</a>
                     </div>
                 </div>
-            </div>
-            <div class="container-fluid">
-                <div class="tab-content jump">
-                    <div id="product-1" class="tab-pane active">
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-1.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
+                <div class="row">
+                    {% for p in products %}
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="single-product-wrap mb-35">
+                            <div class="product-img product-img-zoom mb-20">
+                                <a href="/product/{{ p.id }}/">
+                                    <img src="{{ p.image }}" alt="{{ p.name }}">
+                                </a>
+                                <!-- <div class="product-action-wrap">
+                                    <div class="product-action-left">
+                                        <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
                                     </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Простая черная футболка</a></h4>
-                                            <div class="product-price">
-                                                <span>$56.20</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
+                                    <div class="product-action-right tooltip-style">
+                                        <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
+                                        <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-2.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Черные простые кроссовки</a></h4>
-                                            <div class="product-price">
-                                                <span>$38.50</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
+                            <div class="product-content-wrap">
+                                <div class="product-content-left">
+                                    <h4><a href="/product/{{ p.id }}/">{{ p.name }}</a></h4>
+                                    <div class="product-price">
+                                        {% if p.old_price %}
+                                            <span class="new-price">₽{{ p.price }}</span>
+                                            <span class="old-price">₽{{ p.old_price }}</span>
+                                        {% else %}
+                                            <span>₽{{ p.price }}</span>
+                                        {% endif %}
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-3.jpg" alt="">
-                                        </a>
-                                        <span class="pro-badge left bg-red">-20%</span>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Коричневая толстовка с подкладкой</a></h4>
-                                            <div class="product-price">
-                                                <span class="new-price">$46.00</span>
-                                                <span class="old-price">$66.75</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-4.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Простой рюкзак Norda</a></h4>
-                                            <div class="product-price">
-                                                <span>$102.54</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-5.jpg" alt="">
-                                        </a>
-                                        <span class="pro-badge left bg-red">-15%</span>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Контрастные солнцезащитные очки</a></h4>
-                                            <div class="product-price">
-                                                <span class="new-price">$35.45</span>
-                                                <span class="old-price">$45.80</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-6.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Простая синяя футболка</a></h4>
-                                            <div class="product-price">
-                                                <span>$56.20</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-7.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Спортивные кроссовки Norda</a></h4>
-                                            <div class="product-price">
-                                                <span>$37.86</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-8.jpg" alt="">
-                                        </a>
-                                        <span class="pro-badge left bg-black">Нет в наличии</span>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Базовые кроссовки</a></h4>
-                                            <div class="product-price">
-                                                <span>$46.20</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!-- <div class="product-content-right tooltip-style">
+                                    <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
+                                </div> -->
                             </div>
                         </div>
                     </div>
-                    <div id="product-2" class="tab-pane">
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-8.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Базовые кроссовки</a></h4>
-                                            <div class="product-price">
-                                                <span>$56.20</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-7.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Спортивные кроссовки Norda</a></h4>
-                                            <div class="product-price">
-                                                <span>$38.50</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-6.jpg" alt="">
-                                        </a>
-                                        <span class="pro-badge left bg-red">-20%</span>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Простая синяя футболка</a></h4>
-                                            <div class="product-price">
-                                                <span class="new-price">$46.00</span>
-                                                <span class="old-price">$66.75</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-5.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Контрастные солнцезащитные очки</a></h4>
-                                            <div class="product-price">
-                                                <span>$102.54</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-4.jpg" alt="">
-                                        </a>
-                                        <span class="pro-badge left bg-red">-15%</span>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Простой рюкзак Norda</a></h4>
-                                            <div class="product-price">
-                                                <span class="new-price">$35.45</span>
-                                                <span class="old-price">$45.80</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-3.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Коричневая толстовка с подкладкой</a></h4>
-                                            <div class="product-price">
-                                                <span>$56.20</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-2.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Черные простые кроссовки</a></h4>
-                                            <div class="product-price">
-                                                <span>$37.86</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-1.jpg" alt="">
-                                        </a>
-                                        <span class="pro-badge left bg-black">Нет в наличии</span>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Простая черная футболка</a></h4>
-                                            <div class="product-price">
-                                                <span>$46.20</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="product-3" class="tab-pane">
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img class="default-img" src="/static/assets/images/product/product-4.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Простой рюкзак Norda</a></h4>
-                                            <div class="product-price">
-                                                <span>$56.20</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-3.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Коричневая толстовка с подкладкой</a></h4>
-                                            <div class="product-price">
-                                                <span>$38.50</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-2.jpg" alt="">
-                                        </a>
-                                        <span class="pro-badge left bg-red">-20%</span>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Черные простые кроссовки</a></h4>
-                                            <div class="product-price">
-                                                <span class="new-price">$46.00</span>
-                                                <span class="old-price">$66.75</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-1.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Простая черная футболка</a></h4>
-                                            <div class="product-price">
-                                                <span>$102.54</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-8.jpg" alt="">
-                                        </a>
-                                        <span class="pro-badge left bg-red">-15%</span>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Базовые кроссовки</a></h4>
-                                            <div class="product-price">
-                                                <span class="new-price">$35.45</span>
-                                                <span class="old-price">$45.80</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-7.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Спортивные кроссовки Norda</a></h4>
-                                            <div class="product-price">
-                                                <span>$56.20</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-6.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Простая синяя футболка</a></h4>
-                                            <div class="product-price">
-                                                <span>$37.86</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-5.jpg" alt="">
-                                        </a>
-                                        <span class="pro-badge left bg-black">Нет в наличии</span>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Контрастные солнцезащитные очки</a></h4>
-                                            <div class="product-price">
-                                                <span>$46.20</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="product-4" class="tab-pane">
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-6.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Простая синяя футболка</a></h4>
-                                            <div class="product-price">
-                                                <span>$56.20</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-7.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Спортивные кроссовки Norda</a></h4>
-                                            <div class="product-price">
-                                                <span>$38.50</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-8.jpg" alt="">
-                                        </a>
-                                        <span class="pro-badge left bg-red">-20%</span>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Базовые кроссовки</a></h4>
-                                            <div class="product-price">
-                                                <span class="new-price">$46.00</span>
-                                                <span class="old-price">$66.75</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-5.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Контрастные солнцезащитные очки</a></h4>
-                                            <div class="product-price">
-                                                <span>$102.54</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-4.jpg" alt="">
-                                        </a>
-                                        <span class="pro-badge left bg-red">-15%</span>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Простой рюкзак Norda</a></h4>
-                                            <div class="product-price">
-                                                <span class="new-price">$35.45</span>
-                                                <span class="old-price">$45.80</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-3.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Коричневая толстовка с подкладкой</a></h4>
-                                            <div class="product-price">
-                                                <span>$56.20</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-2.jpg" alt="">
-                                        </a>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Черные простые кроссовки</a></h4>
-                                            <div class="product-price">
-                                                <span>$37.86</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="product-details.html">
-                                            <img src="/static/assets/images/product/product-1.jpg" alt="">
-                                        </a>
-                                        <span class="pro-badge left bg-black">Нет в наличии</span>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Добавить в корзину</button>
-                                            </div>
-                                            <div class="product-action-right tooltip-style">
-                                                <button data-toggle="modal" data-target="#exampleModal"><i class="icon-size-fullscreen icons"></i><span>Быстрый просмотр</span></button>
-                                                <button class="font-inc"><i class="icon-refresh"></i><span>Сравнить</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                            <h4><a href="product-details.html">Простая черная футболка</a></h4>
-                                            <div class="product-price">
-                                                <span>$46.20</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-right tooltip-style">
-                                            <button class="font-inc"><i class="icon-heart"></i><span>В список желаний</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -1112,31 +139,24 @@
                     <h2>Наши коллекции</h2>
                 </div>
                 <div class="row">
-                    <div class="col-lg-7 col-md-7">
-                        <div class="banner-wrap banner-mr-1 mb-30">
-                            <div class="banner-img banner-img-zoom">
-                                <a href="product-details.html"><img src="/static/assets/images/banner/banner-1.jpg" alt=""></a>
-                            </div>
-                            <div class="banner-content-1">
-                                <h2>Zara Узорное боксерское <br>белье</h2>
-                                <p>Растягивающаяся, свеже-прохладная ткань поможет вам всегда чувствовать себя комфортно</p>
-                                <div class="btn-style-1">
-                                    <a class="animated btn-1-padding-2" href="product-details.html">Купить сейчас</a>
+                    {% for b in banners %}
+                        <div class="col-lg-{% if forloop.first %}7{% else %}5{% endif %} col-md-{% if forloop.first %}7{% else %}5{% endif %}">
+                            <div class="banner-wrap {% if forloop.first %}banner-mr-1{% else %}banner-ml-1{% endif %} mb-30">
+                                <div class="banner-img banner-img-zoom">
+                                    <a href="{{ b.button_url|default:'#' }}"><img src="{{ b.image.url }}" alt="{{ b.title }}"></a>
+                                </div>
+                                <div class="banner-content-1">
+                                    <h2>{{ b.title }}</h2>
+                                    <p>{{ b.subtitle }}</p>
+                                    {% if b.button_text %}
+                                    <div class="btn-style-1">
+                                        <a class="animated btn-1-padding-2" href="{{ b.button_url }}">{{ b.button_text }}</a>
+                                    </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-5 col-md-5">
-                        <div class="banner-wrap  banner-ml-1 mb-30">
-                            <div class="banner-img banner-img-zoom">
-                                <a href="product-details.html"><img src="/static/assets/images/banner/banner-2.jpg" alt=""></a>
-                            </div>
-                            <div class="banner-content-2">
-                                <h2>Базовые цветные кепки</h2>
-                                <p>Минимализм никогда не выходит из моды, выбирайте и делайте простое снова великим!</p>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -1147,7 +167,7 @@
                         <h2>Наш Инстаграм</h2>
                     </div>
                     <div class="instagram-tag">
-                        <span>#monkeylover</span>
+                        <span>{{ instagram_tag }}</span>
                     </div>
                 </div>
                 <div class="instagram-wrap">
@@ -1158,50 +178,13 @@
         </div>
         <div class="brand-logo-area pt-100 pb-100">
             <div class="container">
-                <div class="brand-logo-wrap brand-logo-mrg">
-                    <div class="single-brand-logo mb-10">
-                        <img src="/static/assets/images/brand-logo/brand-logo-1.png" alt="логотип бренда">
-                    </div>
-                    <div class="single-brand-logo mb-10">
-                        <img src="/static/assets/images/brand-logo/brand-logo-2.png" alt="логотип бренда">
-                    </div>
-                    <div class="single-brand-logo mb-10">
-                        <img src="/static/assets/images/brand-logo/brand-logo-3.png" alt="логотип бренда">
-                    </div>
-                    <div class="single-brand-logo mb-10">
-                        <img src="/static/assets/images/brand-logo/brand-logo-4.png" alt="логотип бренда">
-                    </div>
-                    <div class="single-brand-logo mb-10">
-                        <img src="/static/assets/images/brand-logo/brand-logo-5.png" alt="логотип бренда">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="subscribe-area bg-gray pt-115 pb-115">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-5 col-md-5">
-                        <div class="section-title">
-                            <h2>оставайтесь на связи</h2>
-                            <p>Получайте обновления, подписавшись на нашу еженедельную рассылку</p>
+                    <div class="brand-logo-wrap brand-logo-mrg">
+                        {% for brand in brand_logos %}
+                        <div class="single-brand-logo mb-10">
+                            <a href="{{ brand.link|default:'#' }}"><img src="{{ brand.image.url }}" alt="логотип бренда"></a>
                         </div>
+                        {% endfor %}
                     </div>
-                    <div class="col-lg-7 col-md-7">
-                        <div id="mc_embed_signup" class="subscribe-form">
-                            <form id="mc-embedded-subscribe-form" class="validate subscribe-form-style" novalidate="" target="_blank" name="mc-embedded-subscribe-form" method="post" action="http://devitems.us11.list-manage.com/subscribe/post?u=6bbb9b6f5827bd842d9640c82&amp;id=05d85f18ef">
-                                <div id="mc_embed_signup_scroll" class="mc-form">
-                                    <input class="email" type="email" required="" placeholder="Введите ваш адрес электронной почты" name="EMAIL" value="">
-                                    <div class="mc-news" aria-hidden="true">
-                                        <input type="text" value="" tabindex="-1" name="b_6bbb9b6f5827bd842d9640c82_05d85f18ef">
-                                    </div>
-                                    <div class="clear">
-                                        <input id="mc-embedded-subscribe" class="button" type="submit" name="subscribe" value="Подписаться">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         

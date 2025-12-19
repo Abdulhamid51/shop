@@ -1,0 +1,117 @@
+{% extends 'wrapper.html' %}
+{% load humanize %}
+
+{% block content %}
+<div class="container py-5">
+  <h2>Корзина</h2>
+  {% if cart_items %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Товар</th>
+          <th>Цвет</th>
+          <th>Размер</th>
+          <th>Цена</th>
+          <th>Кол-во</th>
+          <th>Сумма</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart_items %}
+        <tr data-product-id="{{ item.product_id }}" data-cart-id="{{ item.id }}">
+          <td>{{ item.product_name }}</td>
+          <td>{{ item.color_name }}</td>
+          <td>{{ item.size_value }}</td>
+          <td>₽ {{ item.unit_price|floatformat:2 }}</td>
+          <td>
+            <input type="number" min="1" class="form-control cart-qty-input" value="{{ item.count }}" data-cart-id="{{ item.id }}" data-product-id="{{ item.product_id }}">
+          </td>
+          <td class="row-total">₽ {{ item.total|floatformat:2 }}</td>
+          <td><button class="btn btn-sm btn-danger remove-cart-btn" data-cart-id="{{ item.id }}">Удалить</button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <h4>Оформление заказа</h4>
+      <form action="/checkout/" method="post">
+        {% csrf_token %}
+        {% if checkout_error %}
+        <div class="alert alert-danger">{{ checkout_error }}</div>
+        {% endif %}
+        <div class="form-group">
+          <label>ФИО *</label>
+          <input type="text" name="fio" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Телефон *</label>
+          <input type="text" name="phone" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Доп. телефон</label>
+          <input type="text" name="phone2" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Адрес *</label>
+          <textarea name="address" class="form-control" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Подтвердить заказ</button>
+      </form>
+    </div>
+    <div class="col-md-6 text-right">
+      <h4>Итого: ₽ <span id="cart-subtotal">{{ subtotal|floatformat:2 }}</span></h4>
+    </div>
+  </div>
+  {% else %}
+  <div class="text-center my-5" style="padding:60px 0;">
+    <h3 style="font-size:36px; font-weight:600; margin-bottom:16px;">Ваша корзина пуста.</h3>
+    <p style="font-size:20px; margin-bottom:20px;">Продолжить покупки</p>
+    <a href="/shop/" class="btn btn-primary btn-lg">Перейти в магазин</a>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+function updateCartQuantityByCartId(cartId, count){
+    $.ajax({
+        url: '/add_to_cart/',
+        method: 'get',
+        data: {
+            'product_id': '',
+            'color_id': '',
+            'size_id': '',
+            'count': count,
+            'cart_id': cartId
+        },
+        success: function(res){ location.reload(); },
+        error: function(){ alert('Ошибка обновления корзины'); }
+    });
+}
+
+function removeCartItemByCartId(cartId){
+    $.ajax({
+        url: '/remove_from_cart/',
+        method: 'get',
+        data: { 'cart_id': cartId },
+        success: function(res){ location.reload(); },
+        error: function(){ alert('Ошибка удаления'); }
+    });
+}
+
+$(document).on('change', '.cart-qty-input', function(){
+    var cartId = $(this).data('cart-id');
+    var count = parseInt($(this).val(), 10) || 1;
+    updateCartQuantityByCartId(cartId, count);
+});
+
+$(document).on('click', '.remove-cart-btn', function(){
+    var cartId = $(this).data('cart-id');
+    if(confirm('Удалить этот товар из корзины?')) removeCartItemByCartId(cartId);
+});
+</script>
+
+{% endblock content %}

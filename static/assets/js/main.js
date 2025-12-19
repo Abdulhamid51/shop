@@ -1,5 +1,8 @@
 (function ($) {
     "use strict";
+
+    // Ensure slider and other initializations run after DOM is ready
+    $(function(){
     
     /*------ ScrollUp -------- */
     $.scrollUp({
@@ -1113,7 +1116,8 @@
         e.preventDefault();
         $('.curr-dropdown-active').slideToggle(900);
     });
-    
-    
+
+    }); // end DOM ready wrapper
+
 })(jQuery);
 

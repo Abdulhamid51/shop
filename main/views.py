@@ -5,11 +5,52 @@ from django.db.models import Avg
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http.response import JsonResponse
 import json
+import logging
+import requests
+from django.conf import settings
+from django.core.mail import send_mail
+from django.shortcuts import redirect
+from django.contrib import messages
 from .models import *
 
 
 def index(request):
-	return render(request, 'index.html')
+	# Show 5 random active products on the homepage
+	qs = Shoe.objects.filter(is_active=True).order_by('?')[:5]
+
+	def serialize(product):
+		return {
+			'id': product.id,
+			'name': product.name,
+			'price': product.price,
+			'old_price': product.old_price,
+			'image': product.main_image(),
+		}
+
+	products = [serialize(p) for p in qs]
+
+	# Load editable homepage content
+	from .models import HeroSlide, ServiceItem, AboutBlock, Banner, BrandLogo, InstagramSetting
+
+	hero_slides = list(HeroSlide.objects.filter(is_active=True).order_by('order'))
+	services = list(ServiceItem.objects.filter(is_active=True).order_by('order'))
+	about_block = AboutBlock.objects.first()
+	banners = list(Banner.objects.filter(is_active=True).order_by('order'))
+	brand_logos = list(BrandLogo.objects.filter(is_active=True).order_by('order'))
+	inst_setting = InstagramSetting.objects.first()
+	instagram_tag = inst_setting.tag_text if inst_setting else '#instagram'
+
+	context = {
+		'products': products,
+		'hero_slides': hero_slides,
+		'services': services,
+		'about_block': about_block,
+		'banners': banners,
+		'brand_logos': brand_logos,
+		'instagram_tag': instagram_tag,
+	}
+
+	return render(request, 'index.html', context)
 
 def shop(request):
 	qs = Shoe.objects.filter(is_active=True).prefetch_related('images', 'colors', 'categories', 'tags')
@@ -45,9 +86,10 @@ def shop(request):
 		qs = qs.order_by('-created_at')
 
 	# Pagination
-	page_no = request.GET.get('page', 1)
-	paginator = Paginator(qs, 20)
-	page_obj = paginator.get_page(page_no)
+	# page_no = request.GET.get('page', 1)
+	# paginator = Paginator(qs, 20)
+	# page_obj = paginator.get_page(page_no)
+	page_obj = qs
 
 	def serialize(product):
 		return {
@@ -176,17 +218,40 @@ def add_to_cart(request):
 	color_id = request.GET.get('color_id')
 	size_id = request.GET.get('size_id')
 	count = request.GET.get('count', 1)
-	cart, created = Cart.objects.get_or_create(
+	cart_id = request.GET.get('cart_id')
+
+	# If cart_id provided, update that cart entry directly (safer for cart page updates)
+	if cart_id:
+		try:
+			cart_obj = Cart.objects.get(id=cart_id)
+			cart_obj.count = int(count)
+			cart_obj.save()
+			return JsonResponse({'success': True, 'cart': cart_obj.id, 'tree': request.session.get('cart_tree')})
+		except Cart.DoesNotExist:
+			return JsonResponse({'success': False, 'message': 'cart not found'})
+	# Find existing cart item within the current CartTree
+	existing_cart = Cart.objects.filter(
 		product_id=product_id,
 		color_id=color_id,
 		size_id=size_id,
-		id__in=cart_tree.carts.values_list('id')
-	)
-	cart.count = int(count)
-	cart.save()
-	if created:
+		id__in=cart_tree.carts.values_list('id', flat=True)
+	).first()
+	if existing_cart:
+		cart = existing_cart
+		cart.count = int(count)
+		cart.save()
+		created = False
+	else:
+		# Create a new Cart item and attach to the tree
+		cart = Cart.objects.create(
+			product_id=product_id,
+			color_id=color_id,
+			size_id=size_id,
+			count=int(count)
+		)
 		cart_tree.carts.add(cart)
 		cart_tree.save()
+		created = True
 	
 	return JsonResponse({
 		'success': True,
@@ -203,19 +268,308 @@ def change_cart_view(request):
 	product_id = request.GET.get('product_id')
 	color_id = request.GET.get('color_id')
 	size_id = request.GET.get('size_id')
-	cart = Cart.objects.filter(
+	cart_qs = Cart.objects.filter(
 		product_id=product_id,
 		color_id=color_id,
 		size_id=size_id,
-		id__in=cart_tree.carts.values_list('id')
+		id__in=cart_tree.carts.values_list('id', flat=True)
 	)
-	if cart:
+	if cart_qs.exists():
+		last_cart = cart_qs.last()
 		return JsonResponse({
 			'view': 'remove',
-			'count': cart.last().count
+			'count': last_cart.count
 		})
 	else:
 		return JsonResponse({
 			'view': 'add',
 			'count': 1
 		})
+
+
+def remove_from_cart(request):
+	"""Remove a cart item from the current CartTree if it exists."""
+	if 'cart_tree' in request.session:
+		cart_tree = CartTree.objects.get(id=request.session.get('cart_tree'))
+	else:
+		cart_tree = CartTree.objects.create()
+		request.session['cart_tree'] = cart_tree.id
+	product_id = request.GET.get('product_id')
+	color_id = request.GET.get('color_id')
+	size_id = request.GET.get('size_id')
+	cart_id = request.GET.get('cart_id')
+
+	# If cart_id supplied remove by id
+	if cart_id:
+		try:
+			cart_obj = Cart.objects.get(id=cart_id)
+			if cart_tree:
+				cart_tree.carts.remove(cart_obj)
+			try:
+				cart_obj.delete()
+			except Exception:
+				pass
+			return JsonResponse({'success': True, 'view': 'add', 'count': 1})
+		except Cart.DoesNotExist:
+			return JsonResponse({'success': False, 'message': 'not found', 'view': 'add', 'count': 1})
+	cart_qs = Cart.objects.filter(
+		product_id=product_id,
+		color_id=color_id,
+		size_id=size_id,
+		id__in=cart_tree.carts.values_list('id', flat=True)
+	)
+	if cart_qs.exists():
+		cart = cart_qs.last()
+		# remove association and delete cart entry
+		cart_tree.carts.remove(cart)
+		try:
+			cart.delete()
+		except Exception:
+			pass
+		return JsonResponse({'success': True, 'view': 'add', 'count': 1})
+	else:
+		return JsonResponse({'success': False, 'message': 'not found', 'view': 'add', 'count': 1})
+
+
+def cart_view(request):
+	"""Render the user's current cart page based on session CartTree."""
+	if 'cart_tree' in request.session:
+		try:
+			cart_tree = CartTree.objects.get(id=request.session.get('cart_tree'))
+		except CartTree.DoesNotExist:
+			cart_tree = None
+	else:
+		cart_tree = None
+
+	cart_items = []
+	subtotal = 0
+	if cart_tree:
+		qs = cart_tree.carts.select_related('product', 'color', 'size').all()
+		for c in qs:
+			unit_price = c.color.get_price() if c.color else c.product.price
+			total = unit_price * c.count
+			subtotal += total
+			cart_items.append({
+				'id': c.id,
+				'product_id': c.product.id,
+				'product_name': c.product.name,
+				'color_name': c.color.name if c.color else '',
+				'size_value': c.size.value if c.size else '',
+				'unit_price': float(unit_price),
+				'count': c.count,
+				'total': float(total),
+			})
+
+	context = {
+		'cart_items': cart_items,
+		'subtotal': subtotal,
+	}
+	return render(request, 'cart.html', context)
+
+
+def checkout(request):
+	"""Handle checkout form: create Order and move current CartTree carts into the Order."""
+	if request.method == 'POST':
+		fio = request.POST.get('fio', '').strip()
+		phone = request.POST.get('phone', '').strip()
+		phone2 = request.POST.get('phone2', '').strip()
+		address = request.POST.get('address', '').strip()
+
+		# Basic validation
+		if not fio or not phone or not address:
+			# Re-render cart with an error message
+			if 'cart_tree' in request.session:
+				try:
+					cart_tree = CartTree.objects.get(id=request.session.get('cart_tree'))
+				except CartTree.DoesNotExist:
+					cart_tree = None
+			else:
+				cart_tree = None
+
+			cart_items = []
+			subtotal = 0
+			if cart_tree:
+				qs = cart_tree.carts.select_related('product', 'color', 'size').all()
+				for c in qs:
+					unit_price = c.color.get_price() if c.color else c.product.price
+					total = unit_price * c.count
+					subtotal += total
+					cart_items.append({
+						'id': c.id,
+						'product_id': c.product.id,
+						'product_name': c.product.name,
+						'color_name': c.color.name if c.color else '',
+						'size_value': c.size.value if c.size else '',
+						'unit_price': float(unit_price),
+						'count': c.count,
+						'total': float(total),
+					})
+
+			return render(request, 'cart.html', {
+				'cart_items': cart_items,
+				'subtotal': subtotal,
+				'checkout_error': 'Заполните все обязательные поля.'
+			})
+
+		# Create order
+		order = Order.objects.create(fio=fio, phone=phone, phone2=phone2, address=address)
+
+		# Move carts into order
+		if 'cart_tree' in request.session:
+			try:
+				cart_tree = CartTree.objects.get(id=request.session.get('cart_tree'))
+			except CartTree.DoesNotExist:
+				cart_tree = None
+		else:
+			cart_tree = None
+
+		moved_items = []
+		if cart_tree:
+			qs = list(cart_tree.carts.select_related('product', 'color', 'size').all())
+			if qs:
+				order.carts.set(qs)
+				# Detach carts from cart_tree
+				cart_tree.carts.clear()
+				order_total = 0
+				for c in qs:
+					unit_price = c.color.get_price() if c.color else c.product.price
+					total = unit_price * c.count
+					order_total += total
+					moved_items.append({
+						'product_name': c.product.name,
+						'color_name': c.color.name if c.color else '',
+						'size_value': c.size.value if c.size else '',
+						'count': c.count,
+						'unit_price': float(unit_price),
+						'total': float(total),
+					})
+			else:
+				order_total = 0
+
+		# Try to send order invoice to Telegram
+		try:
+			send_order_to_telegram(order)
+		except Exception:
+			logger = logging.getLogger(__name__)
+			logger.exception('Failed to send order to Telegram')
+
+		return render(request, 'checkout_success.html', {'order': order, 'items': moved_items, 'order_total': order_total})
+
+	# GET -> redirect to cart
+	return render(request, 'cart.html', {})
+
+
+def send_order_to_telegram(order):
+	"""Send order details as an invoice-like message to configured Telegram chat.
+
+	Requires settings.TELEGRAM_BOT_TOKEN and settings.TELEGRAM_CHAT_ID to be set.
+	"""
+	logger = logging.getLogger(__name__)
+	token = getattr(settings, 'TELEGRAM_BOT_TOKEN', None)
+	chat_id = getattr(settings, 'TELEGRAM_CHAT_ID', None)
+	if not token or not chat_id:
+		logger.warning('Telegram token or chat_id not configured; skipping send')
+		return False
+
+	# Build message
+	items = []
+	subtotal = 0
+	for c in order.carts.select_related('product', 'color', 'size').all():
+		unit_price = c.color.get_price() if c.color else c.product.price
+		total = unit_price * c.count
+		subtotal += total
+		items.append(f"{c.product.name} x{c.count} ({c.color.name if c.color else ''} / {c.size.value if c.size else ''}) — ₽{float(unit_price):.2f} each, ₽{float(total):.2f} total")
+
+	text_lines = [f"<b>Новый заказ #{order.id}</b>"]
+	text_lines.append(f"ФИО: {order.fio}")
+	text_lines.append(f"Телефон: {order.phone}")
+	if order.phone2:
+		text_lines.append(f"Доп. телефон: {order.phone2}")
+	text_lines.append(f"Адрес: {order.address}")
+	text_lines.append("\nТовары:")
+	text_lines.extend(items)
+	text_lines.append(f"\nИтого: ₽{float(subtotal):.2f}")
+	message = "\n".join(text_lines)
+
+	url = f"https://api.telegram.org/bot{token}/sendMessage"
+	payload = {
+		'chat_id': chat_id,
+		'text': message,
+		'parse_mode': 'HTML'
+	}
+
+	resp = requests.post(url, data=payload, timeout=10)
+	if resp.status_code != 200:
+		logger.error('Telegram API responded with %s: %s', resp.status_code, resp.text)
+		return False
+	return True
+
+
+def send_contact_to_telegram(name: str, email: str, subject: str, message: str) -> bool:
+	"""Send contact form message to Telegram chat configured in settings.
+
+	Uses `settings.TELEGRAM_BOT_TOKEN` and `settings.TELEGRAM_CHAT_ID`.
+	Returns True on success, False otherwise.
+	"""
+	logger = logging.getLogger(__name__)
+	token = getattr(settings, 'TELEGRAM_BOT_TOKEN', None)
+	chat_id = getattr(settings, 'TELEGRAM_CHAT_ID', None)
+	if not token or not chat_id:
+		logger.warning('Telegram token or chat_id not configured; skipping contact send')
+		return False
+
+	text_lines = [f"<b>Новое сообщение с контактной формы</b>"]
+	text_lines.append(f"Имя: {name}")
+	text_lines.append(f"Email: {email}")
+	if subject:
+		text_lines.append(f"Тема: {subject}")
+	text_lines.append("\nСообщение:")
+	# Escape limited HTML (we use parse_mode=HTML) - keep simple
+	body = message
+	text_lines.append(body)
+
+	payload = {
+		'chat_id': chat_id,
+		'text': "\n".join(text_lines),
+		'parse_mode': 'HTML'
+	}
+
+	url = f"https://api.telegram.org/bot{token}/sendMessage"
+	resp = requests.post(url, data=payload, timeout=10)
+	if resp.status_code != 200:
+		logger.error('Telegram API responded with %s: %s', resp.status_code, resp.text)
+		return False
+	return True
+
+
+def contact(request):
+	"""Render contact form and send email on POST.
+
+	Expects `settings.CONTACT_EMAIL` (receiver) and proper email backend configured.
+	"""
+	if request.method == 'POST':
+		name = request.POST.get('name', '').strip()
+		email = request.POST.get('email', '').strip()
+		subject = request.POST.get('subject', '').strip() or f'Сообщение с сайта от {name or email}'
+		message = request.POST.get('message', '').strip()
+
+		if not name or not email or not message:
+			messages.error(request, 'Пожалуйста, заполните все поля.')
+			return render(request, 'contact.html', {'name': name, 'email': email, 'subject': subject, 'message': message})
+
+		full_message = f"От: {name} <{email}>\n\n{message}"
+
+		try:
+			try:
+				send_contact_to_telegram(name=name, email=email, subject=subject, message=message)
+			except Exception:
+				logging.getLogger(__name__).exception('Failed to send contact message to Telegram')
+
+			messages.success(request, 'Спасибо! Ваше сообщение отправлено.')
+			return redirect('main:contact')
+		except Exception:
+			logging.getLogger(__name__).exception('Failed to send contact email')
+			messages.error(request, 'Произошла ошибка при отправке. Попробуйте позже.')
+			return render(request, 'contact.html', {'name': name, 'email': email, 'subject': subject, 'message': message})
+
+	return render(request, 'contact.html', {})
