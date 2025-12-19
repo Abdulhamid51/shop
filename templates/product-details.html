@@ -3,59 +3,69 @@
 
 {% block content %}
  <style>
-        .color-item {
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            margin: 0 5px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-        }
-        .color-item.active {
-            border: 2px solid #333;
-            transform: scale(1.1);
-        }
-        .color-item.default-color {
-            background-color: #ccc;
-        }
-        .size-item {
-            display: inline-block;
-            padding: 5px 15px;
-            border: 1px solid #ddd;
-            margin: 0 5px 5px 0;
-            cursor: pointer;
-            border-radius: 3px;
-            transition: all 0.3s;
-        }
-        .size-item.active {
-            background-color: #333;
-            color: white;
-            border-color: #333;
-        }
-        .size-item.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            text-decoration: line-through;
-        }
-        /* Ensure size items appear in one horizontal row without changing classes */
-        #size-list {
-            display: flex;
-            flex-wrap: nowrap; /* keep items on one line */
-            gap: 8px;
-            align-items: center;
-            overflow-x: auto; /* allow horizontal scroll on small screens */
-            -webkit-overflow-scrolling: touch;
-        }
-        .pro-details-size .pro-details-size-content {
-            width: 100%;
-        }
-        .size-item {
-            display: inline-flex; /* keep existing appearance but ensure inline layout */
-            white-space: nowrap;
-        }
-    </style>
+    .color-item {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin: 0 5px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.3s;
+    }
+    .color-item.active {
+        border: 2px solid #333;
+        transform: scale(1.1);
+    }
+    .color-item.default-color {
+        background-color: #ccc;
+    }
+    .size-item {
+        display: inline-block;
+        padding: 5px 15px;
+        border: 1px solid #ddd;
+        margin: 0 5px 5px 0;
+        cursor: pointer;
+        border-radius: 3px;
+        transition: all 0.3s;
+    }
+    .size-item.active {
+        background-color: #333;
+        color: white;
+        border-color: #333;
+    }
+    .size-item.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        text-decoration: line-through;
+    }
+
+    /* size list scroll, lekin scrollbar ko‘rinmaydi */
+    #size-list {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+        align-items: center;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+
+        -ms-overflow-style: none;   /* IE, Edge */
+        scrollbar-width: none;      /* Firefox */
+    }
+
+    #size-list::-webkit-scrollbar {
+        display: none;              /* Chrome, Safari */
+    }
+
+    .pro-details-size .pro-details-size-content {
+        width: 100%;
+    }
+    .size-item {
+        display: inline-flex;
+        white-space: nowrap;
+    }
+</style>
+
     
         <div class="breadcrumb-area bg-gray">
             <div class="container">
@@ -258,7 +268,7 @@
                             <div class="pro-details-quality">
                                 <span>Количество:</span>
                                 <div class="cart-plus-minus">
-                                    <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1" min="1">
+                                    <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1" min="1" id="count_input">
                                 </div>
                             </div>
                             
@@ -520,23 +530,12 @@
                     if(res.view === 'add'){
                         $('.remove-from-cart-btn').hide()
                         $('.add-to-cart-btn').show()
-                        var $qtyInput = $('.cart-plus-minus-box').find('input');
-                        if ($qtyInput.length) {
-                            $qtyInput.val(res.count);
-                        } else {
-                            // fallback in case markup isn't wrapped yet
-                            $('.cart-plus-minus-box').val(res.count);
-                        }
+                        $('#count_input').val(1);
+                        
                     }else{
                         $('.add-to-cart-btn').hide()
                         $('.remove-from-cart-btn').show()
-                        var $qtyInput = $('.cart-plus-minus-box').find('input');
-                        if ($qtyInput.length) {
-                            $qtyInput.val(res.count);
-                        } else {
-                            // fallback in case markup isn't wrapped yet
-                            $('.cart-plus-minus-box').val(res.count);
-                        }
+                        $('#count_input').val(res.count);
                     }
                 },
                 error: function(res, err){
@@ -551,7 +550,7 @@
             let size = $('.size-item.active').data('size-id')
             let color = $('.color-item.active').data('color-id')
             let product = '{{product.id}}'
-            let count = parseInt($('.cart-plus-minus-box input').val(), 10) || 1;
+            let count = $('#count_input').val()
             console.log(size, color, product, count);
             $.ajax({
                 url: '/add_to_cart/',
@@ -588,8 +587,7 @@
                     // reset UI to 'add' state
                     $('.remove-from-cart-btn').hide()
                     $('.add-to-cart-btn').show()
-                    var $qtyInput = $('.cart-plus-minus-box').find('input');
-                    if ($qtyInput.length) { $qtyInput.val(1); } else { $('.cart-plus-minus-box').val(1); }
+                    $('#count_input').val(1)
                     change_cart_button();
                 },
                 error: function(res, err){

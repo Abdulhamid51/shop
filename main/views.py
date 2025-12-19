@@ -109,7 +109,7 @@ def shop(request):
 			'times_ordered': product.times_ordered,
 		}
 
-	products = [serialize(p) for p in page_obj.object_list]
+	products = [serialize(p) for p in page_obj]
 
 	context = {
 		'products': products,
