@@ -33,22 +33,22 @@
             </div>
         </div>
         <div class="service-area">
-            <div class="container">
+            <div class="">
                 <div class="service-wrap">
                     <div class="row">
                         {% for s in services %}
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                             <div class="single-service-wrap mb-30">
                                 <div class="service-icon">
                                     {% if s.image %}
                                         <img src="{{ s.image.url }}" style="height:36px" alt="{{ s.title }}">
                                     {% else %}
-                                        <i class="{{ s.icon_class }}"></i>
+                                        <i class="{{ s.icon_class }}" style="margin-left: 20px; font-size: 40px; color: black;"></i>
                                     {% endif %}
                                 </div>
                                 <div class="service-content">
-                                    <h3>{{ s.title }}</h3>
-                                    <span>{{ s.subtitle }}</span>
+                                    <h3>{{ s.title|safe }}</h3>
+                                    <span>{{ s.subtitle|safe }}</span>
                                 </div>
                             </div>
                         </div>
