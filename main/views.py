@@ -353,6 +353,7 @@ def cart_view(request):
 				'id': c.id,
 				'product_id': c.product.id,
 				'product_name': c.product.name,
+				'product_image': c.product.main_image(),
 				'color_name': c.color.name if c.color else '',
 				'size_value': c.size.value if c.size else '',
 				'unit_price': float(unit_price),

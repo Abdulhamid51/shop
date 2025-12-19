@@ -9,6 +9,7 @@
     <table class="table">
       <thead>
         <tr>
+          <th></th>
           <th>Товар</th>
           <th>Цвет</th>
           <th>Размер</th>
@@ -21,12 +22,13 @@
       <tbody>
         {% for item in cart_items %}
         <tr data-product-id="{{ item.product_id }}" data-cart-id="{{ item.id }}">
-          <td>{{ item.product_name }}</td>
+          <td><img src="{{item.product_image}}" style="width: 80px;" alt=""></td>
+          <td><a href="/product/{{item.product_id}}/">{{ item.product_name }}</a></td>
           <td>{{ item.color_name }}</td>
           <td>{{ item.size_value }}</td>
           <td>₽ {{ item.unit_price|floatformat:2 }}</td>
           <td>
-            <input type="number" min="1" class="form-control cart-qty-input" value="{{ item.count }}" data-cart-id="{{ item.id }}" data-product-id="{{ item.product_id }}">
+            <input style="width: 70px;" type="number" min="1" class="form-control cart-qty-input" value="{{ item.count }}" data-cart-id="{{ item.id }}" data-product-id="{{ item.product_id }}">
           </td>
           <td class="row-total">₽ {{ item.total|floatformat:2 }}</td>
           <td><button class="btn btn-sm btn-danger remove-cart-btn" data-cart-id="{{ item.id }}">Удалить</button></td>
