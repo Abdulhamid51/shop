@@ -16,7 +16,7 @@ from .models import *
 
 def index(request):
 	# Show 5 random active products on the homepage
-	qs = Shoe.objects.filter(is_active=True).order_by('?')[:5]
+	qs = Shoe.objects.filter(is_active=True).order_by('?')[:6]
 
 	def serialize(product):
 		return {
