@@ -506,7 +506,7 @@ def send_order_to_telegram(order):
 	return True
 
 
-def send_contact_to_telegram(name: str, email: str, subject: str, message: str) -> bool:
+def send_contact_to_telegram(name: str, phone: str, message: str) -> bool:
 	"""Send contact form message to Telegram chat configured in settings.
 
 	Uses `settings.TELEGRAM_BOT_TOKEN` and `settings.TELEGRAM_CHAT_ID`.
@@ -521,9 +521,7 @@ def send_contact_to_telegram(name: str, email: str, subject: str, message: str) 
 
 	text_lines = [f"<b>Новое сообщение с контактной формы</b>"]
 	text_lines.append(f"Имя: {name}")
-	text_lines.append(f"Email: {email}")
-	if subject:
-		text_lines.append(f"Тема: {subject}")
+	text_lines.append(f"Телефон: {phone}")
 	text_lines.append("\nСообщение:")
 	# Escape limited HTML (we use parse_mode=HTML) - keep simple
 	body = message
@@ -550,27 +548,26 @@ def contact(request):
 	"""
 	if request.method == 'POST':
 		name = request.POST.get('name', '').strip()
-		email = request.POST.get('email', '').strip()
-		subject = request.POST.get('subject', '').strip() or f'Сообщение с сайта от {name or email}'
+		phone = request.POST.get('phone', '').strip()
 		message = request.POST.get('message', '').strip()
 
-		if not name or not email or not message:
+		if not name or not phone or not message:
 			messages.error(request, 'Пожалуйста, заполните все поля.')
-			return render(request, 'contact.html', {'name': name, 'email': email, 'subject': subject, 'message': message})
+			return render(request, 'contact.html', {'name': name, 'phone': phone, 'message': message})
 
-		full_message = f"От: {name} <{email}>\n\n{message}"
+		full_message = f"От: {name} <{phone}>\n\n{message}"
 
 		try:
 			try:
-				send_contact_to_telegram(name=name, email=email, subject=subject, message=message)
+				send_contact_to_telegram(name=name, phone=phone, message=message)
 			except Exception:
 				logging.getLogger(__name__).exception('Failed to send contact message to Telegram')
 
 			messages.success(request, 'Спасибо! Ваше сообщение отправлено.')
 			return redirect('main:contact')
 		except Exception:
-			logging.getLogger(__name__).exception('Failed to send contact email')
+			logging.getLogger(__name__).exception('Failed to send contact phone')
 			messages.error(request, 'Произошла ошибка при отправке. Попробуйте позже.')
-			return render(request, 'contact.html', {'name': name, 'email': email, 'subject': subject, 'message': message})
+			return render(request, 'contact.html', {'name': name, 'phone': phone, 'message': message})
 
 	return render(request, 'contact.html', {})
