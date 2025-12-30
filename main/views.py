@@ -575,3 +575,9 @@ def contact(request):
 			return render(request, 'contact.html', {'name': name, 'phone': phone, 'message': message})
 
 	return render(request, 'contact.html', {})
+
+
+# for i in Stock.objects.all():
+# 	i.quantity = 100
+# 	i.save()
+# 	print(i.id)
