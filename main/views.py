@@ -102,7 +102,11 @@ def shop(request):
 			'tags': list(product.tags.all()),
 			'image': product.main_image(),
 			'images': [img.image.url for img in product.images.all()],
-			'colors': [{'name': c.name, 'css_class': c.css_class, 'price': c.get_price()} for c in product.colors.all()],
+			'colors': (lambda cols: [
+				{'name': c.name, 'css_class': c.css_class, 'price': c.get_price()} 
+				for c in (lambda it: [x for x in it])(cols) 
+				if True
+			])(product.colors.all() if True else []),
 			'sizes': list(Size.objects.filter(stock__color__shoe=product).distinct()),
 			'reviews_count': product.reviews_count,
 			'average_rating': product.average_rating,
