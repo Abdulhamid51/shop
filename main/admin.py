@@ -6,6 +6,7 @@ from .models import (
 	Category, Brand, Shoe, Size, Tag,
 	ProductImage, ShoeColor, ShoeColorImage, Stock,
 	HeroSlide, ServiceItem, AboutBlock, Banner, BrandLogo, InstagramSetting,
+	Testimonial
 )
 
 
@@ -129,10 +130,15 @@ class InstagramSettingAdmin(admin.ModelAdmin):
 	list_display = ('tag_text',)
 
 
+class TestimonialAdmin(admin.ModelAdmin):
+	list_display = ('name', 'who', 'text')
+
+
 admin.site.register(HeroSlide, HeroSlideAdmin)
 admin.site.register(ServiceItem, ServiceItemAdmin)
 admin.site.register(AboutBlock, AboutBlockAdmin)
 admin.site.register(Banner, BannerAdmin)
 admin.site.register(BrandLogo, BrandLogoAdmin)
 admin.site.register(InstagramSetting, InstagramSettingAdmin)
+admin.site.register(Testimonial, TestimonialAdmin)
 

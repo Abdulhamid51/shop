@@ -71,10 +71,10 @@
             <div class="container">
                     <div class="breadcrumb-content text-center">
                     <ul>
-                        <li><a href="/">Главная</a></li>
-                        <li><a href="/shop/">Магазин</a></li>
+                        <li><a href="/index/">Главная</a></li>
+                        <li><a href="">Магазин</a></li>
                         {% for category in product.categories.all %}
-                        <li><a href="/shop/?category={{ category.id }}">{{ category.name }}</a></li>
+                        <li><a href="?category={{ category.id }}">{{ category.name }}</a></li>
                         {% endfor %}
                         <li class="active">{{ product.name|truncatechars:30 }}</li>
                     </ul>
@@ -464,7 +464,7 @@
                                     </div>
                                     <span>({{ related.reviews_count }})</span>
                                 </div>
-                                <h3><a href="/">{{ related.name|truncatechars:30 }}</a></h3>
+                                <h3><a href="/index/">{{ related.name|truncatechars:30 }}</a></h3>
                                 <div class="product-price-2">
                                     {% if related.old_price %}
                                     <span class="new-price">₽ {{ related.price|intcomma }}</span>
@@ -487,7 +487,7 @@
                                     </div>
                                     <span>({{ related.reviews_count }})</span>
                                 </div>
-                                <h3><a href="/">{{ related.name|truncatechars:30 }}</a></h3>
+                                <h3><a href="/index/">{{ related.name|truncatechars:30 }}</a></h3>
                                 <div class="product-price-2">
                                     {% if related.old_price %}
                                     <span class="new-price">₽ {{ related.price|intcomma }}</span>

@@ -289,3 +289,9 @@ class InstagramSetting(models.Model):
 
 	def __str__(self):
 		return self.tag_text
+	
+class Testimonial(models.Model):
+	name  = models.CharField(max_length=220)
+	text = models.TextField()
+	who = models.CharField(max_length=120)
+	image = models.ImageField(upload_to='products/%Y/%m/%d/', help_text='Kvadrat rasm bo`lsin')

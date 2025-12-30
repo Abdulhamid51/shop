@@ -64,7 +64,7 @@
                         <h2>Рекомендуемые товары</h2>
                     </div>
                     <div style="margin-left:auto">
-                        <a href="/shop/" class="btn btn-sm" style="border:1px solid #e2e8f0;padding:6px 10px;border-radius:6px;text-decoration:none;color:#0f172a">Посмотреть все</a>
+                        <a href="" class="btn btn-sm" style="border:1px solid #e2e8f0;padding:6px 10px;border-radius:6px;text-decoration:none;color:#0f172a">Посмотреть все</a>
                     </div>
                 </div>
                 <div class="row">
@@ -134,22 +134,383 @@
                 </div>
             </div>
         </div>
-        <div class="instagram-area">
-            <div class="container">
-                <div class="section-title-tab-wrap mb-45">
-                    <div class="section-title">
-                        <h2>Наш Инстаграм</h2>
+
+<!-- Отзывы клиентов -->
+<div class="testimonials-section">
+    <div class="container">
+        <div class="section-title text-center">
+            <h2>Что говорят наши клиенты</h2>
+        </div>
+        
+        <div class="testimonials-container">
+            <div class="testimonial-slider">
+                <!-- All testimonials in one container for smooth scrolling -->
+                <div class="testimonial-track">
+                    
+                    {% for t in testimonials %}
+                        
+                    <!-- Testimonial t.id -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="testimonial-image">
+                                <img src="{{t.image.url}}" alt="{{t.name}}">
+                            </div>
+                            <div class="testimonial-text">
+                                <p class="quote">"{{t.text}}"</p>
+                                <div class="client-info">
+                                    <h4>{{t.name}}</h4>
+                                    <p class="role">{{t.who}}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="instagram-tag">
-                        <span>{{ instagram_tag }}</span>
-                    </div>
-                </div>
-                <div class="instagram-wrap">
-                    <div class="instagram-carousel instagram-style-1" id="instagramFeedOne">
-                    </div>
+                        
+                    {% endfor %}
                 </div>
             </div>
+            
+            <!-- Navigation buttons -->
+            <button class="slider-nav prev">❮</button>
+            <button class="slider-nav next">❯</button>
         </div>
+    </div>
+</div>
+
+<style>
+    /* Testimonials Section Styles */
+    .testimonials-section {
+        padding: 80px 0;
+        background-color: #f8f9fa;
+        overflow: hidden;
+    }
+    
+    .section-title {
+        margin-bottom: 60px;
+    }
+    
+    .section-title h2 {
+        font-size: 36px;
+        color: #333;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+    
+    /* Testimonials Container */
+    .testimonials-container {
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+    
+    /* Testimonial Slider */
+    .testimonial-slider {
+        position: relative;
+        overflow: hidden;
+        margin: 0 60px;
+    }
+    
+    .testimonial-track {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        gap: 30px;
+        padding: 10px 0;
+    }
+    
+    /* Testimonial Card */
+    .testimonial-card {
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        min-width: calc(50% - 15px); /* 2 ta chiqishi uchun */
+        flex: 0 0 calc(50% - 15px);
+    }
+    
+    .testimonial-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+    
+    .testimonial-content {
+        display: flex;
+        align-items: flex-start;
+        gap: 25px;
+        height: 100%;
+    }
+    
+    .testimonial-image {
+        flex-shrink: 0;
+    }
+    
+    .testimonial-image img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #f0f0f0;
+    }
+    
+    .testimonial-text {
+        flex: 1;
+    }
+    
+    .testimonial-text .quote {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #555;
+        font-style: italic;
+        margin-bottom: 20px;
+        position: relative;
+        padding-left: 20px;
+    }
+    
+    .testimonial-text .quote::before {
+        content: "“";
+        font-size: 60px;
+        color: #e2e8f0;
+        position: absolute;
+        left: -15px;
+        top: -20px;
+        font-family: Georgia, serif;
+    }
+    
+    .client-info h4 {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+    
+    .client-info .role {
+        font-size: 14px;
+        color: #888;
+        margin: 0;
+    }
+    
+    /* Slider Navigation */
+    .slider-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: white;
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+    
+    .slider-nav:hover {
+        background: #333;
+        color: white;
+    }
+    
+    .slider-nav.prev {
+        left: 0;
+    }
+    
+    .slider-nav.next {
+        right: 0;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .testimonial-card {
+            min-width: calc(100% - 30px); /* 1 ta chiqishi uchun */
+            flex: 0 0 calc(100% - 30px);
+        }
+        
+        .testimonial-slider {
+            margin: 0 50px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .testimonial-content {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .testimonial-text .quote {
+            padding-left: 0;
+        }
+        
+        .testimonial-text .quote::before {
+            left: 50%;
+            transform: translateX(-50%);
+            top: -35px;
+        }
+        
+        .slider-nav {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+        }
+        
+        .slider-nav.prev {
+            left: 5px;
+        }
+        
+        .slider-nav.next {
+            right: 5px;
+        }
+        
+        .section-title h2 {
+            font-size: 28px;
+        }
+        
+        .testimonial-slider {
+            margin: 0 40px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .testimonial-slider {
+            margin: 0 30px;
+        }
+        
+        .testimonial-card {
+            padding: 20px;
+        }
+        
+        .testimonial-image img {
+            width: 80px;
+            height: 80px;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elements
+        const track = document.querySelector('.testimonial-track');
+        const cards = document.querySelectorAll('.testimonial-card');
+        const prevBtn = document.querySelector('.slider-nav.prev');
+        const nextBtn = document.querySelector('.slider-nav.next');
+        
+        let currentPosition = 0;
+        let cardWidth = 0;
+        let gap = 30;
+        let cardsPerView = 2;
+        let slideInterval;
+        
+        // Initialize slider
+        function initSlider() {
+            updateCardWidth();
+            updateCardsPerView();
+            positionCards();
+            startAutoSlide();
+            
+            // Add click events to navigation buttons
+            prevBtn.addEventListener('click', showPrev);
+            nextBtn.addEventListener('click', showNext);
+            
+            // Pause auto slide on hover
+            const sliderContainer = document.querySelector('.testimonials-container');
+            sliderContainer.addEventListener('mouseenter', pauseAutoSlide);
+            sliderContainer.addEventListener('mouseleave', startAutoSlide);
+            
+            // Update on window resize
+            window.addEventListener('resize', function() {
+                updateCardWidth();
+                updateCardsPerView();
+                positionCards();
+            });
+        }
+        
+        // Update card width based on screen size
+        function updateCardWidth() {
+            if (cards.length > 0) {
+                const card = cards[0];
+                const style = window.getComputedStyle(card);
+                cardWidth = card.offsetWidth + parseInt(style.marginLeft || 0) + parseInt(style.marginRight || 0);
+            }
+        }
+        
+        // Update cards per view based on screen size
+        function updateCardsPerView() {
+            if (window.innerWidth <= 992) {
+                cardsPerView = 1;
+            } else {
+                cardsPerView = 2;
+            }
+        }
+        
+        // Position cards based on current position
+        function positionCards() {
+            const moveX = currentPosition * (cardWidth + gap) * cardsPerView;
+            track.style.transform = `translateX(-${moveX}px)`;
+        }
+        
+        // Show next cards
+        function showNext() {
+            const maxPosition = Math.ceil(cards.length / cardsPerView) - 1;
+            
+            if (currentPosition < maxPosition) {
+                currentPosition++;
+            } else {
+                // Agar oxiriga yetgan bo'lsa, boshiga qaytadi
+                currentPosition = 0;
+            }
+            
+            positionCards();
+            resetAutoSlide();
+        }
+        
+        // Show previous cards
+        function showPrev() {
+            if (currentPosition > 0) {
+                currentPosition--;
+            } else {
+                // Agar boshida bo'lsa, oxiriga o'tadi
+                const maxPosition = Math.ceil(cards.length / cardsPerView) - 1;
+                currentPosition = maxPosition;
+            }
+            
+            positionCards();
+            resetAutoSlide();
+        }
+        
+        // Start auto sliding
+        function startAutoSlide() {
+            slideInterval = setInterval(showNext, 6000); // 3 seconds
+        }
+        
+        // Pause auto sliding
+        function pauseAutoSlide() {
+            clearInterval(slideInterval);
+        }
+        
+        // Reset auto sliding
+        function resetAutoSlide() {
+            pauseAutoSlide();
+            startAutoSlide();
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') {
+                showPrev();
+            } else if (e.key === 'ArrowRight') {
+                showNext();
+            }
+        });
+        
+        // Initialize the slider
+        initSlider();
+    });
+</script>
+
         <div class="brand-logo-area pt-100 pb-100">
             <div class="container">
                     <div class="brand-logo-wrap brand-logo-mrg">
@@ -163,4 +524,3 @@
         </div>
         
 {% endblock content %}
-    
