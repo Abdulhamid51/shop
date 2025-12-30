@@ -39,7 +39,7 @@ def index(request):
 	brand_logos = list(BrandLogo.objects.filter(is_active=True).order_by('order'))
 	inst_setting = InstagramSetting.objects.first()
 	instagram_tag = inst_setting.tag_text if inst_setting else '#instagram'
-	testimonials = Testimonial.objects.all()
+	testimonials = Testimonial.objects.all().order_by('?')
 	context = {
 		'products': products,
 		'hero_slides': hero_slides,
