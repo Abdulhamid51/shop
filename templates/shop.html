@@ -13,12 +13,12 @@
                                         {% for product in products %}
                                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                             <div class="single-product-wrap mb-35">
-                                                <div class="product-img product-img-zoom mb-15">
-                                                    <a href="/product/{{product.id}}/">
+                                                <div class="product-img product-img-zoom mb-15" style="height:220px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                                                    <a href="/product/{{product.id}}/" style="display:block; width:100%; height:100%;">
                                                         {% if product.image %}
-                                                        <img src="{{ product.image }}" alt="{{ product.name }}">
+                                                        <img src="{{ product.image }}" alt="{{ product.name }}" style="max-height:100%; width:auto; display:block; margin:0 auto; object-fit:contain;">
                                                         {% else %}
-                                                        <img src="/static/assets/images/product/default.jpg" alt="{{ product.name }}">
+                                                        <img src="/static/assets/images/product/default.jpg" alt="{{ product.name }}" style="max-height:100%; width:auto; display:block; margin:0 auto; object-fit:contain;">
                                                         {% endif %}
                                                     </a>
                                                     <!-- <div class="product-action-2 tooltip-style-2">
@@ -90,7 +90,7 @@
                     
                     <!-- Sidebar -->
                     <div class="col-lg-3">
-                        <div class="sidebar-wrapper sidebar-wrapper-mrg-right">
+                        <div class="sidebar-wrapper sidebar-wrapper-mrg-right" style="position: -webkit-sticky; position: sticky; top: 120px; z-index: 5; max-height: calc(100vh - 140px); overflow-y: auto; -webkit-overflow-scrolling: touch;">
                             <!-- Search -->
                             <div class="sidebar-widget mb-40">
                                 <h4 class="sidebar-widget-title">Поиск</h4>

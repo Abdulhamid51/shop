@@ -1,11 +1,48 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from django.db import models as djmodels
 
 from .models import (
 	Category, Brand, Shoe, Size, Tag,
 	ProductImage, ShoeColor, ShoeColorImage, Stock,
-    HeroSlide, ServiceItem, AboutBlock, Banner, BrandLogo, InstagramSetting,
+	HeroSlide, ServiceItem, AboutBlock, Banner, BrandLogo, InstagramSetting,
 )
+
+
+class CategoryAdmin(admin.ModelAdmin):
+	list_display = ('name',)
+	search_fields = ('name', 'description')
+
+
+class BrandAdmin(admin.ModelAdmin):
+	list_display = ('name',)
+	search_fields = ('name', 'description')
+
+
+class SizeAdmin(admin.ModelAdmin):
+	list_display = ('value',)
+	search_fields = ('value',)
+
+
+class TagAdmin(admin.ModelAdmin):
+	list_display = ('name',)
+	search_fields = ('name',)
+
+
+class StockAdmin(admin.ModelAdmin):
+	list_display = ('color', 'size', 'quantity')
+	search_fields = ('color__shoe__name', 'color__name', 'size__value')
+	list_filter = ('size', 'color')
+
+
+class ProductImageAdmin(admin.ModelAdmin):
+	list_display = ('product', 'position', 'alt_text')
+	search_fields = ('product__name', 'alt_text')
+
+
+class ShoeColorImageAdmin(admin.ModelAdmin):
+	list_display = ('product_color', 'position', 'alt_text')
+	search_fields = ('product_color__name', 'alt_text')
 
 
 class ProductImageInline(admin.TabularInline):
@@ -52,12 +89,15 @@ class ShoeAdmin(admin.ModelAdmin):
 	filter_horizontal = ('categories', 'tags')
 
 
-admin.site.register(Category)
-admin.site.register(Brand)
-admin.site.register(Size)
-admin.site.register(Tag)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Brand, BrandAdmin)
+admin.site.register(Size, SizeAdmin)
+admin.site.register(Tag, TagAdmin)
 admin.site.register(Shoe, ShoeAdmin)
 admin.site.register(ShoeColor, ShoeColorAdmin)
+admin.site.register(Stock, StockAdmin)
+admin.site.register(ProductImage, ProductImageAdmin)
+admin.site.register(ShoeColorImage, ShoeColorImageAdmin)
 
 
 class HeroSlideAdmin(admin.ModelAdmin):

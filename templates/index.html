@@ -57,32 +57,6 @@
                 </div>
             </div>
         </div>
-        <div class="about-us-area pt-85">
-            <div class="container">
-                <div class="border-bottom-1 about-content-pb">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-3">
-                            <div class="about-us-logo">
-                                {% if about_block and about_block.logo %}
-                                    <img src="{{ about_block.logo.url }}" style="margin: 15px; width: 100px;" alt="{{ about_block.title }}">
-                                {% else %}
-                                    <img src="/static/assets/images/logo/logo.svg" style="margin: 15px; width: 100px;" alt="логотип">
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="col-lg-9 col-md-9">
-                            <div class="about-us-content">
-                                <h3>{{ about_block.title|default:'Представляем' }}</h3>
-                                <p>{{ about_block.content|default:"Магазин Norda - это бизнес-концепция, предлагающая моду и качество по лучшей цене." }}</p>
-                                <div class="signature">
-                                    <h2>{{ about_block.signature }}</h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="product-area section-padding-1 pt-115 pb-75">
             <div class="container">
                 <div class="section-title-tab-wrap mb-45">
