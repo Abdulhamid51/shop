@@ -3,32 +3,29 @@
 
 {% block content %}
     
-        <div class="slider-area bg-gray">
-            <div class="hero-slider-active-1 hero-slider-pt-1 nav-style-1 dot-style-1">
+        
+        <div class="slider-area">
+            <div class="hero-slider-active-1 nav-style-1 dot-style-2 dot-style-2-position-2 dot-style-2-active-black">
+                
                 {% for slide in hero_slides %}
-                <div class="single-hero-slider single-animation-wrap">
+                    
+                <div class="single-hero-slider single-animation-wrap slider-height-2 custom-d-flex custom-align-item-center bg-img hm2-slider-bg res-white-overly-xs" style="background-image:url({{slide.image.url}});">
                     <div class="container">
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="hero-slider-content-1 hero-slider-content-1-pt-1 slider-animated-1">
-                                    <h4 class="animated">{{ slide.subtitle }}</h4>
-                                    <h1 class="animated">{{ slide.title|safe }}</h1>
-                                    <p class="animated">{{ slide.description }}</p>
-                                    {% if slide.button_text %}
+                            <div class="col-12">
+                                <div class="hero-slider-content-4 slider-animated-1">
+                                    <h4 class="animated">{{slide.subtitle}}</h4>
+                                    <h1 class="animated">{{slide.title|safe}}</h1>
+                                    <p class="animated">{{slide.description|safe}}</p>
                                     <div class="btn-style-1">
-                                        <a class="animated btn-1-padding-1" href="{{ slide.button_url }}">{{ slide.button_text }}</a>
+                                        <a class="animated btn-1-padding-1" href="{{slide.button.url}}">{{slide.button_text}}</a>
                                     </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="hero-slider-img-1 slider-animated-1">
-                                    <img class="animated" src="{{ slide.image.url }}" alt="{{ slide.title }}">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                    
                 {% endfor %}
             </div>
         </div>

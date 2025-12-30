@@ -3,6 +3,7 @@
 
 {% block content %}
  <style>
+    /* Mavjud CSS kodlari... */
     .color-item {
         display: inline-block;
         width: 30px;
@@ -40,7 +41,7 @@
         text-decoration: line-through;
     }
 
-    /* size list scroll, lekin scrollbar ko‘rinmaydi */
+    /* size list scroll, lekin scrollbar ko'rinmaydi */
     #size-list {
         display: flex;
         flex-wrap: nowrap;
@@ -48,7 +49,6 @@
         align-items: center;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-
         -ms-overflow-style: none;   /* IE, Edge */
         scrollbar-width: none;      /* Firefox */
     }
@@ -64,6 +64,53 @@
         display: inline-flex;
         white-space: nowrap;
     }
+
+    /* Success animation styles */
+    .add-to-cart-btn {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .add-to-cart-btn.success {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+        color: white !important;
+    }
+    
+    .add-to-cart-btn.success::after {
+        content: '✓';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 20px;
+        opacity: 0;
+        animation: checkmark 0.5s ease-out forwards;
+    }
+    
+    .add-to-cart-btn.success .btn-text {
+        opacity: 0;
+    }
+    
+    @keyframes checkmark {
+        0% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.5);
+        }
+        50% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+        100% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
+    
+    .btn-text {
+        transition: opacity 0.3s ease;
+    }
 </style>
 
     
@@ -72,7 +119,7 @@
                     <div class="breadcrumb-content text-center">
                     <ul>
                         <li><a href="/index/">Главная</a></li>
-                        <li><a href="">Магазин</a></li>
+                        <li><a href="/">Магазин</a></li>
                         {% for category in product.categories.all %}
                         <li><a href="?category={{ category.id }}">{{ category.name }}</a></li>
                         {% endfor %}
@@ -135,9 +182,9 @@
                                             </a>
                                         </div>
                                         <a class="easyzoom-pop-up img-popup" href="/static/assets/images/product/default.jpg">
-                                            <i class="icon-size-fullscreen"></i>
-                                        </a>
-                                    </div>
+                                                <i class="icon-size-fullscreen"></i>
+                                            </a>
+                                        </div>
                                     {% endfor %}
                                 {% endif %}
                             </div>
@@ -294,8 +341,12 @@
                             
                             <div class="pro-details-action-wrap">
                                 <div class="pro-details-add-to-cart">
-                                    <button onclick="add_to_cart()" class="add-to-cart-btn  btn btn-dark" style="display: none;">Добавить в корзину</button>
-                                    <button onclick="remove_from_cart()" class="remove-from-cart-btn btn btn-danger" style="display: none;">Удалить из корзины</button>
+                                    <button onclick="add_to_cart()" class="add-to-cart-btn btn btn-dark">
+                                        <span class="btn-text">Добавить в корзину</span>
+                                    </button>
+                                    <button onclick="remove_from_cart()" class="remove-from-cart-btn btn btn-danger" style="display: none;">
+                                        <span class="btn-text">Удалить из корзины</span>
+                                    </button>
                                 </div>
                                 <div class="pro-details-action">
                                     <!-- <a title="Add to Wishlist" href="#"><i class="icon-heart"></i></a>
@@ -552,6 +603,12 @@
             let product = '{{product.id}}'
             let count = $('#count_input').val()
             console.log(size, color, product, count);
+            
+            // Tugmani animatsiya holatiga o'tkazish
+            const addButton = $('.add-to-cart-btn');
+            addButton.addClass('success');
+            addButton.prop('disabled', true);
+            
             $.ajax({
                 url: '/add_to_cart/',
                 method: 'get',
@@ -562,11 +619,29 @@
                     'count': count
                 },
                 success: function(res){
-                    console.log(res)
-                    change_cart_button()
+                    console.log(res);
+                    
+                    // 1.5 soniya kutib, keyin tugmani normal holatga qaytarish
+                    setTimeout(function() {
+                        addButton.removeClass('success');
+                        addButton.prop('disabled', false);
+                        
+                        // Savatni yangilash
+                        change_cart_button();
+                        
+                        // Savatdagi umumiy miqdorni yangilash (agar bunday funksiya bo'lsa)
+                        updateCartCount();
+                    }, 1500);
                 },
                 error: function(res, err){
-                    console.log(res, err)
+                    console.log(res, err);
+                    
+                    // Xatolik bo'lsa ham tugmani normal holatga qaytarish
+                    addButton.removeClass('success');
+                    addButton.prop('disabled', false);
+                    
+                    // Xatolik xabarini ko'rsatish
+                    alert('Xatolik yuz berdi. Iltimos, qayta urinib ko\'ring.');
                 }
             })
         }
@@ -575,6 +650,11 @@
             let size = $('.size-item.active').data('size-id')
             let color = $('.color-item.active').data('color-id')
             let product = '{{product.id}}'
+            
+            // Tugmani disable qilish
+            const removeButton = $('.remove-from-cart-btn');
+            removeButton.prop('disabled', true);
+            
             $.ajax({
                 url: '/remove_from_cart/',
                 method: 'get',
@@ -589,11 +669,33 @@
                     $('.add-to-cart-btn').show()
                     $('#count_input').val(1)
                     change_cart_button();
+                    
+                    // Savatdagi umumiy miqdorni yangilash
+                    updateCartCount();
+                    
+                    // Tugmani enable qilish
+                    removeButton.prop('disabled', false);
                 },
                 error: function(res, err){
-                    console.log(res, err)
+                    console.log(res, err);
+                    removeButton.prop('disabled', false);
                 }
             })
+        }
+        
+        // Savatdagi umumiy miqdorni yangilash funksiyasi
+        function updateCartCount() {
+            $.ajax({
+                url: '/get_cart_count/',
+                method: 'get',
+                success: function(res) {
+                    // Agar sizda savatdagi mahsulotlar sonini ko'rsatadigan element bo'lsa
+                    if (res.count !== undefined) {
+                        // Masalan: $('.cart-count').text(res.count);
+                        console.log('Cart count updated:', res.count);
+                    }
+                }
+            });
         }
         
         // Делегированный обработчик для динамически создаваемых кнопок
@@ -848,4 +950,3 @@
     </script>
 
 {% endblock content %}
-    
