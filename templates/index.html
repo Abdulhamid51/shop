@@ -3,6 +3,22 @@
 
 {% block content %}
     
+<style>
+@media (max-width: 576px) {
+    .single-service-wrap {
+        text-align: left;
+    }
+
+    .service-icon {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .services {
+        display: flex;
+        justify-content: flex-start;
+    }
+}
+</style>
         
         <div class="slider-area">
             <div class="hero-slider-active-1 nav-style-1 dot-style-2 dot-style-2-position-2 dot-style-2-active-black">
@@ -16,6 +32,7 @@
                                 <div class="hero-slider-content-4 slider-animated-1">
                                     <h4 class="animated">{{slide.subtitle}}</h4>
                                     <h1 class="animated">{{slide.title|safe}}</h1>
+                                    <br><br><br>
                                     <p class="animated">{{slide.description|safe}}</p>
                                     <div class="btn-style-1">
                                         <a class="animated btn-1-padding-1" href="{{slide.button.url}}">{{slide.button_text}}</a>
@@ -34,7 +51,7 @@
                 <div class="service-wrap">
                     <div class="row">
                         {% for s in services %}
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12 services">
                             <div class="single-service-wrap mb-30">
                                 <div class="service-icon">
                                     {% if s.image %}
@@ -66,7 +83,7 @@
                 </div>
                 <div class="row">
                     {% for p in products %}
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-6">
                         <div class="single-product-wrap mb-35">
                             <div class="product-img product-img-zoom mb-20" style="height:220px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
                                 <a href="/product/{{ p.id }}/" style="display:block; width:100%; height:100%;">

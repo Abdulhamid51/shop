@@ -464,51 +464,60 @@ def checkout(request):
 	# GET -> redirect to cart
 	return render(request, 'cart.html', {})
 
-
 def send_order_to_telegram(order):
-	"""Send order details as an invoice-like message to configured Telegram chat.
+    import logging, requests
+    from django.conf import settings
 
-	Requires settings.TELEGRAM_BOT_TOKEN and settings.TELEGRAM_CHAT_ID to be set.
-	"""
-	logger = logging.getLogger(__name__)
-	token = getattr(settings, 'TELEGRAM_BOT_TOKEN', None)
-	chat_id = getattr(settings, 'TELEGRAM_CHAT_ID', None)
-	if not token or not chat_id:
-		logger.warning('Telegram token or chat_id not configured; skipping send')
-		return False
+    logger = logging.getLogger(__name__)
+    token = getattr(settings, 'TELEGRAM_BOT_TOKEN', None)
+    chat_id = getattr(settings, 'TELEGRAM_CHAT_ID', None)
+    if not token or not chat_id:
+        return False
 
-	# Build message
-	items = []
-	subtotal = 0
-	for c in order.carts.select_related('product', 'color', 'size').all():
-		unit_price = c.color.get_price() if c.color else c.product.price
-		total = unit_price * c.count
-		subtotal += total
-		items.append(f"{c.product.name} x{c.count} ({c.color.name if c.color else ''} / {c.size.value if c.size else ''}) — ₽{float(unit_price):.2f} each, ₽{float(total):.2f} total")
+    items_text = []
+    subtotal = 0
 
-	text_lines = [f"<b>Новый заказ #{order.id}</b>"]
-	text_lines.append(f"ФИО: {order.fio}")
-	text_lines.append(f"Телефон: {order.phone}")
-	if order.phone2:
-		text_lines.append(f"Доп. телефон: {order.phone2}")
-	text_lines.append(f"Адрес: {order.address}")
-	text_lines.append("\nТовары:")
-	text_lines.extend(items)
-	text_lines.append(f"\nИтого: ₽{float(subtotal):.2f}")
-	message = "\n".join(text_lines)
+    for i, c in enumerate(order.carts.select_related('product', 'color', 'size'), start=1):
+        unit_price = c.color.get_price() if c.color else c.product.price
+        total = unit_price * c.count
+        subtotal += total
 
-	url = f"https://api.telegram.org/bot{token}/sendMessage"
-	payload = {
-		'chat_id': chat_id,
-		'text': message,
-		'parse_mode': 'HTML'
-	}
+        options = []
+        if c.color:
+            options.append(f"🎨 {c.color.name}")
+        if c.size:
+            options.append(f"📏 {c.size.value}")
 
-	resp = requests.post(url, data=payload, timeout=10)
-	if resp.status_code != 200:
-		logger.error('Telegram API responded with %s: %s', resp.status_code, resp.text)
-		return False
-	return True
+        items_text.append(
+            f"<b>{i}. {c.product.name}</b>\n"
+            f"   {' | '.join(options)}\n"
+            f"   💵 {unit_price:.2f} ₽ × {c.count} = <b>{total:.2f} ₽</b>"
+        )
+
+    phone2_text = f"📞 <b>Доп. телефон:</b> {order.phone2}\n" if order.phone2 else ""
+
+    message = (
+		f"🛒 <b>НОВЫЙ ЗАКАЗ #{order.id}</b>\n"
+		f"━━━━━━━━━━━━━━━\n"
+		f"👤 <b>Клиент:</b> {order.fio}\n"
+		f"📞 <b>Телефон:</b> {order.phone}\n"
+		f"{phone2_text}"
+		f"📍 <b>Адрес доставки:</b>\n{order.address}\n"
+		f"\n📦 <b>Товары:</b>\n"
+		f"{chr(10).join(items_text)}\n"
+		f"\n━━━━━━━━━━━━━━━\n"
+		f"💰 <b>Итого:</b> <b>{subtotal:.2f} ₽</b>"
+	)
+
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    payload = {
+        "chat_id": chat_id,
+        "text": message,
+        "parse_mode": "HTML"
+    }
+
+    resp = requests.post(url, data=payload, timeout=10)
+    return resp.status_code == 200
 
 
 def send_contact_to_telegram(name: str, phone: str, message: str) -> bool:

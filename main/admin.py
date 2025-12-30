@@ -1,6 +1,9 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.db import models as djmodels
+from myauth.models import CustomUser
+from django.contrib.auth.admin import UserAdmin
+
 
 from .models import (
 	Category, Brand, Shoe, Size, Tag,
@@ -8,6 +11,26 @@ from .models import (
 	HeroSlide, ServiceItem, AboutBlock, Banner, BrandLogo, InstagramSetting,
 	Testimonial
 )
+
+
+@admin.register(CustomUser)
+class CustomUserAdmin(UserAdmin):
+    model = CustomUser
+    list_display = ("id", "email", "is_staff", "is_active")
+    ordering = ("email",)
+
+    fieldsets = (
+        (None, {"fields": ("email", "password")}),
+        ("Permissions", {"fields": ("is_staff", "is_active", "is_superuser", "groups", "user_permissions")}),
+        ("Important dates", {"fields": ("last_login",)}),
+    )
+
+    add_fieldsets = (
+        (None, {
+            "classes": ("wide",),
+            "fields": ("email", "password1", "password2", "is_staff", "is_active"),
+        }),
+    )
 
 
 class CategoryAdmin(admin.ModelAdmin):

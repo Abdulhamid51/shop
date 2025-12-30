@@ -503,19 +503,7 @@
                                 </div> -->
                             </div>
                             <div class="product-content-wrap-2 text-center">
-                                <div class="product-rating-wrap">
-                                    <div class="product-rating">
-                                        {% for i in "12345" %}
-                                        {% if forloop.counter <= related.average_rating %}
-                                        <i class="icon_star"></i>
-                                        {% else %}
-                                        <i class="icon_star gray"></i>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                    <span>({{ related.reviews_count }})</span>
-                                </div>
-                                <h3><a href="/index/">{{ related.name|truncatechars:30 }}</a></h3>
+                                <h3><a href="/product/{{related.id}}/">{{ related.name|truncatechars:30 }}</a></h3>
                                 <div class="product-price-2">
                                     {% if related.old_price %}
                                     <span class="new-price">₽ {{ related.price|intcomma }}</span>
@@ -526,19 +514,7 @@
                                 </div>
                             </div>
                             <div class="product-content-wrap-2 product-content-position text-center">
-                                <div class="product-rating-wrap">
-                                    <div class="product-rating">
-                                        {% for i in "12345" %}
-                                        {% if forloop.counter <= related.average_rating %}
-                                        <i class="icon_star"></i>
-                                        {% else %}
-                                        <i class="icon_star gray"></i>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                    <span>({{ related.reviews_count }})</span>
-                                </div>
-                                <h3><a href="/index/">{{ related.name|truncatechars:30 }}</a></h3>
+                                <h3><a href="/product/{{related.id}}/">{{ related.name|truncatechars:30 }}</a></h3>
                                 <div class="product-price-2">
                                     {% if related.old_price %}
                                     <span class="new-price">₽ {{ related.price|intcomma }}</span>
@@ -546,9 +522,6 @@
                                     {% else %}
                                     <span>₽ {{ related.price|intcomma }}</span>
                                     {% endif %}
-                                </div>
-                                <div class="pro-add-to-cart">
-                                    <button title="Add to Cart" id="add_to_cart">Добавить в корзину</button>
                                 </div>
                             </div>
                         </div>
@@ -641,7 +614,7 @@
                     addButton.prop('disabled', false);
                     
                     // Xatolik xabarini ko'rsatish
-                    alert('Xatolik yuz berdi. Iltimos, qayta urinib ko\'ring.');
+                    alert('Произошла ошибка. Пожалуйста, попробуйте еще раз.');
                 }
             })
         }
