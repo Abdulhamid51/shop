@@ -114,9 +114,6 @@ class ShoeColor(models.Model):
 	price_modifier = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True, help_text=_('Amount to add/subtract from base price'))
 	is_active = models.BooleanField(default=True)
 
-	class Meta:
-		unique_together = ('shoe', 'name')
-
 	def __str__(self):
 		return f"{self.shoe.name} — {self.name}"
 
