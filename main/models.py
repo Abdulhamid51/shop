@@ -108,7 +108,7 @@ class ShoeColor(models.Model):
 	"""Color variant of a Shoe. Holds stock and optional price modifier."""
 	shoe = models.ForeignKey(Shoe, related_name='colors', on_delete=models.CASCADE)
 	name = models.CharField(max_length=80, help_text=_('Color name, e.g. Black'))
-	hex_code = models.CharField(max_length=7, blank=True, help_text=_('#RRGGBB'))
+	hex_code = models.CharField(max_length=20, blank=True, help_text=_('#RRGGBB'))
 	css_class = models.CharField(max_length=80, blank=True, help_text=_('Optional CSS class used in templates'))
 	sku = models.CharField(max_length=80, blank=True, help_text=_('SKU for this variant'))
 	price_modifier = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True, help_text=_('Amount to add/subtract from base price'))
