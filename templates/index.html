@@ -71,9 +71,9 @@
                     {% for p in products %}
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                         <div class="single-product-wrap mb-35">
-                            <div class="product-img product-img-zoom mb-20">
-                                <a href="/product/{{ p.id }}/">
-                                    <img src="{{ p.image }}" alt="{{ p.name }}">
+                            <div class="product-img product-img-zoom mb-20" style="height:220px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                                <a href="/product/{{ p.id }}/" style="display:block; width:100%; height:100%;">
+                                    <img src="{{ p.image }}" alt="{{ p.name }}" style="max-height:100%; width:auto; display:block; margin:0 auto; object-fit:contain;">
                                 </a>
                                 <!-- <div class="product-action-wrap">
                                     <div class="product-action-left">
