@@ -106,7 +106,7 @@ class ShoeColorAdmin(admin.ModelAdmin):
 
 
 class ShoeAdmin(admin.ModelAdmin):
-	list_display = ('name', 'brand', 'price', 'old_price', 'is_active', 'is_featured', 'is_new', 'times_ordered')
+	list_display = ('name', 'order', 'price', 'old_price', 'is_active', 'is_featured', 'is_new', 'times_ordered')
 	list_filter = ('is_active', 'is_featured', 'is_new', 'brand', 'categories')
 	search_fields = ('name', 'sku', 'description', 'short_description')
 	inlines = [ProductImageInline]

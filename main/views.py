@@ -16,7 +16,7 @@ from .models import *
 
 def index(request):
 	# Show 5 random active products on the homepage
-	qs = Shoe.objects.filter(is_active=True).order_by('?')[:6]
+	qs = Shoe.objects.filter(is_active=True).order_by('times_ordered')[:6]
 
 	def serialize(product):
 		return {
@@ -54,7 +54,7 @@ def index(request):
 	return render(request, 'index.html', context)
 
 def shop(request):
-	qs = Shoe.objects.filter(is_active=True).prefetch_related('images', 'colors', 'categories', 'tags')
+	qs = Shoe.objects.filter(is_active=True).prefetch_related('images', 'colors', 'categories', 'tags').order_by('order')
 
 	# Filters
 	category = request.GET.get('category')
@@ -115,9 +115,10 @@ def shop(request):
 		}
 
 	products = [serialize(p) for p in page_obj]
-
+	hero_slides = list(HeroSlide.objects.filter(is_active=True).order_by('order'))
 	context = {
 		'products': products,
+		'hero_slides': hero_slides,
 		'page_obj': page_obj,
 		'categories': Category.objects.all(),
 		'sizes': Size.objects.all(),

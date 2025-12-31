@@ -2,14 +2,30 @@
 {% load humanize %}
 {% block content %}
 
-        <div class="breadcrumb-area bg-gray">
-            <div class="container">
-                    <div class="breadcrumb-content text-center">
-                    <ul>
-                        <li><a href="/index/">Главная</a></li>
-                        <li><a href="/">Магазин</a></li>
-                    </ul>
+        <div class="slider-area">
+            <div class="hero-slider-active-1 nav-style-1 dot-style-2 dot-style-2-position-2 dot-style-2-active-black">
+                
+                {% for slide in hero_slides %}
+                    
+                <div class="single-hero-slider single-animation-wrap slider-height-2 custom-d-flex custom-align-item-center bg-img hm2-slider-bg res-white-overly-xs" style="background-image:url({{slide.image.url}});">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="hero-slider-content-4 slider-animated-1">
+                                    <h4 class="animated">{{slide.subtitle}}</h4>
+                                    <h1 class="animated">{{slide.title|safe}}</h1>
+                                    <br><br><br>
+                                    <p class="animated">{{slide.description|safe}}</p>
+                                    <div class="btn-style-1">
+                                        <a class="animated btn-1-padding-1" href="{{slide.button.url}}">{{slide.button_text}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                    
+                {% endfor %}
             </div>
         </div>
     
@@ -27,7 +43,7 @@
                                                 <div class="product-img product-img-zoom mb-15" style="height:220px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
                                                     <a href="/product/{{product.id}}/" style="display:block; width:100%; height:100%;">
                                                         {% if product.image %}
-                                                        <img src="{{ product.image }}" alt="{{ product.name }}" style="max-height:100%; width:auto; display:block; margin:0 auto; object-fit:contain;">
+                                                        <img src="{{ product.image }}" alt="{{ product.name }}">
                                                         {% else %}
                                                         <img src="/static/assets/images/product/default.jpg" alt="{{ product.name }}" style="max-height:100%; width:auto; display:block; margin:0 auto; object-fit:contain;">
                                                         {% endif %}

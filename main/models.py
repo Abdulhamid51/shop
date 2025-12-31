@@ -58,6 +58,7 @@ class Shoe(models.Model):
 	is_featured = models.BooleanField(default=False)
 	is_new = models.BooleanField(default=False)
 	times_ordered = models.PositiveIntegerField(default=0)
+	order = models.FloatField(default=200)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
