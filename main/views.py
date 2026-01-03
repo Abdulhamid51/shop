@@ -54,7 +54,7 @@ def index(request):
 	return render(request, 'index.html', context)
 
 def shop(request):
-	qs = Shoe.objects.filter(is_active=True).prefetch_related('images', 'colors', 'categories', 'tags').order_by('order')
+	qs = Shoe.objects.filter(is_active=True).prefetch_related('images', 'colors', 'categories', 'tags')
 
 	# Filters
 	category = request.GET.get('category')
@@ -84,7 +84,7 @@ def shop(request):
 	elif sort == 'price':
 		qs = sorted(qs, key=lambda p: p.get_min_price())
 	else:
-		qs = qs.order_by('-created_at')
+		qs = qs.order_by('order')
 
 	# Pagination
 	# page_no = request.GET.get('page', 1)
@@ -125,7 +125,6 @@ def shop(request):
 		'colors': ShoeColor.objects.values('name').distinct(),
 		'tags': Tag.objects.all() if 'Tag' in globals() else [],
 	}
-	print(context)
 	return render(request, 'shop.html', context)
 
 
