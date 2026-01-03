@@ -93,6 +93,9 @@ class Shoe(models.Model):
 		img = self.images.order_by('position').first()
 		return img.image.url if img else ''
 
+	def get_image_binary(self):
+		img = self.images.order_by('position').first()
+		return img.image.open('rb') if img else ''
 
 class Size(models.Model):
 	"""Shoe size. You can store sizes as strings (EU/US/UK) or numbers."""
@@ -125,6 +128,14 @@ class ShoeColor(models.Model):
 
 	def available_sizes(self):
 		return Size.objects.filter(stock__color=self, stock__quantity__gt=0)
+	
+	def main_image(self):
+		img = self.images.all().order_by('position').first()
+		return img.image.url if img else ''
+	
+	def get_image_binary(self):
+		img = self.images.all().order_by('position').first()
+		return img.image.open('rb') if img else ''
 
 
 class Stock(models.Model):

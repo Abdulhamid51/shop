@@ -358,7 +358,7 @@ def cart_view(request):
 				'id': c.id,
 				'product_id': c.product.id,
 				'product_name': c.product.name,
-				'product_image': c.product.main_image(),
+				'product_image': c.color.main_image(),
 				'color_name': c.color.name if c.color else '',
 				'size_value': c.size.value if c.size else '',
 				'unit_price': float(unit_price),
@@ -476,6 +476,8 @@ def send_order_to_telegram(order):
 
     items_text = []
     subtotal = 0
+    media_files = {}
+    media = []
 
     for i, c in enumerate(order.carts.select_related('product', 'color', 'size'), start=1):
         unit_price = c.color.get_price() if c.color else c.product.price
@@ -494,29 +496,55 @@ def send_order_to_telegram(order):
             f"   💵 {unit_price:.2f} ₽ × {c.count} = <b>{total:.2f} ₽</b>"
         )
 
+		# Rasmlar
+        if c.color.get_image_binary() != '':
+            key = f"photo{i}"
+            media_files[key] = c.color.get_image_binary()
+            media.append({
+                "type": "photo",
+                "media": f"attach://{key}",
+                "caption": ""  # caption faqat birinchi rasmga
+            })
+
     phone2_text = f"📞 <b>Доп. телефон:</b> {order.phone2}\n" if order.phone2 else ""
+    message_text = (
+        f"🛒 <b>НОВЫЙ ЗАКАЗ #{order.id}</b>\n"
+        f"━━━━━━━━━━━━━━━\n"
+        f"👤 <b>Клиент:</b> {order.fio}\n"
+        f"📞 <b>Телефон:</b> {order.phone}\n"
+        f"{phone2_text}"
+        f"📍 <b>Адрес доставки:</b>\n{order.address}\n"
+        f"\n📦 <b>Товары:</b>\n"
+        f"{chr(10).join(items_text)}\n"
+        f"\n━━━━━━━━━━━━━━━\n"
+        f"💰 <b>Итого:</b> <b>{subtotal:.2f} ₽</b>"
+    )
+    print(media)
+    print('aaaaaaa')
+    if media:
+        media[0]["caption"] = message_text
+        media[0]["parse_mode"] = "HTML"
 
-    message = (
-		f"🛒 <b>НОВЫЙ ЗАКАЗ #{order.id}</b>\n"
-		f"━━━━━━━━━━━━━━━\n"
-		f"👤 <b>Клиент:</b> {order.fio}\n"
-		f"📞 <b>Телефон:</b> {order.phone}\n"
-		f"{phone2_text}"
-		f"📍 <b>Адрес доставки:</b>\n{order.address}\n"
-		f"\n📦 <b>Товары:</b>\n"
-		f"{chr(10).join(items_text)}\n"
-		f"\n━━━━━━━━━━━━━━━\n"
-		f"💰 <b>Итого:</b> <b>{subtotal:.2f} ₽</b>"
-	)
-
-    url = f"https://api.telegram.org/bot{token}/sendMessage"
-    payload = {
-        "chat_id": chat_id,
-        "text": message,
-        "parse_mode": "HTML"
-    }
-
-    resp = requests.post(url, data=payload, timeout=10)
+        url = f"https://api.telegram.org/bot{token}/sendMediaGroup"
+        try:
+            resp = requests.post(
+                url,
+                data={"chat_id": chat_id, "media": json.dumps(media)},
+                files=media_files,
+                timeout=10
+            )
+        finally:
+            # Fayllarni yopish
+            for f in media_files.values():
+                f.close()
+    else:
+        # Agar rasm bo‘lmasa oddiy xabar
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        resp = requests.post(
+            url,
+            data={"chat_id": chat_id, "text": message_text, "parse_mode": "HTML"},
+            timeout=10
+        )
     return resp.status_code == 200
 
 
