@@ -369,6 +369,7 @@ def cart_view(request):
 	context = {
 		'cart_items': cart_items,
 		'subtotal': subtotal,
+		'with_shipping': subtotal+400,
 	}
 	return render(request, 'cart.html', context)
 
@@ -459,7 +460,7 @@ def checkout(request):
 			logger = logging.getLogger(__name__)
 			logger.exception('Failed to send order to Telegram')
 
-		return render(request, 'checkout_success.html', {'order': order, 'items': moved_items, 'order_total': order_total})
+		return render(request, 'checkout_success.html', {'order': order, 'items': moved_items, 'order_total': order_total, 'order_total_plus_shipping': order_total+400})
 
 	# GET -> redirect to cart
 	return render(request, 'cart.html', {})
@@ -517,7 +518,9 @@ def send_order_to_telegram(order):
         f"\n📦 <b>Товары:</b>\n"
         f"{chr(10).join(items_text)}\n"
         f"\n━━━━━━━━━━━━━━━\n"
-        f"💰 <b>Итого:</b> <b>{subtotal:.2f} ₽</b>"
+        f"💰 <b>Доставка:</b> <b>400 ₽</b>\n"
+        f"💰 <b>Товары:</b> <b>{subtotal:.2f} ₽</b>\n"
+        f"💰 <b>Итого:</b> <b>{subtotal+400:.2f} ₽</b>"
     )
     print(media)
     print('aaaaaaa')

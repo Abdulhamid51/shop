@@ -1,5 +1,5 @@
 {% extends 'wrapper.html' %}
-
+{% load humanize %}
 {% block content %}
 <style>
   .order-container{max-width:980px;margin:30px auto;padding:20px}
@@ -23,12 +23,13 @@
 <div class="order-container">
   <div class="order-card">
     <div class="order-header">
-      <div class="order-check">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      <div class="order-check" style="width: 50px !important; height: 50px !important;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
       </div>
       <div>
         <h2 style="margin:0 0 6px 0;">Спасибо — ваш заказ принят!</h2>
         <div style="color:#64748b;font-size:14px">Номер заказа <strong>#{{ order.id }}</strong> — создан успешно</div>
+        <div style="color:#2b83ff;font-size:14px">в ближайшее время c вами свяжется наш менеджер</div>
       </div>
     </div>
 
@@ -56,8 +57,8 @@
               <td>{{ it.product_name }}</td>
               <td>{{ it.color_name }}{% if it.size_value %} / {{ it.size_value }}{% endif %}</td>
               <td>{{ it.count }}</td>
-              <td>₽{{ it.unit_price|floatformat:2 }}</td>
-              <td>₽{{ it.total|floatformat:2 }}</td>
+              <td>₽{{ it.unit_price|floatformat:2|intcomma }}</td>
+              <td>₽{{ it.total|floatformat:2|intcomma }}</td>
             </tr>
           {% empty %}
             <tr><td colspan="5">Пусто</td></tr>
@@ -67,7 +68,9 @@
     </div>
 
     <div class="order-footer">
-      <div class="total-box">Итого: ₽{{ order_total|floatformat:2 }}</div>
+      <div class="total-box">Доставка: ₽400</div>
+      <div class="total-box">Товары: ₽{{ order_total|floatformat:2|intcomma }}</div>
+      <div class="total-box">Итого: ₽{{ order_total_plus_shipping|floatformat:2|intcomma }}</div>
       <div style="display:flex;gap:10px;align-items:center">
         <a href="/" class="btn-secondary">Продолжить покупки</a>
         <a href="/index/" class="btn-primary">На главную</a>
