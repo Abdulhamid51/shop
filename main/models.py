@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 class SiteSetting(models.Model):
 	name = models.CharField('name', max_length=255)
 	logo = models.ImageField(upload_to='logo')
+	favicon = models.FileField(upload_to='favicon', blank=True, null=True)
 
 	def __str__(self):
 		return self.name

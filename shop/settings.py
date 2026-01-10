@@ -138,6 +138,9 @@ STATIC_ROOT = os.path.join('static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join('media')
 
+TEMPLATES[0]['OPTIONS']['context_processors'] += [
+    'main.context_processors.site_settings',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

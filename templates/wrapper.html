@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Dr. Martens</title>
+    <title>{{ site_setting.name }}</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="/static/assets/images/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ site_setting.favicon.url }}">
 
     <!-- All CSS is here
 	============================================ -->
@@ -71,7 +71,7 @@
                         <div class="row align-items-center">
                             <div class="col-xl-2 col-lg-2">
                                 <div class="logo">
-                                    <a href="/"><img src="/static/assets/images/logo/logo.svg" style="margin: 15px; width: 100px;" alt="логотип"></a>
+                                    <a href="/"><img src="{{ site_setting.logo.url }}" style="margin: 15px; width: 100px;" alt="логотип"></a>
                                 </div>
                             </div>
                             <div class="col-xl-8 col-lg-7">
@@ -104,7 +104,7 @@
                         <div class="col-5">
                             <div class="mobile-logo">
                                 <a href="/">
-                                    <img alt="" src="/static/assets/images/logo/logo.svg" style="width: 100px;">
+                                    <img alt="" src="{{ site_setting.logo.url }}" style="width: 100px;">
                                 </a>
                             </div>
                         </div>
@@ -349,7 +349,7 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="contact-info-wrap">
                             <div class="footer-logo">
-                                <a href="/"><img src="/static/assets/images/logo/logo.svg" style="margin: 15px; width: 100px;" alt="логотип"></a>
+                                <a href="/"><img src="{{ site_setting.logo.url }}" style="margin: 15px; width: 100px;" alt="логотип"></a>
                             </div>
                             <div class="single-contact-info">
                                 <span>Наше местоположение</span>

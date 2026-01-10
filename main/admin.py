@@ -9,7 +9,7 @@ from .models import (
 	Category, Brand, Shoe, Size, Tag,
 	ProductImage, ShoeColor, ShoeColorImage, Stock,
 	HeroSlide, ServiceItem, AboutBlock, Banner, BrandLogo, InstagramSetting,
-	Testimonial
+	Testimonial, SiteSetting
 )
 
 
@@ -165,3 +165,4 @@ admin.site.register(BrandLogo, BrandLogoAdmin)
 admin.site.register(InstagramSetting, InstagramSettingAdmin)
 admin.site.register(Testimonial, TestimonialAdmin)
 
+admin.site.register(SiteSetting)
