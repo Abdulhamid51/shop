@@ -4,6 +4,12 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
+class SiteSetting(models.Model):
+	name = models.CharField('name', max_length=255)
+	logo = models.ImageField(upload_to='logo')
+
+	def __str__(self):
+		return self.name
 
 def validate_max_5_images(instance):
 	"""Ensure no more than 5 images exist for a given color variant."""
